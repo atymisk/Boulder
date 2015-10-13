@@ -3,6 +3,8 @@ using System.Collections;
 
 public abstract class Character : MonoBehaviour 
 {
+	public Rigidbody2D rigidbodyTwoD;
+
 	private bool isFacingLeft = true;
 
 	protected float hitPoints = 100;
@@ -22,6 +24,8 @@ public abstract class Character : MonoBehaviour
 		{
 			isFacingLeft = false;
 		}
+
+		this.rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
 	}
 
 	virtual public void NormalMoveAlpha()
@@ -39,9 +43,12 @@ public abstract class Character : MonoBehaviour
 		moveHandler.OnLightHitStart();
 	}
 
-	public float GetHitPoints()
+	public void Jump()
 	{
-		return hitPoints;
+		if(!moveHandler.IsBusy())
+		{
+			//jump
+		}
 	}
 
 	public void FaceLeft()
@@ -65,5 +72,10 @@ public abstract class Character : MonoBehaviour
 	public bool IsFacingLeft()
 	{
 		return isFacingLeft;
+	}
+
+	public float GetHitPoints()
+	{
+		return hitPoints;
 	}
 }

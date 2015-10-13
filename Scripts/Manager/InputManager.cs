@@ -15,7 +15,8 @@ public class InputManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		//Temporary implementation used for testing
+		//Temporary implementation used for testing-------------------------------------
+
 		if(Input.GetKeyDown(KeyCode.D))
 		{
 			playerOne.FaceRight();
@@ -24,6 +25,26 @@ public class InputManager : MonoBehaviour {
 		{
 			playerOne.FaceLeft();
 		}
+
+		if(Input.GetKey(KeyCode.D))
+		{
+			playerOne.rigidbodyTwoD.velocity = new Vector2(50,playerOne.rigidbodyTwoD.velocity.y);
+		}
+		else if(Input.GetKey(KeyCode.A))
+		{
+			playerOne.rigidbodyTwoD.velocity = new Vector2(-50,playerOne.rigidbodyTwoD.velocity.y);
+		}
+		else
+		{
+			playerOne.rigidbodyTwoD.velocity = new Vector2(0,playerOne.rigidbodyTwoD.velocity.y);
+		}
+
+		if(Input.GetKeyDown(KeyCode.J))
+		{
+			playerOne.rigidbodyTwoD.velocity = new Vector2(playerOne.rigidbodyTwoD.velocity.x, 100);
+		}
+
+
 
 		if (Input.GetKeyDown(KeyCode.U))
 		{
@@ -34,6 +55,7 @@ public class InputManager : MonoBehaviour {
 			playerOne.SpecialMoveAlpha();
 		}
 
+		///--------------------------------------------------------------------------
 		if(Input.GetKeyDown(KeyCode.RightArrow))
 		{
 			playerTwo.FaceRight();
@@ -43,11 +65,29 @@ public class InputManager : MonoBehaviour {
 			playerTwo.FaceLeft();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Keypad1))
+		if(Input.GetKey(KeyCode.RightArrow))
+		{
+			playerTwo.rigidbodyTwoD.velocity = new Vector2(50,playerTwo.rigidbodyTwoD.velocity.y);
+		}
+		else if(Input.GetKey(KeyCode.LeftArrow))
+		{
+			playerTwo.rigidbodyTwoD.velocity = new Vector2(-50,playerTwo.rigidbodyTwoD.velocity.y);
+		}
+		else
+		{
+			playerTwo.rigidbodyTwoD.velocity = new Vector2(0,playerTwo.rigidbodyTwoD.velocity.y);
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Keypad1))
+		{
+			playerTwo.rigidbodyTwoD.velocity = new Vector2(playerTwo.rigidbodyTwoD.velocity.x, 100);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Keypad4))
 		{
 			playerTwo.NormalMoveAlpha();
 		}
-		else if(Input.GetKeyDown (KeyCode.Keypad2))
+		else if(Input.GetKeyDown (KeyCode.Keypad5))
 		{
 			playerTwo.SpecialMoveAlpha();
 		}

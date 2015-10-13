@@ -11,7 +11,7 @@ public class Monk : Character
 	// Use this for initialization
 	void Start() 
 	{
-		Initialize(health);
+		base.Initialize(health);
 		Debug.Log (this.ToString ());
 	}
 	
@@ -28,7 +28,7 @@ public class Monk : Character
 
 	public void FlyingKick()
 	{
-		float speed = -40;
+		float speed = -100;
 		float duration = 0.30f;
 
 		if (!base.moveHandler.IsBusy()) 
