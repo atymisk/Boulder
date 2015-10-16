@@ -9,6 +9,7 @@ public class MoveEventHandler : MonoBehaviour
 	private bool onNormalAlpha = false;
 	private bool onSpecialAlpha = false;
 	private bool onLightHit = false;
+	private bool onHeavyHit = false;
 	private Animator anim;
 
 	void Start () 
@@ -51,7 +52,15 @@ public class MoveEventHandler : MonoBehaviour
 	public void OnLightHitStart()
 	{
 		onLightHit = true;
+		onHeavyHit = false;
+		onNormalAlpha = false;
+		onSpecialAlpha = false;
+		
 		anim.SetBool ("OnLightHit", onLightHit);
+		anim.SetBool("OnHeavyHit", onHeavyHit);
+		anim.SetBool ("OnNormalAlpha", onNormalAlpha);
+		anim.SetBool ("OnSpecialAlpha", onSpecialAlpha);
+		anim.SetTrigger("OnTriggerLightHit");
 	}
 
 	public void OnLightHitEnd()
@@ -59,6 +68,26 @@ public class MoveEventHandler : MonoBehaviour
 		onLightHit = false;
 		Debug.Log ("OnLightHitEnd");
 		anim.SetBool ("OnLightHit", onLightHit);
+	}
+	
+	public void OnHeavyHitStart()
+	{
+		onHeavyHit = true;
+		onLightHit = false;
+		onNormalAlpha = false;
+		onSpecialAlpha = false;
+		
+		anim.SetBool ("OnLightHit", onLightHit);
+		anim.SetBool("OnHeavyHit", onHeavyHit);
+		anim.SetBool ("OnNormalAlpha", onNormalAlpha);
+		anim.SetBool ("OnSpecialAlpha", onSpecialAlpha);
+		anim.SetTrigger("OnTriggerHeavyHit");
+
+	}
+	
+	public void OnHeavyHitEnd()
+	{
+	
 	}
 
 	public bool IsBusy()
