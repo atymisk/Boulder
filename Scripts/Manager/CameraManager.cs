@@ -20,11 +20,11 @@ public class CameraManager : MonoBehaviour {
 	}
 	
 	void SetCameraSize() {
-		float minSizeY = 15;
+		float minSizeY = 40;
 		//horizontal size is based on actual screen ratio
 		float minSizeX = minSizeY * Screen.width / Screen.height;
 		//multiplying by 0.5, because the ortographicSize is actually half the height
-		float width = Mathf.Abs(playerOne.transform.position.x - playerTwo.transform.position.x) * 0.5f + 20;
+		float width = Mathf.Abs(playerOne.transform.position.x - playerTwo.transform.position.x) * 0.5f + 30;
 		float height = Mathf.Abs(playerOne.transform.position.y - playerTwo.transform.position.y) * 0.5f;
 		//computing the size
 		float camSizeX = Mathf.Max(width, minSizeX);
