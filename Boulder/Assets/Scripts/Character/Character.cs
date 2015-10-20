@@ -3,6 +3,7 @@ using System.Collections;
 
 public abstract class Character : MonoBehaviour 
 {
+	public Transform spawnPoint;
 	public Rigidbody2D rigidbodyTwoD;
 
 	private bool isFacingLeft = true;
@@ -77,5 +78,14 @@ public abstract class Character : MonoBehaviour
 	public float GetHitPoints()
 	{
 		return hitPoints;
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.gameObject.name == "DeathArea") {
+			this.gameObject.SetActive(false);
+			transform.position = spawnPoint.position;
+			this.gameObject.SetActive(true);
+		}
 	}
 }
