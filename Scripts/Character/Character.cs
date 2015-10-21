@@ -33,6 +33,11 @@ public abstract class Character : MonoBehaviour
 	{
 		moveHandler.OnNormalAlphaStart();
 	}
+	
+	virtual public void NormalMoveBeta()
+	{
+		moveHandler.OnNormalBetaStart();
+	}
 
 	virtual public void SpecialMoveAlpha()
 	{
@@ -42,6 +47,11 @@ public abstract class Character : MonoBehaviour
 	virtual public void LightHitStun()
 	{
 		moveHandler.OnLightHitStart();
+	}
+	
+	virtual public void HeavyHitStun()
+	{
+		moveHandler.OnHeavyHitStart();
 	}
 
 	public void Jump()
