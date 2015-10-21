@@ -7,6 +7,7 @@ public class MoveEventHandler : MonoBehaviour
 
 	//Private members
 	private bool onNormalAlpha = false;
+	private bool onNormalBeta = false;
 	private bool onSpecialAlpha = false;
 	private bool onLightHit = false;
 	private bool onHeavyHit = false;
@@ -34,6 +35,18 @@ public class MoveEventHandler : MonoBehaviour
 	{
 		onNormalAlpha = false;
 		anim.SetBool("OnNormalAlpha", onNormalAlpha);
+	}
+	
+	public void OnNormalBetaStart()
+	{
+		onNormalBeta = true;
+		anim.SetBool("OnNormalBeta", onNormalBeta);
+	}
+	
+	public void OnNormalBetaEnd()
+	{
+		onNormalBeta = false;
+		anim.SetBool("OnNormalBeta", onNormalBeta);
 	}
 
 	public void OnSpecialAlphaStart()
@@ -87,11 +100,13 @@ public class MoveEventHandler : MonoBehaviour
 	
 	public void OnHeavyHitEnd()
 	{
-	
+		onHeavyHit = false;
+		Debug.Log ("OnHeavyHitEnd");
+		anim.SetBool ("OnHeavyHit", onLightHit);
 	}
 
 	public bool IsBusy()
 	{
-		return onNormalAlpha || onSpecialAlpha || onLightHit;
+		return onNormalAlpha || onNormalBeta || onSpecialAlpha || onLightHit;
 	}
 }

@@ -16,6 +16,7 @@ public class PunchHitBox : HitBox {
 
 	override public void OnHitConnected(Character enemy)
 	{
-		enemy.LightHitStun();
+		//enemy.LightHitStun();
+		enemy.HeavyHitStun();
 	}
 }

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlyingKickHitBox : HitBox {
+public class LowKickHitBox : HitBox {
 
+	
 	// Use this for initialization
 	void Start ()
 	{

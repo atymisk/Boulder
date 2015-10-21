@@ -54,6 +54,10 @@ public class InputManager : MonoBehaviour {
 		{
 			playerOne.SpecialMoveAlpha();
 		}
+		else if(Input.GetKeyDown (KeyCode.Alpha3))
+		{
+			playerOne.NormalMoveBeta();
+		}
 
 		///--------------------------------------------------------------------------
 		if(Input.GetKeyDown(KeyCode.K))
@@ -90,6 +94,10 @@ public class InputManager : MonoBehaviour {
 		else if(Input.GetKeyDown (KeyCode.Alpha8))
 		{
 			playerTwo.SpecialMoveAlpha();
+		}
+		else if(Input.GetKeyDown (KeyCode.Alpha9))
+		{
+			playerOne.NormalMoveBeta();
 		}
 	}
 }
