@@ -7,6 +7,7 @@ public abstract class Character : MonoBehaviour
 	public Rigidbody2D rigidbodyTwoD;
 
 	private bool isFacingLeft = true;
+    private bool isGrounded = true;
 
 	protected float hitPoints = 100;
 	protected MoveEventHandler moveHandler;
@@ -49,17 +50,18 @@ public abstract class Character : MonoBehaviour
 		moveHandler.OnLightHitStart();
 	}
 	
-	virtual public void HeavyHitStun()
+	virtual public void HeavyHitStun(Vector2 pushVelocity)
 	{
 		moveHandler.OnHeavyHitStart();
-	}
+        StartCoroutine(MoveDuringState(pushVelocity, MoveEventHandler.CharacterState.HeavyFlinch));
+    }
 
 	public void Jump()
 	{
-		if(!moveHandler.IsBusy())
+		if(!moveHandler.IsBusy() && this.isGrounded)
 		{
-			//jump
-		}
+            rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
+        }
 	}
 
 	public void FaceLeft()
@@ -80,6 +82,30 @@ public abstract class Character : MonoBehaviour
 		}
 	}
 
+    public void MoveLeft()
+    {
+        if (!moveHandler.IsBusy())
+        {
+            rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
+        }
+    }
+
+    public void MoveRight()
+    {
+        if(!moveHandler.IsBusy())
+        {
+            rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
+        }
+    }
+
+    public void StayStill()
+    {
+        if(!moveHandler.IsBusy())
+        {
+            rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+        }
+    }
+
 	public bool IsFacingLeft()
 	{
 		return isFacingLeft;
@@ -90,12 +116,66 @@ public abstract class Character : MonoBehaviour
 		return hitPoints;
 	}
 
+    //Collisions
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
+        {
+            Collider2D collider = col.collider;
+
+            Vector2 normal = col.contacts[0].normal;
+
+            if(normal.y == 1)
+            {
+                isGrounded = true;
+            }
+        }
+       
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
+        {
+            Collider2D collider = col.collider;
+
+            Vector2 normal = col.contacts[0].normal;
+            Debug.Log("exit " + normal);
+            if (normal.y == 1)
+            {
+                isGrounded = false;
+            }
+        }
+    }
+    
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.name == "DeathArea") {
+            moveHandler.OnForceIdle();
+            this.moveHandler.enabled = false;
 			this.gameObject.SetActive(false);
 			transform.position = spawnPoint.position;
-			this.gameObject.SetActive(true);
+            this.moveHandler.enabled = true;
+            this.gameObject.SetActive(true);
 		}
 	}
+
+    //CoRoutines
+    IEnumerator MoveDuringState(Vector2 speed, MoveEventHandler.CharacterState state)
+    {
+        yield return new WaitForEndOfFrame();
+
+        float currentTime = 0;
+        while (state == moveHandler.GetCurrentState())
+        {
+            currentTime = currentTime + Time.deltaTime;
+            float xDisplacement = speed.x * Time.deltaTime;
+            float yDisplacement = speed.y * Time.deltaTime;
+            this.transform.position = new Vector3(xDisplacement + this.transform.position.x,
+                                                  yDisplacement + this.transform.position.y,
+                                                  this.transform.position.z);
+            yield return new WaitForEndOfFrame();
+        }
+    }
 }

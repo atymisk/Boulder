@@ -28,20 +28,20 @@ public class InputManager : MonoBehaviour {
 
 		if(Input.GetKey(KeyCode.D))
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(50,playerOne.rigidbodyTwoD.velocity.y);
+            playerOne.MoveRight();
 		}
 		else if(Input.GetKey(KeyCode.A))
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(-50,playerOne.rigidbodyTwoD.velocity.y);
+            playerOne.MoveLeft();
 		}
 		else
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(0,playerOne.rigidbodyTwoD.velocity.y);
+            playerOne.StayStill();
 		}
 
-		if(Input.GetKeyDown(KeyCode.E))
+		if(Input.GetKeyDown(KeyCode.W))
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(playerOne.rigidbodyTwoD.velocity.x, 100);
+            playerOne.Jump();
 		}
 
 
@@ -52,39 +52,40 @@ public class InputManager : MonoBehaviour {
 		}
 		else if(Input.GetKeyDown (KeyCode.Alpha2))
 		{
-			playerOne.SpecialMoveAlpha();
+            playerOne.NormalMoveBeta();
+            
 		}
 		else if(Input.GetKeyDown (KeyCode.Alpha3))
 		{
-			playerOne.NormalMoveBeta();
-		}
+            playerOne.SpecialMoveAlpha();
+        }
 
 		///--------------------------------------------------------------------------
-		if(Input.GetKeyDown(KeyCode.K))
+		if(Input.GetKeyDown(KeyCode.L))
 		{
 			playerTwo.FaceRight();
 		}
-		else if(Input.GetKeyDown(KeyCode.H))
+		else if(Input.GetKeyDown(KeyCode.J))
 		{
 			playerTwo.FaceLeft();
 		}
 
-		if(Input.GetKey(KeyCode.H))
+		if(Input.GetKey(KeyCode.J))
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(50,playerTwo.rigidbodyTwoD.velocity.y);
+            playerTwo.MoveLeft();
 		}
-		else if(Input.GetKey(KeyCode.K))
+		else if(Input.GetKey(KeyCode.L))
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(-50,playerTwo.rigidbodyTwoD.velocity.y);
+            playerTwo.MoveRight();
 		}
 		else
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(0,playerTwo.rigidbodyTwoD.velocity.y);
+            playerTwo.StayStill();
 		}
 		
 		if(Input.GetKeyDown(KeyCode.I))
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(playerTwo.rigidbodyTwoD.velocity.x, 100);
+            playerTwo.Jump();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha7))
@@ -93,11 +94,11 @@ public class InputManager : MonoBehaviour {
 		}
 		else if(Input.GetKeyDown (KeyCode.Alpha8))
 		{
-			playerTwo.SpecialMoveAlpha();
+            playerTwo.NormalMoveBeta();
 		}
 		else if(Input.GetKeyDown (KeyCode.Alpha9))
 		{
-			playerOne.NormalMoveBeta();
-		}
+            playerTwo.SpecialMoveAlpha();
+        }
 	}
 }

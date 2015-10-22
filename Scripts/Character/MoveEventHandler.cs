@@ -3,9 +3,11 @@ using System.Collections;
 
 public class MoveEventHandler : MonoBehaviour 
 {
+    //Public members
+    public enum CharacterState { Idle, LightFlinch, HeavyFlinch, MoveA, MoveB, MoveC, MoveD};
 
-
-	//Private members
+    //Private members
+    private CharacterState currentState;
 	private bool onNormalAlpha = false;
 	private bool onNormalBeta = false;
 	private bool onSpecialAlpha = false;
@@ -15,98 +17,81 @@ public class MoveEventHandler : MonoBehaviour
 
 	void Start () 
 	{
+        currentState = CharacterState.Idle;
 		anim = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
-	{	
+	{
 
 	}
 	
 	//Events
+    public void OnIdleStart()
+    {
+        currentState = CharacterState.Idle;
+    }
+
 	public void OnNormalAlphaStart()
 	{
-		onNormalAlpha = true;
-		anim.SetBool("OnNormalAlpha", onNormalAlpha);
+        if(!IsBusy())
+        {
+            currentState = CharacterState.MoveA;
+            anim.SetTrigger("OnMoveA");
+        }
 	}
 
-	public void OnNormalAlphaEnd()
-	{
-		onNormalAlpha = false;
-		anim.SetBool("OnNormalAlpha", onNormalAlpha);
-	}
-	
 	public void OnNormalBetaStart()
 	{
-		onNormalBeta = true;
-		anim.SetBool("OnNormalBeta", onNormalBeta);
-	}
+        if (!IsBusy())
+        {
+            currentState = CharacterState.MoveB;
+            anim.SetTrigger("OnMoveB");
+        }
+            
+    }
 	
-	public void OnNormalBetaEnd()
-	{
-		onNormalBeta = false;
-		anim.SetBool("OnNormalBeta", onNormalBeta);
-	}
-
 	public void OnSpecialAlphaStart()
 	{
-		onSpecialAlpha = true;
-		anim.SetBool("OnSpecialAlpha", onSpecialAlpha);
-		Vector2 speed = new Vector2(-30, 0);
-	}
-
-	public void OnSpecialAlphaEnd()
-	{
-		onSpecialAlpha = false;
-		anim.SetBool("OnSpecialAlpha", onSpecialAlpha);
-	}
+        if (!IsBusy())
+        {
+            currentState = CharacterState.MoveC;
+            anim.SetTrigger("OnMoveC");
+        }
+            
+    }
 
 	public void OnLightHitStart()
 	{
-		onLightHit = true;
-		onHeavyHit = false;
-		onNormalAlpha = false;
-		onSpecialAlpha = false;
-		
-		anim.SetBool ("OnLightHit", onLightHit);
-		anim.SetBool("OnHeavyHit", onHeavyHit);
-		anim.SetBool ("OnNormalAlpha", onNormalAlpha);
-		anim.SetBool ("OnSpecialAlpha", onSpecialAlpha);
-		anim.SetTrigger("OnTriggerLightHit");
-	}
-
-	public void OnLightHitEnd()
-	{
-		onLightHit = false;
-		Debug.Log ("OnLightHitEnd");
-		anim.SetBool ("OnLightHit", onLightHit);
-	}
-	
+        currentState = CharacterState.LightFlinch;
+        anim.SetTrigger("OnTriggerLightHit");
+    }
+    
 	public void OnHeavyHitStart()
 	{
-		onHeavyHit = true;
-		onLightHit = false;
-		onNormalAlpha = false;
-		onSpecialAlpha = false;
-		
-		anim.SetBool ("OnLightHit", onLightHit);
-		anim.SetBool("OnHeavyHit", onHeavyHit);
-		anim.SetBool ("OnNormalAlpha", onNormalAlpha);
-		anim.SetBool ("OnSpecialAlpha", onSpecialAlpha);
-		anim.SetTrigger("OnTriggerHeavyHit");
-
+        currentState = CharacterState.HeavyFlinch;
+        anim.SetTrigger("OnTriggerHeavyHit");
 	}
+
+    public void OnForceIdle()
+    {
+        currentState = CharacterState.Idle;
+        anim.SetTrigger("ForceIdle");
+    }
+
+    public void OnMoveOrFlinchEnd()
+    {
+        currentState = CharacterState.Idle;
+    }
 	
-	public void OnHeavyHitEnd()
-	{
-		onHeavyHit = false;
-		Debug.Log ("OnHeavyHitEnd");
-		anim.SetBool ("OnHeavyHit", onLightHit);
-	}
-
 	public bool IsBusy()
 	{
-		return onNormalAlpha || onNormalBeta || onSpecialAlpha || onLightHit;
+        return currentState != CharacterState.Idle;
 	}
+
+    public CharacterState GetCurrentState()
+    {
+        return currentState;
+    }
 }
