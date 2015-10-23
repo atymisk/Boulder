@@ -59,6 +59,10 @@ public class InputManager : MonoBehaviour {
 		{
             playerOne.SpecialMoveAlpha();
         }
+        else if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            playerOne.RocketPunch();
+        }
 
 		///--------------------------------------------------------------------------
 		if(Input.GetKeyDown(KeyCode.L))

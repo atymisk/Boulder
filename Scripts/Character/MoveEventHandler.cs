@@ -62,6 +62,15 @@ public class MoveEventHandler : MonoBehaviour
             
     }
 
+    public void OnNormalDethaStart()
+    {
+        if(!IsBusy())
+        {
+            currentState = CharacterState.MoveD;
+            anim.SetTrigger("OnMoveD");
+        }
+    }
+
 	public void OnLightHitStart()
 	{
         currentState = CharacterState.LightFlinch;
@@ -84,7 +93,8 @@ public class MoveEventHandler : MonoBehaviour
     {
         currentState = CharacterState.Idle;
     }
-	
+
+	//---
 	public bool IsBusy()
 	{
         return currentState != CharacterState.Idle;
