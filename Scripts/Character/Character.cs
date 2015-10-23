@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public abstract class Character : MonoBehaviour 
 {
-	public Transform spawnPoint;
+    public Slider healthBar;
+    public Transform spawnPoint;
 	public Rigidbody2D rigidbodyTwoD;
 
-	public float health = 100;
+    public float maxHealth = 100;
 
+    private float health = 0;
 	private bool isFacingLeft = true;
     private bool isGrounded = true;
-
-	protected float hitPoints = 100;
+    
 	protected MoveEventHandler moveHandler;
 
-	protected void Initialize(float hitPoints)
+	protected void Initialize()
 	{
-		this.hitPoints = hitPoints;
+        health = maxHealth;
 		moveHandler = this.gameObject.GetComponent<MoveEventHandler>();
 
 		//This is backwards since our prefabis facing left by default
@@ -45,6 +47,7 @@ public abstract class Character : MonoBehaviour
 	virtual public void SpecialMoveAlpha()
 	{
 		moveHandler.OnSpecialAlphaStart();
+        Camera.main.WorldToScreenPoint(this.transform.position);
 	}
 
 	virtual public void LightHitStun()
@@ -52,9 +55,10 @@ public abstract class Character : MonoBehaviour
 		moveHandler.OnLightHitStart();
 	}
 	
-	virtual public void HeavyHitStun(Vector2 pushVelocity)
+	virtual public void HeavyHitStun(float damage, Vector2 pushVelocity)
 	{
-		health = health - 5;
+		health = health - damage;
+        healthBar.value = health / maxHealth * 100;
 		moveHandler.OnHeavyHitStart();
         StartCoroutine(MoveDuringState(pushVelocity, MoveEventHandler.CharacterState.HeavyFlinch));
     }
@@ -127,7 +131,7 @@ public abstract class Character : MonoBehaviour
 
 	public float GetHitPoints()
 	{
-		return hitPoints;
+		return health;
 	}
 
     //Collisions

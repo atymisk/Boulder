@@ -16,9 +16,11 @@ public class FlyingKickHitBox : HitBox {
 	
 	override public void OnHitConnected(Character enemy)
 	{
-        float speed = 200;
+        float damage = 15;
+        float speed = 25;
         float direction = owner.IsFacingLeft() ? -1 : 1;
         Vector2 pushVelocity = new Vector2(direction * speed, 0);
-        enemy.HeavyHitStun(pushVelocity);
+        enemy.HeavyHitStun(damage,pushVelocity);
+        this.enabled = false;
     }
 }

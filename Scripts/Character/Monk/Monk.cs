@@ -6,7 +6,6 @@ public class Monk : Character
 {
 	//public members
 	//public float health = 100;
-	public Slider healthBar;
 
 
 	//private members
@@ -14,7 +13,7 @@ public class Monk : Character
 	// Use this for initialization
 	void Start() 
 	{
-		base.Initialize(health);
+		base.Initialize();
 		Debug.Log (this.ToString ());
 
 	}
@@ -22,8 +21,7 @@ public class Monk : Character
 	// Update is called once per frame
 	void Update() 
 	{
-
-		healthBar.value = health;
+        
 	}
 
 	override public void SpecialMoveAlpha()
