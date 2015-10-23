@@ -17,74 +17,67 @@ public class InputManager : MonoBehaviour {
 	{
 		//Temporary implementation used for testing-------------------------------------
 
-		if(Input.GetKeyDown(KeyCode.D))
-		{
-			playerOne.FaceRight();
-		}
-		else if(Input.GetKeyDown(KeyCode.A))
+		if(Input.GetAxis("LeftJoystickX_P1") < 0)
 		{
 			playerOne.FaceLeft();
+			playerOne.MoveLeft();
 		}
-
-		if(Input.GetKey(KeyCode.D))
+		else if(Input.GetAxis("LeftJoystickX_P1") > 0)
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(50,playerOne.rigidbodyTwoD.velocity.y);
-		}
-		else if(Input.GetKey(KeyCode.A))
-		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(-50,playerOne.rigidbodyTwoD.velocity.y);
+			playerOne.FaceRight();
+			playerOne.MoveRight();
 		}
 		else
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(0,playerOne.rigidbodyTwoD.velocity.y);
+            playerOne.StayStill();
 		}
-
-		if(Input.GetKeyDown(KeyCode.E))
+		if(Input.GetAxis("LeftJoystickY_P1") < 0)
 		{
-			playerOne.rigidbodyTwoD.velocity = new Vector2(playerOne.rigidbodyTwoD.velocity.x, 100);
+            playerOne.Jump();
 		}
 
 
 
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+		if (Input.GetButtonDown("A_P1"))
 		{
 			playerOne.NormalMoveAlpha();
 		}
-		else if(Input.GetKeyDown (KeyCode.Alpha2))
+		else if(Input.GetButtonDown("B_P1"))
 		{
-			playerOne.SpecialMoveAlpha();
+            playerOne.NormalMoveBeta();
+            
 		}
-		else if(Input.GetKeyDown (KeyCode.Alpha3))
+		else if(Input.GetButtonDown("Y_P1"))
 		{
-			playerOne.NormalMoveBeta();
-		}
+            playerOne.SpecialMoveAlpha();
+        }
 
 		///--------------------------------------------------------------------------
-		if(Input.GetKeyDown(KeyCode.K))
+		if(Input.GetKeyDown(KeyCode.L))
 		{
 			playerTwo.FaceRight();
 		}
-		else if(Input.GetKeyDown(KeyCode.H))
+		else if(Input.GetKeyDown(KeyCode.J))
 		{
 			playerTwo.FaceLeft();
 		}
 
-		if(Input.GetKey(KeyCode.H))
+		if(Input.GetKey(KeyCode.J))
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(50,playerTwo.rigidbodyTwoD.velocity.y);
+            playerTwo.MoveLeft();
 		}
-		else if(Input.GetKey(KeyCode.K))
+		else if(Input.GetKey(KeyCode.L))
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(-50,playerTwo.rigidbodyTwoD.velocity.y);
+            playerTwo.MoveRight();
 		}
 		else
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(0,playerTwo.rigidbodyTwoD.velocity.y);
+            playerTwo.StayStill();
 		}
 		
 		if(Input.GetKeyDown(KeyCode.I))
 		{
-			playerTwo.rigidbodyTwoD.velocity = new Vector2(playerTwo.rigidbodyTwoD.velocity.x, 100);
+            playerTwo.Jump();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha7))
@@ -93,11 +86,11 @@ public class InputManager : MonoBehaviour {
 		}
 		else if(Input.GetKeyDown (KeyCode.Alpha8))
 		{
-			playerTwo.SpecialMoveAlpha();
+            playerTwo.NormalMoveBeta();
 		}
 		else if(Input.GetKeyDown (KeyCode.Alpha9))
 		{
-			playerOne.NormalMoveBeta();
-		}
+            playerTwo.SpecialMoveAlpha();
+        }
 	}
 }
