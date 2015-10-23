@@ -6,6 +6,8 @@ public abstract class Character : MonoBehaviour
 	public Transform spawnPoint;
 	public Rigidbody2D rigidbodyTwoD;
 
+	public float health = 100;
+
 	private bool isFacingLeft = true;
     private bool isGrounded = true;
 
@@ -52,6 +54,7 @@ public abstract class Character : MonoBehaviour
 	
 	virtual public void HeavyHitStun(Vector2 pushVelocity)
 	{
+		health = health - 5;
 		moveHandler.OnHeavyHitStart();
         StartCoroutine(MoveDuringState(pushVelocity, MoveEventHandler.CharacterState.HeavyFlinch));
     }
