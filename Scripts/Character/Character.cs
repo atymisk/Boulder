@@ -56,6 +56,17 @@ public abstract class Character : MonoBehaviour
         StartCoroutine(MoveDuringState(pushVelocity, MoveEventHandler.CharacterState.HeavyFlinch));
     }
 
+    public void RocketPunch()
+    {
+        moveHandler.OnNormalDethaStart();
+    }
+
+    public void ShootPart()
+    {
+        Transform leftArm = this.gameObject.transform.FindChild("torso").FindChild("upperLeftArm");
+        leftArm.gameObject.SetActive(false);
+    }
+
 	public void Jump()
 	{
 		if(!moveHandler.IsBusy() && this.isGrounded)
