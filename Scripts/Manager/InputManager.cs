@@ -17,45 +17,37 @@ public class InputManager : MonoBehaviour {
 	{
 		//Temporary implementation used for testing-------------------------------------
 
-		if(Input.GetKeyDown(KeyCode.D))
-		{
-			playerOne.FaceRight();
-		}
-		else if(Input.GetKeyDown(KeyCode.A))
+		if(Input.GetAxis("LeftJoystickX_P1") < 0)
 		{
 			playerOne.FaceLeft();
+			playerOne.MoveLeft();
 		}
-
-		if(Input.GetKey(KeyCode.D))
+		else if(Input.GetAxis("LeftJoystickX_P1") > 0)
 		{
-            playerOne.MoveRight();
-		}
-		else if(Input.GetKey(KeyCode.A))
-		{
-            playerOne.MoveLeft();
+			playerOne.FaceRight();
+			playerOne.MoveRight();
 		}
 		else
 		{
             playerOne.StayStill();
 		}
-
-		if(Input.GetKeyDown(KeyCode.W))
+		if(Input.GetAxis("LeftJoystickY_P1") < 0)
 		{
             playerOne.Jump();
 		}
 
 
 
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+		if (Input.GetButtonDown("A_P1"))
 		{
 			playerOne.NormalMoveAlpha();
 		}
-		else if(Input.GetKeyDown (KeyCode.Alpha2))
+		else if(Input.GetButtonDown("B_P1"))
 		{
             playerOne.NormalMoveBeta();
             
 		}
-		else if(Input.GetKeyDown (KeyCode.Alpha3))
+		else if(Input.GetButtonDown("Y_P1"))
 		{
             playerOne.SpecialMoveAlpha();
         }
