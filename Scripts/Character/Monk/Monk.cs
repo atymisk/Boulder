@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Monk : Character
 {
 	//public members
-	public float health = 100;
+	//public float health = 100;
 	public Slider healthBar;
 
 
@@ -16,13 +16,14 @@ public class Monk : Character
 	{
 		base.Initialize(health);
 		Debug.Log (this.ToString ());
-		healthBar.value = health;
+
 	}
 	
 	// Update is called once per frame
 	void Update() 
 	{
 
+		healthBar.value = health;
 	}
 
 	override public void SpecialMoveAlpha()
