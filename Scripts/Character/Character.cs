@@ -7,7 +7,7 @@ public abstract class Character : MonoBehaviour
     public Slider healthBar;
     public Transform spawnPoint;
 	public Rigidbody2D rigidbodyTwoD;
-
+    public GameObject rocketPunch;
     public float maxHealth = 100;
 
     private float health = 0;
@@ -18,13 +18,18 @@ public abstract class Character : MonoBehaviour
 
     protected MoveEventHandler moveHandler;
 
-	protected void Initialize()
+    Transform rightArm;
+
+    protected void Initialize()
 	{
         health = maxHealth;
 		moveHandler = this.gameObject.GetComponent<MoveEventHandler>();
+        rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
+        //rocketPunch = GameObject.Find("RocketPunch");
+        rightArm = this.gameObject.transform.FindChild("torso").FindChild("upperRightArm");
 
-		//This is backwards since our prefabis facing left by default
-		if(this.transform.right.x > 0)
+        //This is backwards since our prefabis facing left by default
+        if (this.transform.right.x > 0)
 		{
 			isFacingLeft = true;
 		}
@@ -32,13 +37,12 @@ public abstract class Character : MonoBehaviour
 		{
 			isFacingLeft = false;
 		}
-
-		this.rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
 	}
 
 	virtual public void NormalMoveAlpha()
 	{
-		moveHandler.OnNormalAlphaStart();
+        if(rightArm.gameObject.activeSelf)
+		    moveHandler.OnNormalAlphaStart();
 	}
 	
 	virtual public void NormalMoveBeta()
@@ -56,19 +60,17 @@ public abstract class Character : MonoBehaviour
 		moveHandler.OnLightHitStart();
 	}
 	
-	virtual public void HeavyHitStun(float damage, Vector2 pushVelocity)
+	virtual public void HeavyHitStun(float damage, Vector2 pushVelocity, float duration)
 	{
-        Debug.Log("Hit");
 		health = health - damage;
         healthBar.value = health / maxHealth * 100;
 		moveHandler.OnHeavyHitStart();
-        Debug.Log("heavystun " + moveHandler.GetCurrentState());
         if(moveTimeRoutine != null)
         {
             StopCoroutine(moveTimeRoutine);
         }
 
-        moveTimeRoutine = MoveOverTime(pushVelocity, 0.20f);
+        moveTimeRoutine = MoveOverTime(pushVelocity, duration);
         StartCoroutine(moveTimeRoutine);
     }
 
@@ -79,8 +81,16 @@ public abstract class Character : MonoBehaviour
 
     public void ShootPart()
     {
-        Transform leftArm = this.gameObject.transform.FindChild("torso").FindChild("upperLeftArm");
-        leftArm.gameObject.SetActive(false);
+        if(rightArm.gameObject.activeSelf)
+        {
+            //Cheesy implementation to be refactored for different parts
+            rocketPunch.GetComponent<RocketPart>().owner = this;
+            rocketPunch.transform.position = this.transform.position;
+            Rigidbody2D rocketBody = rocketPunch.GetComponent<Rigidbody2D>();
+            float direction = IsFacingLeft() ? -1 : 1;
+            rocketBody.velocity = new Vector2(direction * 200, 0);
+            this.rightArm.gameObject.SetActive(false);
+        }
     }
 
 	public void Jump()

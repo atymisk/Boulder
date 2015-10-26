@@ -21,7 +21,7 @@ public class LowKickHitBox : HitBox {
         float speed = 75;
         float direction = owner.IsFacingLeft() ? -1 : 1;
         Vector2 pushVelocity = new Vector2(direction * speed, 0);
-        enemy.HeavyHitStun(damage,pushVelocity);
+        enemy.HeavyHitStun(damage,pushVelocity, 0.2f);
         //collider.enabled = false;
     }
 }

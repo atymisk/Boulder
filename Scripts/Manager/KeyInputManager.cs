@@ -59,7 +59,10 @@ public class KeyInputManager : MonoBehaviour {
         {
             playerOne.SpecialMoveAlpha();
         }
-
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            playerOne.RocketPunch();
+        }
         ///--------------------------------------------------------------------------
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -99,6 +102,10 @@ public class KeyInputManager : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             playerTwo.SpecialMoveAlpha();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            playerTwo.RocketPunch();
         }
     }
 }
