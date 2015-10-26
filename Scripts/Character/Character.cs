@@ -13,8 +13,10 @@ public abstract class Character : MonoBehaviour
     private float health = 0;
 	private bool isFacingLeft = true;
     private bool isGrounded = true;
-    
-	protected MoveEventHandler moveHandler;
+    private bool isMovingInState = false;
+    private IEnumerator moveTimeRoutine;
+
+    protected MoveEventHandler moveHandler;
 
 	protected void Initialize()
 	{
@@ -47,7 +49,6 @@ public abstract class Character : MonoBehaviour
 	virtual public void SpecialMoveAlpha()
 	{
 		moveHandler.OnSpecialAlphaStart();
-        Camera.main.WorldToScreenPoint(this.transform.position);
 	}
 
 	virtual public void LightHitStun()
@@ -57,10 +58,18 @@ public abstract class Character : MonoBehaviour
 	
 	virtual public void HeavyHitStun(float damage, Vector2 pushVelocity)
 	{
+        Debug.Log("Hit");
 		health = health - damage;
         healthBar.value = health / maxHealth * 100;
 		moveHandler.OnHeavyHitStart();
-        StartCoroutine(MoveDuringState(pushVelocity, MoveEventHandler.CharacterState.HeavyFlinch));
+        Debug.Log("heavystun " + moveHandler.GetCurrentState());
+        if(moveTimeRoutine != null)
+        {
+            StopCoroutine(moveTimeRoutine);
+        }
+
+        moveTimeRoutine = MoveOverTime(pushVelocity, 0.20f);
+        StartCoroutine(moveTimeRoutine);
     }
 
     public void RocketPunch()
@@ -158,7 +167,6 @@ public abstract class Character : MonoBehaviour
             Collider2D collider = col.collider;
 
             Vector2 normal = col.contacts[0].normal;
-            Debug.Log("exit " + normal);
             if (normal.y == 1)
             {
                 isGrounded = false;
@@ -182,10 +190,28 @@ public abstract class Character : MonoBehaviour
     //CoRoutines
     IEnumerator MoveDuringState(Vector2 speed, MoveEventHandler.CharacterState state)
     {
+        //yield return new WaitForEndOfFrame();
+        isMovingInState = true;
+        float currentTime = 0;
+        while (state == moveHandler.GetCurrentState())
+        {
+            currentTime = currentTime + Time.deltaTime;
+            float xDisplacement = speed.x * Time.deltaTime;
+            float yDisplacement = speed.y * Time.deltaTime;
+            this.transform.position = new Vector3(xDisplacement + this.transform.position.x,
+                                                  yDisplacement + this.transform.position.y,
+                                                  this.transform.position.z);
+            yield return new WaitForEndOfFrame();
+        }
+        isMovingInState = false;
+    }
+
+    IEnumerator MoveOverTime(Vector2 speed, float duration)
+    {
         yield return new WaitForEndOfFrame();
 
         float currentTime = 0;
-        while (state == moveHandler.GetCurrentState())
+        while (currentTime < duration)
         {
             currentTime = currentTime + Time.deltaTime;
             float xDisplacement = speed.x * Time.deltaTime;

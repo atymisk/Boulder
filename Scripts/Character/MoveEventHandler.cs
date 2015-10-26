@@ -30,7 +30,7 @@ public class MoveEventHandler : MonoBehaviour
 	//Events
     public void OnIdleStart()
     {
-        currentState = CharacterState.Idle;
+        //currentState = CharacterState.Idle;
     }
 
 	public void OnNormalAlphaStart()
@@ -91,7 +91,12 @@ public class MoveEventHandler : MonoBehaviour
 
     public void OnMoveOrFlinchEnd()
     {
+
+        
         currentState = CharacterState.Idle;
+        Character character = gameObject.GetComponent<Character>();
+        Debug.Log(character.ToString() + " " + anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"));
+        //Debug.Log(character.ToString() + "FlinchEND");
     }
 
 	//---
