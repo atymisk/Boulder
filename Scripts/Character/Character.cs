@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public abstract class Character : MonoBehaviour 
 {
-    public Slider healthBar;
+    public UnityEngine.UI.Slider healthBar;
     public Transform spawnPoint;
 	public Rigidbody2D rigidbodyTwoD;
     public GameObject rocketPunch;
@@ -13,22 +12,25 @@ public abstract class Character : MonoBehaviour
     private float health = 0;
 	private bool isFacingLeft = true;
     private bool isGrounded = true;
+    GameManager gm;
     private bool isMovingInState = false;
     private IEnumerator moveTimeRoutine;
 
-    protected MoveEventHandler moveHandler;
+    private bool triggered = false;
+    public string mytag = "null";
+	protected float hitPoints = 100;
+	protected MoveEventHandler moveHandler;
 
     Transform rightArm;
-
-    protected void Initialize()
+	protected void Initialize()
 	{
         health = maxHealth;
-		moveHandler = this.gameObject.GetComponent<MoveEventHandler>();
-        rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
-        //rocketPunch = GameObject.Find("RocketPunch");
+        moveHandler = this.gameObject.GetComponent<MoveEventHandler>();
+        gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
         rightArm = this.gameObject.transform.FindChild("torso").FindChild("upperRightArm");
-
-        //This is backwards since our prefabis facing left by default
+        
+		this.rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
+        //This is backwards since our prefab is facing left by default
         if (this.transform.right.x > 0)
 		{
 			isFacingLeft = true;
@@ -37,6 +39,7 @@ public abstract class Character : MonoBehaviour
 		{
 			isFacingLeft = false;
 		}
+
 	}
 
 	virtual public void NormalMoveAlpha()
@@ -142,7 +145,6 @@ public abstract class Character : MonoBehaviour
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
         }
     }
-
 	public bool IsFacingLeft()
 	{
 		return isFacingLeft;
@@ -183,20 +185,37 @@ public abstract class Character : MonoBehaviour
             }
         }
     }
-    
+    public string getTag()
+    {
+        return mytag;
+    }
+
+    public void setTag(string tag)
+    {
+        mytag = tag;
+    }
+
+    void OnDestroy()
+    {
+        print("dead");
+    }
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.name == "DeathArea") {
-            moveHandler.OnForceIdle();
-            this.moveHandler.enabled = false;
-			this.gameObject.SetActive(false);
-			transform.position = spawnPoint.position;
-            this.moveHandler.enabled = true;
-            this.gameObject.SetActive(true);
+		if (!triggered && other.gameObject.name == "DeathArea")
+        {
+            triggered = true;
+            gm.thisPlayerDied(mytag);
 		}
 	}
-
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (!triggered)
+        {
+            return;
+        }
+        triggered = false;
+    }
     //CoRoutines
     IEnumerator MoveDuringState(Vector2 speed, MoveEventHandler.CharacterState state)
     {
@@ -233,3 +252,5 @@ public abstract class Character : MonoBehaviour
         }
     }
 }
+    
+
