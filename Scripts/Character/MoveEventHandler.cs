@@ -95,7 +95,7 @@ public class MoveEventHandler : MonoBehaviour
         
         currentState = CharacterState.Idle;
         Character character = gameObject.GetComponent<Character>();
-        //Debug.Log(character.ToString() + "FlinchEND");
+        Debug.Log(character.ToString() + "FlinchEND");
     }
 
 	//---

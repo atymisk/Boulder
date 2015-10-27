@@ -1,0 +1,188 @@
+fileFormatVersion: 2
+guid: b2a0860115771a24ba72968e49ee51ef
+timeCreated: 1445894235
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Bunny_0
+    21300002: Bunny_1
+    21300004: Bunny_2
+    21300006: Bunny_3
+    21300008: Bunny_4
+    21300010: Bunny_5
+    21300012: Bunny_6
+    21300014: Bunny_7
+    21300016: Bunny_8
+    21300018: Bunny_9
+    21300020: Bunny_10
+    21300022: Bunny_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Bunny_0
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 713
+        width: 188
+        height: 289
+      alignment: 9
+      pivot: {x: .473629892, y: .748740196}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_1
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 687
+        width: 185
+        height: 324
+      alignment: 9
+      pivot: {x: .526798248, y: .760123551}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_2
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 791
+        width: 198
+        height: 199
+      alignment: 9
+      pivot: {x: .424884528, y: .300698131}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_3
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 987
+        width: 4
+        height: 15
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_4
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 687
+        width: 154
+        height: 325
+      alignment: 9
+      pivot: {x: .483903766, y: .820339739}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_5
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 358
+        width: 157
+        height: 304
+      alignment: 9
+      pivot: {x: .452634245, y: .891392529}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_6
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 355
+        width: 149
+        height: 307
+      alignment: 9
+      pivot: {x: .466727436, y: .822973609}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_7
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 412
+        width: 242
+        height: 394
+      alignment: 9
+      pivot: {x: .602430582, y: .09734945}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_8
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 355
+        width: 147
+        height: 326
+      alignment: 9
+      pivot: {x: .466274977, y: .842168331}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_9
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 176
+        height: 160
+      alignment: 9
+      pivot: {x: .457747459, y: .391551971}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_10
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 22
+        width: 264
+        height: 375
+      alignment: 9
+      pivot: {x: .340379089, y: .90322119}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny_11
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 30
+        width: 257
+        height: 380
+      alignment: 9
+      pivot: {x: .364967197, y: .897915721}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
