@@ -33,6 +33,9 @@ public class RocketPart : MonoBehaviour
                 Vector2 pushVelocity = new Vector2(direction * speed, 0);
                 enemy.HeavyHitStun(damage, pushVelocity, 2);
                 rigidBodyTwoD.velocity = new Vector2(0, 0);
+
+                SpecialEffects.instance.SlowMo(0.1f, 0.1f);
+                SpecialEffects.instance.ShakeScreen();
                 this.gameObject.SetActive(false);
             }
         }

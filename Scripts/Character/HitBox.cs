@@ -25,7 +25,8 @@ public abstract class HitBox : MonoBehaviour
 			if(enemy != owner)
 			{
 				OnHitConnected(enemy);
-			}
+                SpecialEffects.instance.SlowMo(0.1f, 0.1f);
+            }
 		}
 
 	}
