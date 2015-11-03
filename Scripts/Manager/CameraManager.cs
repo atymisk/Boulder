@@ -38,19 +38,22 @@ public class CameraManager : MonoBehaviour {
         p2dead = false;
     }
 
-    void Start () {
-		
+    void Start ()
+    {
+        transform.position = new Vector3(0, transform.position.y, transform.position.z);
 	}
 
-	void SetCameraPos()
+    Vector3 GetCameraPos()
     {
-        Vector3 middle = new Vector3(0,1.5f,0); //hardcode value for now to represent if both players are dead
+        //current/original position
+        Vector3 originpos = Camera.main.transform.position;
+        Vector3 middle = new Vector3(0, 1.5f, -10); //hardcode value for now to represent if both players are dead
         if (!p1dead && !p2dead)//neither are dead
         {
             //aim camera at both
             middle = (playerOne.transform.position + playerTwo.transform.position) * 0.5f;
         }
-        else if(p1dead && !p2dead)
+        else if (p1dead && !p2dead)
         {
             //aim camera at p2
             middle = playerTwo.transform.position;
@@ -60,22 +63,15 @@ public class CameraManager : MonoBehaviour {
             //aim camera at p1
             middle = playerOne.transform.position;
         }
-        /*else// if(p1dead && p2dead)//both are dead
-        {
-            //aim camera at stage center
-        }*/
-		GetComponent<Camera>().transform.position = new Vector3(
-			middle.x,
-			middle.y,
-			GetComponent<Camera>().transform.position.z
-			);
+
+        //		GetComponent<Camera>().transform.position = new Vector3(middle.x,middle.y,GetComponent<Camera>().transform.position.z);
+        return middle;
 	}
 	
 	void SetCameraSize()
     {
-		float minSizeY = 40;
-		//horizontal size is based on actual screen ratio
-		float minSizeX = minSizeY * Screen.width / Screen.height;
+		float minSizeY = 29;
+		float minSizeX = minSizeY * Screen.width / Screen.height;//horizontal size is based on actual screen ratio
 
         float width = 1;//default width
         float height = 1;//default height
@@ -83,7 +79,7 @@ public class CameraManager : MonoBehaviour {
         if(!p1dead && !p2dead)//both alive
         {
             //multiplying by 0.5, because the ortographicSize is actually half the height
-            width = Mathf.Abs(playerOne.transform.position.x - playerTwo.transform.position.x) * 0.5f + 30;
+            width = Mathf.Abs(playerOne.transform.position.x - playerTwo.transform.position.x) * 0.75f + 30;
             height = Mathf.Abs(playerOne.transform.position.y - playerTwo.transform.position.y) * 0.5f;
         }
         else if (!p1dead && p2dead)//p2 alive
@@ -95,23 +91,27 @@ public class CameraManager : MonoBehaviour {
         {
             width = Mathf.Abs(playerTwo.transform.position.x) * 0.5f + 30;
             height = Mathf.Abs(playerTwo.transform.position.y) * 0.5f;
-        }/*
-        else if(p1dead && p2dead)//both dead
-        {
-            width = Mathf.Abs(playerTwo.transform.position.x) * 0.5f + 30;
-            height = Mathf.Abs(playerTwo.transform.position.y) * 0.5f;
-        }*/
+        }
 
 		//computing the size
 		float camSizeX = Mathf.Max(width, minSizeX);
 		GetComponent<Camera>().orthographicSize = Mathf.Max(height,
 		                                                    camSizeX * Screen.height / Screen.width, minSizeY);
-		
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		SetCameraPos();
+	void Update ()
+    {
+		Vector3 target = GetCameraPos();
+        float speed = 2.5f;
+        Vector3 newpos = Vector3.Lerp(transform.position, target, Time.deltaTime * speed);
+        transform.position = new Vector3(newpos.x, newpos.y, -10);
 		SetCameraSize();
-	}
+    }
+
+    void LateUpdate()
+    {
+        
+    }
+
 }

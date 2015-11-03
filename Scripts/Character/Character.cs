@@ -197,7 +197,7 @@ public abstract class Character : MonoBehaviour
 
     void OnDestroy()
     {
-        print("dead");
+        //print("dead");
     }
 
 	void OnTriggerEnter2D(Collider2D other)

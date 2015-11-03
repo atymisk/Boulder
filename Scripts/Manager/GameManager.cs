@@ -108,12 +108,14 @@ public class GameManager : MonoBehaviour
     void Awake ()
     {
         P1.setTag("P1");
+        P1.transform.position = P1.spawnPoint.position;
         p1_origin = Instantiate(P1);//clone P1
         p1_origin.enabled = false;
         p1_origin.transform.position = new Vector3(-5,245,0);
         //p1_origin.rend.enabled = false;
 
         P2.setTag("P2");
+        P2.transform.position = P2.spawnPoint.position;
         p2_origin = Instantiate(P2);//clone P2
         p2_origin.enabled = false;
         p2_origin.transform.position = new Vector3(5, 245, 0);
