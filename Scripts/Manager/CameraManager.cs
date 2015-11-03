@@ -7,6 +7,10 @@ public class CameraManager : MonoBehaviour {
 	public Character playerOne;
 	public Character playerTwo;
 
+    public float widthmod = 90;
+    public float posheightmod = 50;
+    public float negheightmod = 30;
+
     //set up this code to handle 4 different events:
     //p1 and p2 are alive
     //p1 is alive, p2 is dead
@@ -41,7 +45,7 @@ public class CameraManager : MonoBehaviour {
     void Start ()
     {
         transform.position = new Vector3(0, transform.position.y, transform.position.z);
-	}
+    }
 
     Vector3 GetCameraPos()
     {
@@ -64,11 +68,10 @@ public class CameraManager : MonoBehaviour {
             middle = playerOne.transform.position;
         }
 
-        //		GetComponent<Camera>().transform.position = new Vector3(middle.x,middle.y,GetComponent<Camera>().transform.position.z);
         return middle;
 	}
 	
-	void SetCameraSize()
+	void SetCameraSize()//affects the zoom
     {
 		float minSizeY = 29;
 		float minSizeX = minSizeY * Screen.width / Screen.height;//horizontal size is based on actual screen ratio
@@ -93,18 +96,19 @@ public class CameraManager : MonoBehaviour {
             height = Mathf.Abs(playerTwo.transform.position.y) * 0.5f;
         }
 
-		//computing the size
+		//computing the size: get the bigger of the two values for more zoom
 		float camSizeX = Mathf.Max(width, minSizeX);
-		GetComponent<Camera>().orthographicSize = Mathf.Max(height,
-		                                                    camSizeX * Screen.height / Screen.width, minSizeY);
+        float orthosize = Mathf.Clamp(Mathf.Max(height, camSizeX * Screen.height / Screen.width, minSizeY),minSizeY,50);
+        GetComponent<Camera>().orthographicSize = orthosize;
+        print(Camera.main.orthographicSize);
 	}
-	
+
 	// Update is called once per frame
 	void Update ()
     {
 		Vector3 target = GetCameraPos();
-        float speed = 2.5f;
-        Vector3 newpos = Vector3.Lerp(transform.position, target, Time.deltaTime * speed);
+        float speed = 1.5f;
+        Vector3 newpos = Vector3.Lerp(transform.position, target, Time.deltaTime * speed);//Lerp the camera
         transform.position = new Vector3(newpos.x, newpos.y, -10);
 		SetCameraSize();
     }
