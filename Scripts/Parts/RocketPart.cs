@@ -35,7 +35,7 @@ public class RocketPart : MonoBehaviour
                 rigidBodyTwoD.velocity = new Vector2(0, 0);
 
                 SpecialEffects.instance.SlowMo(0.1f, 0.1f);
-                SpecialEffects.instance.ShakeScreen();
+                SpecialEffects.instance.ShakeScreen(0.1f);
                 this.gameObject.SetActive(false);
             }
         }

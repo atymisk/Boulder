@@ -22,9 +22,9 @@ public class SpecialEffects : MonoBehaviour
         StartCoroutine(SlowEveryThing(scale, duration));
     }
 
-    public void ShakeScreen()
+    public void ShakeScreen(float s)
     {
-        float duration = 0.1f;
+        float duration = s;
         StartCoroutine(ShakeRoutine(duration));
     }
 
@@ -49,15 +49,15 @@ public class SpecialEffects : MonoBehaviour
 
             double randNum = rnd.NextDouble();
             
-            double xMin = originalPos.x - Camera.main.pixelWidth * 0.01;
-            double xMax = originalPos.x + Camera.main.pixelWidth * 0.01;
+            double xMin = originalPos.x - Camera.main.pixelWidth * 0.001;
+            double xMax = originalPos.x + Camera.main.pixelWidth * 0.001;
             double xDiff = xMax - xMin;
             float xRand = (float)(xMin + xDiff * randNum);
 
             randNum = rnd.NextDouble();
 
-            double yMin = originalPos.y - Camera.main.pixelWidth * 0.01;
-            double yMax = originalPos.y + Camera.main.pixelWidth * 0.01;
+            double yMin = originalPos.y - Camera.main.pixelWidth * 0.001;
+            double yMax = originalPos.y + Camera.main.pixelWidth * 0.001;
             double yDiff = yMax - yMin;
             float yRand = (float)(yMin + yDiff * randNum);
 

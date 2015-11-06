@@ -60,12 +60,14 @@ public class CameraManager : MonoBehaviour {
         else if (p1dead && !p2dead)
         {
             //aim camera at p2
-            middle = playerTwo.transform.position;
+            //middle = playerTwo.transform.position;
+			middle = originpos;
         }
         else if (!p1dead && p2dead)
         {
             //aim camera at p1
-            middle = playerOne.transform.position;
+            //middle = playerOne.transform.position;
+			middle = originpos;
         }
 
         return middle;
@@ -73,7 +75,7 @@ public class CameraManager : MonoBehaviour {
 	
 	void SetCameraSize()//affects the zoom
     {
-		float minSizeY = 29;
+		float minSizeY = 50;
 		float minSizeX = minSizeY * Screen.width / Screen.height;//horizontal size is based on actual screen ratio
 
         float width = 1;//default width

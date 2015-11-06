@@ -44,10 +44,18 @@ public class GameManager : MonoBehaviour
     {
         //tell inputmanager and camera manager that both are dead
         //destroy instance of the player and create a new one
-        Destroy(P1);
+
+		//ADDED HERE TEMPORARILY
+		GameObject deathEffect = (GameObject) Resources.Load ("Particles/DeathEffect");
+		var deathEffectClone = Instantiate (deathEffect, P1.transform.position, Quaternion.identity);
+		SpecialEffects.instance.SlowMo(0.1f, 0.1f);
+		SpecialEffects.instance.ShakeScreen(0.3f);
+
+		Destroy(P1);
         p1_stocks--;
         inptmng.lockp1control();
         cmrmng.p1_is_dead();
+
         if(p1_stocks == 0)
         {
             gameover = true;
@@ -64,10 +72,18 @@ public class GameManager : MonoBehaviour
     {
         //tell inputmanager and camera manager that both are dead
         //destroy instance of the player and create a new one
-        Destroy(P2);
+        
+		//ADDED HERE TEMPORARILY
+		GameObject deathEffect = (GameObject) Resources.Load ("Particles/DeathEffect");
+		var deathEffectClone = Instantiate (deathEffect, P2.transform.position, Quaternion.identity);
+		SpecialEffects.instance.SlowMo(0.1f, 0.1f);
+		SpecialEffects.instance.ShakeScreen(0.3f);
+
+		Destroy(P2);
         p2_stocks--;
         inptmng.lockp2control();
         cmrmng.p2_is_dead();
+
         if (p2_stocks == 0)
         {
             gameover = true;
