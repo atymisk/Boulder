@@ -127,6 +127,7 @@ public abstract class Character : MonoBehaviour
         if (!moveHandler.IsBusy())
         {
             rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
+			DustEffect();
         }
     }
 
@@ -135,6 +136,7 @@ public abstract class Character : MonoBehaviour
         if(!moveHandler.IsBusy())
         {
             rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
+			DustEffect(); 
         }
     }
 
@@ -149,6 +151,19 @@ public abstract class Character : MonoBehaviour
 	{
 		return isFacingLeft;
 	}
+
+	private void DustEffect()
+	{
+		if (isGrounded) {
+			GameObject dust = (GameObject) Resources.Load ("Particles/Dust");
+			var dustCloneLeft = Instantiate (dust, this.transform.Find("torso").Find ("upperLeftLeg").Find ("lowerLeftLeg").Find ("leftFoot").position, Quaternion.identity);
+			var dustCloneRight = Instantiate (dust, this.transform.Find("torso").Find ("upperRightLeg").Find ("lowerRightLeg").Find ("rightFoot").position, Quaternion.identity);
+			
+			Destroy(dustCloneLeft, dust.GetComponent<ParticleSystem>().startLifetime);
+			Destroy(dustCloneRight, dust.GetComponent<ParticleSystem>().startLifetime);
+		}
+	}
+
 
 	public float GetHitPoints()
 	{
@@ -167,6 +182,7 @@ public abstract class Character : MonoBehaviour
             if(normal.y == 1)
             {
                 isGrounded = true;
+				DustEffect(); 
             }
         }
        
