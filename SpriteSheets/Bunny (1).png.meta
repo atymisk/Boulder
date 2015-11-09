@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: cd2ff846d6ea4394291444a8cedfe481
+timeCreated: 1446600250
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Bunny (1)_0
+    21300002: Bunny (1)_1
+    21300004: Bunny (1)_2
+    21300006: Bunny (1)_3
+    21300008: Bunny (1)_4
+    21300010: Bunny (1)_5
+    21300012: Bunny (1)_6
+    21300014: Bunny (1)_7
+    21300016: Bunny (1)_8
+    21300018: Bunny (1)_9
+    21300020: Bunny (1)_10
+    21300022: Bunny (1)_11
+    21300024: Bunny (1)_12
+    21300026: Bunny (1)_13
+    21300028: Bunny (1)_14
+    21300030: Bunny (1)_15
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Bunny (1)_0
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 1547
+        width: 260
+        height: 401
+      alignment: 9
+      pivot: {x: .500000298, y: .747263908}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_1
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 1532
+        width: 257
+        height: 445
+      alignment: 9
+      pivot: {x: .500000238, y: .778519213}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_2
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 1619
+        width: 268
+        height: 277
+      alignment: 9
+      pivot: {x: .426005572, y: .195740849}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_3
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 1889
+        width: 7
+        height: 22
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_4
+      rect:
+        serializedVersion: 2
+        x: 1303
+        y: 1516
+        width: 210
+        height: 445
+      alignment: 9
+      pivot: {x: .47639218, y: .834223032}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_5
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 1560
+        width: 41
+        height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_6
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 944
+        width: 220
+        height: 420
+      alignment: 9
+      pivot: {x: .50000006, y: .936744332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_7
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 948
+        width: 206
+        height: 421
+      alignment: 9
+      pivot: {x: .451867849, y: .947482824}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_8
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 870
+        width: 333
+        height: 540
+      alignment: 9
+      pivot: {x: .604214668, y: .0960443541}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_9
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 918
+        width: 204
+        height: 448
+      alignment: 9
+      pivot: {x: .475697845, y: .843051076}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_10
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 480
+        width: 242
+        height: 217
+      alignment: 9
+      pivot: {x: .479514122, y: .385768622}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_11
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 322
+        width: 245
+        height: 458
+      alignment: 9
+      pivot: {x: .520235538, y: .889683247}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_12
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 315
+        width: 243
+        height: 469
+      alignment: 9
+      pivot: {x: .5, y: .880543649}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_13
+      rect:
+        serializedVersion: 2
+        x: 1441
+        y: 306
+        width: 10
+        height: 4
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_14
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 47
+        width: 302
+        height: 173
+      alignment: 9
+      pivot: {x: .253759712, y: .729255438}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunny (1)_15
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 40
+        width: 302
+        height: 176
+      alignment: 9
+      pivot: {x: .30300802, y: .697179079}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

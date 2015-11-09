@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: 329568fcf4e45a740b272f70d99fa0df
+timeCreated: 1446599711
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Tiger_01_0
+    21300002: Tiger_01_1
+    21300004: Tiger_01_2
+    21300006: Tiger_01_3
+    21300008: Tiger_01_4
+    21300010: Tiger_01_5
+    21300012: Tiger_01_6
+    21300014: Tiger_01_7
+    21300016: Tiger_01_8
+    21300018: Tiger_01_9
+    21300020: Tiger_01_10
+    21300022: Tiger_01_11
+    21300024: Tiger_01_12
+    21300026: Tiger_01_13
+    21300028: Tiger_01_14
+    21300030: Tiger_01_15
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Tiger_01_0
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 1547
+        width: 260
+        height: 401
+      alignment: 9
+      pivot: {x: .538135707, y: .747263908}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_1
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 1532
+        width: 257
+        height: 445
+      alignment: 9
+      pivot: {x: .461419374, y: .767378688}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_2
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 1619
+        width: 268
+        height: 277
+      alignment: 9
+      pivot: {x: .426005572, y: .177843228}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_3
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 1889
+        width: 7
+        height: 22
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_4
+      rect:
+        serializedVersion: 2
+        x: 1303
+        y: 1516
+        width: 210
+        height: 445
+      alignment: 9
+      pivot: {x: .47639218, y: .834223032}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_5
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 1560
+        width: 41
+        height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_6
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 944
+        width: 220
+        height: 420
+      alignment: 9
+      pivot: {x: .454930961, y: .889528692}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_7
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 948
+        width: 206
+        height: 421
+      alignment: 9
+      pivot: {x: .475934088, y: .876827836}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_8
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 870
+        width: 333
+        height: 540
+      alignment: 9
+      pivot: {x: .604214668, y: .0776828378}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_9
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 918
+        width: 204
+        height: 448
+      alignment: 9
+      pivot: {x: .475697845, y: .843051076}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_10
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 480
+        width: 242
+        height: 217
+      alignment: 9
+      pivot: {x: .479514122, y: .362922341}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_11
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 322
+        width: 245
+        height: 458
+      alignment: 9
+      pivot: {x: .520235538, y: .889683247}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_12
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 315
+        width: 243
+        height: 469
+      alignment: 9
+      pivot: {x: .5, y: .880543649}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_13
+      rect:
+        serializedVersion: 2
+        x: 1441
+        y: 306
+        width: 10
+        height: 4
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_14
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 47
+        width: 302
+        height: 173
+      alignment: 9
+      pivot: {x: .253760129, y: .700598598}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tiger_01_15
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 40
+        width: 302
+        height: 176
+      alignment: 9
+      pivot: {x: .286591977, y: .697179079}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
