@@ -98,6 +98,7 @@ public class Robot : MonoBehaviour {
     {
         if (!IsBusy())
         {
+            FaceLeft();
             rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
             DustEffect();
         }
@@ -107,6 +108,7 @@ public class Robot : MonoBehaviour {
     {
         if (!IsBusy())
         {
+            FaceRight();
             rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
             DustEffect();
         }
@@ -143,11 +145,9 @@ public class Robot : MonoBehaviour {
     {
         //health = health - damage;
         //healthBar.value = health / maxHealth * 100;
-        //OnHeavyHitStart();
-        if (moveTimeRoutine != null)
-        {
-            StopCoroutine(moveTimeRoutine);
-        }
+        currentState = CharacterState.HeavyFlinch;
+        anim.SetTrigger("OnTriggerHeavyHit");
+        CancelAttacks();
 
         moveTimeRoutine = MoveOverTime(pushVelocity, duration);
         StartCoroutine(moveTimeRoutine);

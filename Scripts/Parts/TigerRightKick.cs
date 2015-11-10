@@ -12,7 +12,7 @@ public class TigerRightKick : Part {
 
     public override void Attack()
     {
-        float speed = -100;
+        float speed = -50;
         float duration = 0.30f;
         if (!owner.IsBusy())
         {
@@ -36,7 +36,7 @@ public class TigerRightKick : Part {
     override public void OnHitConnected(Robot enemy)
     {
         float damage = 10;
-        float speed = 75;
+        float speed = 50;
         float direction = 1;
         Vector2 pushVelocity = new Vector2(direction * speed, 0);
         enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
@@ -61,6 +61,7 @@ public class TigerRightKick : Part {
             float xDisplacement = speed.x * Time.deltaTime;
             float yDisplacement = speed.y * Time.deltaTime;
             float zPosition = this.transform.position.z;
+
             Vector3 displacement = new Vector3(xDisplacement, yDisplacement, zPosition);
             /*
             owner.transform.position = new Vector3(xDisplacement + owner.transform.position.x,

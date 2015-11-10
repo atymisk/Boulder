@@ -29,7 +29,7 @@ public abstract class Part : MonoBehaviour{
             {
                 OnHitConnected(enemy);
                 GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
-                var clone = Instantiate(sparks, this.transform.position, Quaternion.identity);
+                var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
                 Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
                 SpecialEffects.instance.SlowMo(0.1f, 0.1f);
             }
