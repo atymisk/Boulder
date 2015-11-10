@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Part : MonoBehaviour{
+public abstract class Part : MonoBehaviour
+{
+    public bool active = true;
 
     protected Robot owner;
     protected BoxCollider2D collider;

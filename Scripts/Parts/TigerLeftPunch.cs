@@ -2,18 +2,22 @@
 using System.Collections;
 using System;
 
-public class TigerLeftPunch : Part {
+public class TigerLeftPunch : Part
+{
+
 
     void Start()
     {
         base.Initialize();
     }
 
-    public override void Attack() {
+    public override void Attack()
+    {
         //Implement additional behaviour such as position changes or special hitbox cases here
     }
 
-    public override void CancelAttack() {
+    public override void CancelAttack()
+    {
         DisableHitBox();
     }
 
@@ -27,7 +31,8 @@ public class TigerLeftPunch : Part {
         collider.enabled = false;
     }
 
-    public override string GetTrigger() {
+    public override string GetTrigger()
+    {
         return "TigerLeftPunch";
     }
 }
