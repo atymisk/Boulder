@@ -28,6 +28,15 @@ public class Robot : MonoBehaviour {
         anim = gameObject.GetComponent<Animator>();
         rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
         InitializeParts();
+
+        if (this.transform.right.x < 0)
+        {
+            isFacingLeft = true;
+        }
+        else
+        {
+            isFacingLeft = false;
+        }
     }
 	
 	// Update is called once per frame
@@ -59,12 +68,57 @@ public class Robot : MonoBehaviour {
     {
         if (!IsBusy())
         {
-            Debug.Log("right kick");
             robotParts[RightLeg].Attack();
             anim.SetTrigger(robotParts[RightLeg].GetTrigger());
 
             currentState = CharacterState.RightKick;
         }
+    }
+
+    //Rocket Moves
+    public void RocketLeftArm()
+    {
+        anim.SetTrigger("RocketLeftArm");
+    }
+
+    private void ShootPart(int index)
+    {
+        if(robotParts[index].active)
+        {
+            GameObject rocketPrefab = Instantiate(Resources.Load("ItemParts/TigerLeftHandItem")) as GameObject;
+            RobotRocket rocket = rocketPrefab.GetComponent<RobotRocket>();
+            rocket.SetOwner(this);
+            Physics2D.IgnoreCollision(rocket.GetComponent<Collider2D>(), this.GetComponent<Collider2D>());
+            rocket.transform.position = this.transform.FindChild("Pelvis").FindChild("Chest").FindChild("LeftShoulder").transform.position;
+            Rigidbody2D rocketBody = rocket.GetComponent<Rigidbody2D>();
+            float direction = IsFacingLeft() ? -1 : 1;
+
+            if (IsFacingLeft())
+            {
+                Debug.Log("rotate");
+                rocket.transform.Rotate(new Vector3(0, 180, 0));
+            }
+
+            rocketBody.velocity = new Vector2(direction * 200, 0);
+        }
+        /*
+        if (rightArm.gameObject.activeSelf)
+        {
+            //Cheesy implementation to be refactored for different parts
+            rocketPunch.GetComponent<RocketPart>().owner = this;
+            rocketPunch.transform.position = this.transform.position;
+            Rigidbody2D rocketBody = rocketPunch.GetComponent<Rigidbody2D>();
+            float direction = IsFacingLeft() ? -1 : 1;
+            rocketBody.velocity = new Vector2(direction * 200, 0);
+            this.rightArm.gameObject.SetActive(false);
+        }
+        */
+    }
+
+    public void ShootLeftArm()
+    {
+        Debug.Log("ShootLeftArm");
+        ShootPart(0);
     }
 
     //Movement
@@ -146,7 +200,7 @@ public class Robot : MonoBehaviour {
         //health = health - damage;
         //healthBar.value = health / maxHealth * 100;
         currentState = CharacterState.HeavyFlinch;
-        anim.SetTrigger("OnTriggerHeavyHit");
+        anim.SetTrigger("HeavyHit");
         CancelAttacks();
 
         moveTimeRoutine = MoveOverTime(pushVelocity, duration);
