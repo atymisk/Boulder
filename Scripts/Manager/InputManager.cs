@@ -5,8 +5,8 @@ public abstract class InputManager : MonoBehaviour
 {
 	
 	// Use this for initialization
-	public Character playerOne;
-	public Character playerTwo;
+	public Robot playerOne;
+	public Robot playerTwo;
 	
 	public bool p1lock = false;
 	public bool p2lock = false;
@@ -24,13 +24,13 @@ public abstract class InputManager : MonoBehaviour
 	}
 	
 	//respawned
-	public void unlockp1control(Character newp1)
+	public void unlockp1control(Robot newp1)
 	{
 		playerOne = newp1;
 		p1lock = false;
 	}
 	
-	public void unlockp2control(Character newp2)
+	public void unlockp2control(Robot newp2)
 	{
 		playerTwo = newp2;
 		p2lock = false;

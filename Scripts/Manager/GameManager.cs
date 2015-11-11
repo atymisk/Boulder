@@ -11,11 +11,14 @@ public class GameManager : MonoBehaviour
     Managing the stocks and checking win condition
     */
 
-    public Character P1;//possible issue, make a prefab of the player object maybe
-    public Character P2;
+    public Robot P1;//possible issue, make a prefab of the player object maybe
+    public Robot P2;
 
-    private Character p1_origin;
-    private Character p2_origin;
+    private Robot p1_origin;
+    private Robot p2_origin;
+
+    public Transform P1spawnPoint;
+    public Transform P2spawnPoint;
 
     //needs to tell the input and camera manager that the player has died and respawned
     GameObject inptmng;
@@ -105,7 +108,7 @@ public class GameManager : MonoBehaviour
         //create new Player1 object
         yield return new WaitForSeconds(respawntimer);
         P1 = Instantiate(p1_origin);
-        P1.transform.position = P1.spawnPoint.position;
+        P1.transform.position = P1spawnPoint.position;
         P1.enabled = true;
         //give inputmanager and camera manager the new one
         primaryINPT.unlockp1control(P1);
@@ -117,7 +120,7 @@ public class GameManager : MonoBehaviour
         //create new Player2 object
         yield return new WaitForSeconds(respawntimer);
         P2 = Instantiate(p2_origin);
-        P2.transform.position = P2.spawnPoint.position;
+        P2.transform.position = P2spawnPoint.position;
         P2.enabled = true;
         //give inputmanager and camera manager the new one
         primaryINPT.unlockp2control(P2);
@@ -135,14 +138,14 @@ public class GameManager : MonoBehaviour
         primaryINPT = keyinpt;
 
         P1.setTag("P1");
-        P1.transform.position = P1.spawnPoint.position;
+        P1.transform.position = P1spawnPoint.position;
         p1_origin = Instantiate(P1);//clone P1
         p1_origin.enabled = false;
         p1_origin.transform.position = new Vector3(-5,245,0);
         //p1_origin.rend.enabled = false;
 
         P2.setTag("P2");
-        P2.transform.position = P2.spawnPoint.position;
+        P2.transform.position = P2spawnPoint.position;
         p2_origin = Instantiate(P2);//clone P2
         p2_origin.enabled = false;
         p2_origin.transform.position = new Vector3(5, 245, 0);

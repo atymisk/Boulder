@@ -4,8 +4,8 @@ using System.Collections;
 public class CameraManager : MonoBehaviour {
 	
 	// Use this for initialization
-	public Character playerOne;
-	public Character playerTwo;
+	public Robot playerOne;
+	public Robot playerTwo;
 
     public float widthmod = 90;
     public float posheightmod = 50;
@@ -30,13 +30,13 @@ public class CameraManager : MonoBehaviour {
         p2dead = true;
     }
 
-    public void p1_respawn(Character newp1)
+    public void p1_respawn(Robot newp1)
     {
         playerOne = newp1;
         p1dead = false;
     }
 
-    public void p2_respawn(Character newp2)
+    public void p2_respawn(Robot newp2)
     {
         playerTwo = newp2;
         p2dead = false;

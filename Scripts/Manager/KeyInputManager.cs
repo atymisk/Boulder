@@ -43,24 +43,17 @@ public class KeyInputManager : InputManager {
                 playerOne.Jump();
             }
 
-
-
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                playerOne.NormalMoveAlpha();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                playerOne.NormalMoveBeta();
-
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                playerOne.SpecialMoveAlpha();
+                playerOne.LeftPunch();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                playerOne.RocketPunch();
+                playerOne.RightKick();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                playerOne.RocketLeftArm();
             }
         }
         ///--------------------------------------------------------------------------
@@ -95,19 +88,15 @@ public class KeyInputManager : InputManager {
 
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                playerTwo.NormalMoveAlpha();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                playerTwo.NormalMoveBeta();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                playerTwo.SpecialMoveAlpha();
+                playerTwo.LeftPunch();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                playerTwo.RocketPunch();
+                playerTwo.RightKick();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                playerTwo.RocketLeftArm();
             }
         }
     }

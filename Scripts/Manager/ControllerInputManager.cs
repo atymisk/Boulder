@@ -41,20 +41,16 @@ public class ControllerInputManager : InputManager {
 			
 			if (Input.GetButtonDown("A_P1"))
 			{
-				playerOne.NormalMoveAlpha();
-			}
+                playerOne.LeftPunch();
+            }
 			else if(Input.GetButtonDown("B_P1"))
 			{
-				playerOne.SpecialMoveAlpha();
-			}
+                playerOne.RightKick();
+            }
 			else if(Input.GetButtonDown("Y_P1"))
 			{
-				playerOne.NormalMoveBeta();
-			}
-			else if (Input.GetButtonDown ("X_P1"))
-			{
-				playerOne.RocketPunch();
-			}
+                playerOne.RocketLeftArm();
+            }
 			
 			
 		}
@@ -85,21 +81,16 @@ public class ControllerInputManager : InputManager {
 			
 			if (Input.GetButtonDown("A_P2"))
 			{
-				playerTwo.NormalMoveAlpha();
-			}
-			else if(Input.GetButtonDown("B_P2"))
+                playerTwo.LeftPunch();
+            }
+            else if(Input.GetButtonDown("B_P2"))
 			{
-				playerTwo.NormalMoveBeta();
-			}
+                playerTwo.RightKick();
+            }
 			else if(Input.GetButtonDown("Y_P2"))
 			{
-				playerTwo.SpecialMoveAlpha();
+				playerTwo.RocketLeftArm();
 			}
-			else if (Input.GetButtonDown ("X_P2"))
-			{
-				playerTwo.RocketPunch();
-			}
-			
 			
 		}
 	}
