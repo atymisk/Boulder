@@ -1,38 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ControllerInputManager : MonoBehaviour {
+public class ControllerInputManager : InputManager {
 	
 	// Use this for initialization
-	public Character playerOne;
-	public Character playerTwo;
-	
-	private bool p1lock = false;
-	private bool p2lock = false;
-	//p1 controls need to be disabled temporarily until p1 respawns
-	public void lockp1control()
-	{
-		p1lock = true;//p1 is dead
-	}
-	
-	//p2 controls need to be disabled temporarily until p2 respawns
-	public void lockp2control()
-	{
-		p2lock = true;//p2 is dead
-	}
-	
-	//respawned
-	public void unlockp1control(Character newp1)
-	{
-		playerOne = newp1;
-		p1lock = false;
-	}
-	
-	public void unlockp2control(Character newp2)
-	{
-		playerTwo = newp2;
-		p2lock = false;
-	}
 	
 	void Start () 
 	{
@@ -70,20 +41,16 @@ public class ControllerInputManager : MonoBehaviour {
 			
 			if (Input.GetButtonDown("A_P1"))
 			{
-				playerOne.NormalMoveAlpha();
-			}
+                playerOne.LeftPunch();
+            }
 			else if(Input.GetButtonDown("B_P1"))
 			{
-				playerOne.SpecialMoveAlpha();
-			}
+                playerOne.RightKick();
+            }
 			else if(Input.GetButtonDown("Y_P1"))
 			{
-				playerOne.NormalMoveBeta();
-			}
-			else if (Input.GetButtonDown ("X_P1"))
-			{
-				playerOne.RocketPunch();
-			}
+                playerOne.RocketLeftArm();
+            }
 			
 			
 		}
@@ -114,21 +81,16 @@ public class ControllerInputManager : MonoBehaviour {
 			
 			if (Input.GetButtonDown("A_P2"))
 			{
-				playerTwo.NormalMoveAlpha();
-			}
-			else if(Input.GetButtonDown("B_P2"))
+                playerTwo.LeftPunch();
+            }
+            else if(Input.GetButtonDown("B_P2"))
 			{
-				playerTwo.NormalMoveBeta();
-			}
+                playerTwo.RightKick();
+            }
 			else if(Input.GetButtonDown("Y_P2"))
 			{
-				playerTwo.SpecialMoveAlpha();
+				playerTwo.RocketLeftArm();
 			}
-			else if (Input.GetButtonDown ("X_P2"))
-			{
-				playerTwo.RocketPunch();
-			}
-			
 			
 		}
 	}

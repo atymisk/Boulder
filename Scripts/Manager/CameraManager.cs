@@ -4,8 +4,8 @@ using System.Collections;
 public class CameraManager : MonoBehaviour {
 	
 	// Use this for initialization
-	public Character playerOne;
-	public Character playerTwo;
+	public Robot playerOne;
+	public Robot playerTwo;
 
     public float widthmod = 90;
     public float posheightmod = 50;
@@ -30,13 +30,13 @@ public class CameraManager : MonoBehaviour {
         p2dead = true;
     }
 
-    public void p1_respawn(Character newp1)
+    public void p1_respawn(Robot newp1)
     {
         playerOne = newp1;
         p1dead = false;
     }
 
-    public void p2_respawn(Character newp2)
+    public void p2_respawn(Robot newp2)
     {
         playerTwo = newp2;
         p2dead = false;
@@ -60,14 +60,12 @@ public class CameraManager : MonoBehaviour {
         else if (p1dead && !p2dead)
         {
             //aim camera at p2
-            //middle = playerTwo.transform.position;
-			middle = originpos;
+            middle = playerTwo.transform.position;
         }
         else if (!p1dead && p2dead)
         {
             //aim camera at p1
-            //middle = playerOne.transform.position;
-			middle = originpos;
+            middle = playerOne.transform.position;
         }
 
         return middle;
@@ -75,7 +73,7 @@ public class CameraManager : MonoBehaviour {
 	
 	void SetCameraSize()//affects the zoom
     {
-		float minSizeY = 50;
+		float minSizeY = 20;
 		float minSizeX = minSizeY * Screen.width / Screen.height;//horizontal size is based on actual screen ratio
 
         float width = 1;//default width
@@ -100,9 +98,8 @@ public class CameraManager : MonoBehaviour {
 
 		//computing the size: get the bigger of the two values for more zoom
 		float camSizeX = Mathf.Max(width, minSizeX);
-        float orthosize = Mathf.Clamp(Mathf.Max(height, camSizeX * Screen.height / Screen.width, minSizeY),minSizeY,50);
+        float orthosize = Mathf.Clamp(Mathf.Max(height, camSizeX * Screen.height / Screen.width, minSizeY),minSizeY,60);
         GetComponent<Camera>().orthographicSize = orthosize;
-        print(Camera.main.orthographicSize);
 	}
 
 	// Update is called once per frame

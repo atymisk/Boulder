@@ -12,10 +12,13 @@ public class Robot : MonoBehaviour {
     const int RightLeg = 3;
 
     //Public members
+    public string mytag = "null";
+    private bool triggered = false;
     public Part[] robotParts;
     public Rigidbody2D rigidbodyTwoD;
 
     //Private members
+    private GameManager gm;
     private CharacterState currentState;
     private Animator anim;
     private bool isFacingLeft = false;
@@ -27,6 +30,7 @@ public class Robot : MonoBehaviour {
         currentState = CharacterState.Idle;
         anim = gameObject.GetComponent<Animator>();
         rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
+        gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
         InitializeParts();
 
         if (this.transform.right.x < 0)
@@ -264,6 +268,33 @@ public class Robot : MonoBehaviour {
                 isGrounded = false;
             }
         }
+    }
+
+    public string getTag()
+    {
+        return mytag;
+    }
+
+    public void setTag(string tag)
+    {
+        mytag = tag;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!triggered && other.gameObject.name == "DeathArea")
+        {
+            triggered = true;
+            gm.thisPlayerDied(mytag);
+        }
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (!triggered)
+        {
+            return;
+        }
+        triggered = false;
     }
 
     //Coroutines
