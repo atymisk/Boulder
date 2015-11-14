@@ -51,9 +51,12 @@ public class Robot : MonoBehaviour {
 
     private void InitializeParts()
     {
+        Debug.Log("InitializeParts" + this);
         robotParts = new Part[PartCount];
         Transform partsObj = this.transform.FindChild("Parts");
         robotParts[LeftArm] = partsObj.GetChild(LeftArm).GetComponent<Part>();
+        Debug.Log(robotParts[LeftArm]);
+        robotParts[LeftLeg] = partsObj.GetChild(LeftLeg).GetComponent<Part>();
         robotParts[RightLeg] = partsObj.GetChild(RightLeg).GetComponent<Part>();
     }
 
@@ -62,9 +65,21 @@ public class Robot : MonoBehaviour {
     {
         if (!IsBusy())
         {
-            currentState = CharacterState.LeftPunch;
             robotParts[LeftArm].Attack();
             anim.SetTrigger(robotParts[LeftArm].GetTrigger());
+
+            currentState = CharacterState.LeftPunch;
+        }
+    }
+
+    public void LeftKick()
+    {
+        if(!IsBusy())
+        {
+            robotParts[LeftLeg].Attack();
+            anim.SetTrigger(robotParts[LeftLeg].GetTrigger());
+
+            currentState = CharacterState.LeftKick;
         }
     }
 
@@ -207,6 +222,11 @@ public class Robot : MonoBehaviour {
         anim.SetTrigger("HeavyHit");
         CancelAttacks();
 
+        if(moveTimeRoutine != null)
+        {
+            StopCoroutine(moveTimeRoutine);
+        }
+
         moveTimeRoutine = MoveOverTime(pushVelocity, duration);
         StartCoroutine(moveTimeRoutine);
     }
@@ -230,6 +250,7 @@ public class Robot : MonoBehaviour {
     public void CancelAttacks()
     {
         robotParts[LeftArm].CancelAttack();
+        robotParts[LeftLeg].CancelAttack();
         robotParts[RightLeg].CancelAttack();
     }
 
@@ -298,20 +319,23 @@ public class Robot : MonoBehaviour {
     }
 
     //Coroutines
-    IEnumerator MoveOverTime(Vector2 speed, float duration)
+    IEnumerator MoveOverTime(Vector2 velocity, float duration)
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForFixedUpdate();
 
         float currentTime = 0;
         while (currentTime < duration)
         {
+            float xDisplacement = velocity.x * Time.deltaTime;
+            float yDisplacement = velocity.y * Time.deltaTime;
+            float zPosition = this.transform.position.z;
+
+            Vector3 displacement = new Vector3(xDisplacement, yDisplacement, zPosition);
+            rigidbodyTwoD.MovePosition(this.transform.position + displacement);
+
             currentTime = currentTime + Time.deltaTime;
-            float xDisplacement = speed.x * Time.deltaTime;
-            float yDisplacement = speed.y * Time.deltaTime;
-            this.transform.position = new Vector3(xDisplacement + this.transform.position.x,
-                                                  yDisplacement + this.transform.position.y,
-                                                  this.transform.position.z);
-            yield return new WaitForEndOfFrame();
+
+            yield return new WaitForFixedUpdate();
         }
     }
 }

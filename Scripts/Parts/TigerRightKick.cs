@@ -51,7 +51,7 @@ public class TigerRightKick : Part {
     //Coroutines
     IEnumerator MoveOverTime(Vector2 speed, float duration)
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForFixedUpdate();
 
         float currentTime = 0;
         while (currentTime < duration)
@@ -69,7 +69,7 @@ public class TigerRightKick : Part {
                                                   owner.transform.position.z);
             */
             owner.rigidbodyTwoD.MovePosition(owner.transform.position + displacement);
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 }

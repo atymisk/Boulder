@@ -47,6 +47,10 @@ public class KeyInputManager : InputManager {
             {
                 playerOne.LeftPunch();
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                playerOne.LeftKick();
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 playerOne.RightKick();
@@ -89,6 +93,10 @@ public class KeyInputManager : InputManager {
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
                 playerTwo.LeftPunch();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                playerTwo.LeftKick();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha0))
             {

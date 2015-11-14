@@ -6,7 +6,7 @@ public abstract class Part : MonoBehaviour
     public bool active = true;
 
     protected Robot owner;
-    protected BoxCollider2D collider;
+    protected Collider2D collider;
 
     public abstract void Attack();
     public abstract void CancelAttack();
@@ -16,12 +16,11 @@ public abstract class Part : MonoBehaviour
     protected void Initialize()
     {
         owner = this.transform.parent.parent.gameObject.GetComponent<Robot>();
-        collider = gameObject.GetComponent<BoxCollider2D>();
+        collider = gameObject.GetComponent<Collider2D>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("hit enemy");
         RobotHurtBox hurtBox = other.gameObject.GetComponent<RobotHurtBox>();
         if (hurtBox)
         {
@@ -29,6 +28,7 @@ public abstract class Part : MonoBehaviour
 
             if (enemy != owner)
             {
+                Debug.Log("hit enemy");
                 OnHitConnected(enemy);
                 GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
                 var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
