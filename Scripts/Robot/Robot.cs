@@ -24,6 +24,7 @@ public class Robot : MonoBehaviour {
     private bool isFacingLeft = false;
     private bool isGrounded = true;
     private IEnumerator moveTimeRoutine;
+    private IEnumerator delayedJump;
 
     void Start ()
     {
@@ -145,7 +146,17 @@ public class Robot : MonoBehaviour {
     {
         if (!IsBusy() && this.isGrounded)
         {
-            rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
+            Debug.Log("jumping");
+            //rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
+
+            if(delayedJump != null)
+            {
+                StopCoroutine(delayedJump);
+            }
+
+            delayedJump = DelayedJump(0.05f);
+            anim.SetTrigger("JumpStart");
+            StartCoroutine(delayedJump);
         }
     }
 
@@ -236,10 +247,20 @@ public class Robot : MonoBehaviour {
         robotParts[limbIndex].EnableHitBox();
     }
 
+    public void DisableHitBox(int limbIndex)
+    {
+        robotParts[limbIndex].DisableHitBox();
+    }
+
     public void OnMoveOrFlinchEnd()
     {
         currentState = CharacterState.Idle;
         CancelAttacks();
+
+        if(delayedJump != null)
+        {
+            StopCoroutine(delayedJump);
+        }
     }
 
     public bool IsBusy()
@@ -337,5 +358,12 @@ public class Robot : MonoBehaviour {
 
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    IEnumerator DelayedJump(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        rigidbodyTwoD.AddForce(new Vector2(0, 100), ForceMode2D.Impulse);
     }
 }

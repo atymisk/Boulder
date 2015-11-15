@@ -53,7 +53,7 @@ public class TigerLeftKick : Part {
         yield return new WaitForFixedUpdate();
 
         float elapseTime = 0;
-        while(elapseTime < 0.12f)
+        while(elapseTime < 0.05f)
         {
             elapseTime = elapseTime + Time.deltaTime;
 
@@ -67,7 +67,7 @@ public class TigerLeftKick : Part {
         Vector2 velocity = direction * speed;
 
         elapseTime = 0;
-        while (elapseTime < 0.05f)
+        while (elapseTime < 0.02f)
         {
             Debug.Log("step");
             float xDisplacement = velocity.x * Time.deltaTime;
@@ -96,7 +96,7 @@ public class TigerLeftKick : Part {
         }
 
         elapseTime = 0;
-        while (elapseTime < 0.05)
+        while (elapseTime < 0.02)
         {
             float xDisplacement = velocity.x * Time.deltaTime;
             float yDisplacement = velocity.y * Time.deltaTime;
