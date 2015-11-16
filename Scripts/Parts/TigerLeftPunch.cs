@@ -25,9 +25,10 @@ public class TigerLeftPunch : Part
     {
         float damage = 10;
         float speed = 75;
+        float duration = 0.2f;
         float direction = owner.IsFacingLeft()? -1 : 1;
         Vector2 pushVelocity = new Vector2(direction * speed, 0);
-        enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
+        enemy.HeavyHitStun(damage, pushVelocity, duration);
         collider.enabled = false;
     }
 

@@ -16,6 +16,15 @@ public class KeyInputManager : InputManager {
         //Temporary implementation used for testing-------------------------------------
         if(!p1lock)
         {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                playerOne.Block();
+            }
+            else
+            {
+                playerOne.UnBlock();
+            }
+
             if (Input.GetKeyDown(KeyCode.D))
             {
                 playerOne.FaceRight();
@@ -63,6 +72,17 @@ public class KeyInputManager : InputManager {
         ///--------------------------------------------------------------------------
         if(!p2lock)
         {
+            if (Input.GetKey(KeyCode.RightShift))
+            {
+               
+                playerTwo.Block();
+            }
+            else
+            {
+                playerTwo.UnBlock();
+            }
+
+
             if (Input.GetKeyDown(KeyCode.L))
             {
                 playerTwo.FaceRight();
