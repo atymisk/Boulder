@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
     private int p1_stocks = 4;
     private int p2_stocks = 4;
 
+	public Text p1Left;
+	public Text p2Left;
+
     private bool gameover = false;
     private float respawntimer = 1.25f;
     private bool keys = true;
@@ -60,6 +64,7 @@ public class GameManager : MonoBehaviour
 
 		Destroy(P1);
         p1_stocks--;
+		p1Left.text = p1_stocks.ToString ();
         primaryINPT.lockp1control();
         cmrmng.p1_is_dead();
 
@@ -88,6 +93,7 @@ public class GameManager : MonoBehaviour
 
 		Destroy(P2);
         p2_stocks--;
+		p2Left.text = p2_stocks.ToString ();
         primaryINPT.lockp2control();
         cmrmng.p2_is_dead();
 
