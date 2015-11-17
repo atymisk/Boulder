@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
+    public enum CharacterState { Idle, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
 
     //Constants
     const int PartCount = 4;
@@ -56,7 +56,6 @@ public class Robot : MonoBehaviour {
         robotParts = new Part[PartCount];
         Transform partsObj = this.transform.FindChild("Parts");
         robotParts[LeftArm] = partsObj.GetChild(LeftArm).GetComponent<Part>();
-        Debug.Log(robotParts[LeftArm]);
         robotParts[LeftLeg] = partsObj.GetChild(LeftLeg).GetComponent<Part>();
         robotParts[RightLeg] = partsObj.GetChild(RightLeg).GetComponent<Part>();
     }
@@ -68,6 +67,12 @@ public class Robot : MonoBehaviour {
         {
             robotParts[LeftArm].Attack();
             anim.SetTrigger(robotParts[LeftArm].GetTrigger());
+             
+            if(isGrounded)
+            {
+                rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+            }
+           
 
             currentState = CharacterState.LeftPunch;
         }
@@ -79,6 +84,7 @@ public class Robot : MonoBehaviour {
         {
             robotParts[LeftLeg].Attack();
             anim.SetTrigger(robotParts[LeftLeg].GetTrigger());
+            rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 
             currentState = CharacterState.LeftKick;
         }
@@ -90,8 +96,34 @@ public class Robot : MonoBehaviour {
         {
             robotParts[RightLeg].Attack();
             anim.SetTrigger(robotParts[RightLeg].GetTrigger());
+            rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 
             currentState = CharacterState.RightKick;
+        }
+    }
+
+    public void Block()
+    {
+        if(( currentState == CharacterState.Blocking || !IsBusy() ) && isGrounded)
+        {
+            if(!IsBusy() && currentState != CharacterState.Blocking)
+            {
+                anim.SetTrigger("Block");
+
+                currentState = CharacterState.Blocking;
+            }
+
+            rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+        }
+    }
+
+    public void UnBlock()
+    {
+        if(currentState == CharacterState.Blocking)
+        {
+            anim.SetTrigger("UnBlock");
+
+            currentState = CharacterState.Idle;
         }
     }
 
@@ -144,9 +176,8 @@ public class Robot : MonoBehaviour {
     //Movement
     public void Jump()
     {
-        if (!IsBusy() && this.isGrounded)
+        if (!IsBusy() && isGrounded)
         {
-            Debug.Log("jumping");
             //rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
 
             if(delayedJump != null)
@@ -154,8 +185,8 @@ public class Robot : MonoBehaviour {
                 StopCoroutine(delayedJump);
             }
 
-            delayedJump = DelayedJump(0.05f);
             anim.SetTrigger("JumpStart");
+            delayedJump = DelayedJump(0.05f);
             StartCoroutine(delayedJump);
         }
     }
@@ -229,11 +260,28 @@ public class Robot : MonoBehaviour {
     {
         //health = health - damage;
         //healthBar.value = health / maxHealth * 100;
-        currentState = CharacterState.HeavyFlinch;
         anim.SetTrigger("HeavyHit");
         CancelAttacks();
 
-        if(moveTimeRoutine != null)
+        currentState = CharacterState.HeavyFlinch;
+
+        if (moveTimeRoutine != null)
+        {
+            StopCoroutine(moveTimeRoutine);
+        }
+
+        moveTimeRoutine = MoveOverTime(pushVelocity, duration);
+        StartCoroutine(moveTimeRoutine);
+    }
+
+    public void BlockStun(Vector2 pushVelocity, float duration)
+    {
+        anim.SetTrigger("BlockStun");
+
+        currentState = CharacterState.BlockStun;
+
+        Debug.Log("BlockStun");
+        if (moveTimeRoutine != null)
         {
             StopCoroutine(moveTimeRoutine);
         }
@@ -257,10 +305,18 @@ public class Robot : MonoBehaviour {
         currentState = CharacterState.Idle;
         CancelAttacks();
 
+        Debug.Log("finished " + this + " "+ currentState);
+
         if(delayedJump != null)
         {
             StopCoroutine(delayedJump);
         }
+    }
+
+    public void OnBlockStunEnd()
+    {
+        currentState = CharacterState.Blocking;
+        CancelAttacks();
     }
 
     public bool IsBusy()

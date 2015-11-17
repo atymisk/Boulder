@@ -11,12 +11,31 @@ public abstract class Part : MonoBehaviour
     public abstract void Attack();
     public abstract void CancelAttack();
     public abstract string GetTrigger();
-    public abstract void OnHitConnected(Robot enemy);
 
     protected void Initialize()
     {
         owner = this.transform.parent.parent.gameObject.GetComponent<Robot>();
         collider = gameObject.GetComponent<Collider2D>();
+    }
+
+    public virtual void OnHitConnected(Robot enemy)
+    {
+        float damage = 10;
+        float speed = 50;
+        float direction = owner.IsFacingLeft() ? -1 : 1;
+        Vector2 pushVelocity = new Vector2(direction * speed, 0);
+        enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
+        collider.enabled = false;
+    }
+
+    public virtual void OnHitBlocked(Robot enemy)
+    {
+        float speed = 30;
+        float duration = 0.2f;
+        float direction = owner.IsFacingLeft() ? -1 : 1;
+        Vector2 pushVelocity = new Vector2(direction * speed, 0);
+        enemy.BlockStun(pushVelocity, duration);
+        collider.enabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -28,13 +47,22 @@ public abstract class Part : MonoBehaviour
 
             if (enemy != owner)
             {
-                Debug.Log("hit enemy");
-                OnHitConnected(enemy);
-                GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
-                var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
-                Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
+                if(enemy.GetCurrentState() != Robot.CharacterState.Blocking)
+                {
+                    Debug.Log("hitconnected");
+                    OnHitConnected(enemy);
+                    GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
+                    var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
+                    Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
+                }
+                else
+                {
+                    OnHitBlocked(enemy);
+                }
+
                 SpecialEffects.instance.SlowMo(0.1f, 0.1f);
             }
+            
         }
 
     }
