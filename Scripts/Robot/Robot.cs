@@ -13,9 +13,10 @@ public class Robot : MonoBehaviour {
 
     //Public members
     public string mytag = "null";
-    private bool triggered = false;
     public Part[] robotParts;
     public Rigidbody2D rigidbodyTwoD;
+    public float maxHealth = 100f;
+    public float currentHealth = 100f;
 
     //Private members
     private GameManager gm;
@@ -23,6 +24,7 @@ public class Robot : MonoBehaviour {
     private Animator anim;
     private bool isFacingLeft = false;
     private bool isGrounded = true;
+    private bool triggered = false;
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 
@@ -47,7 +49,10 @@ public class Robot : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-	
+	    if(currentHealth < 0)
+        {
+            gm.thisPlayerDied(mytag);
+        }
 	}
 
     private void InitializeParts()
@@ -258,8 +263,8 @@ public class Robot : MonoBehaviour {
 
     public void HeavyHitStun(float damage, Vector2 pushVelocity, float duration)
     {
-        //health = health - damage;
-        //healthBar.value = health / maxHealth * 100;
+        currentHealth = currentHealth - damage;
+        //healthBar.value = currentHealth / maxHealth * 100;
         anim.SetTrigger("HeavyHit");
         CancelAttacks();
 
@@ -386,6 +391,7 @@ public class Robot : MonoBehaviour {
             gm.thisPlayerDied(mytag);
         }
     }
+
     void OnTriggerExit2D(Collider2D other)
     {
         if (!triggered)

@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 		SpecialEffects.instance.SlowMo(0.1f, 0.1f);
 		SpecialEffects.instance.ShakeScreen(0.3f);
 
-		Destroy(P1);
+		Destroy(P1.gameObject);
         p1_stocks--;
         primaryINPT.lockp1control();
         cmrmng.p1_is_dead();
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
 		SpecialEffects.instance.SlowMo(0.1f, 0.1f);
 		SpecialEffects.instance.ShakeScreen(0.3f);
 
-		Destroy(P2);
+		Destroy(P2.gameObject);
         p2_stocks--;
         primaryINPT.lockp2control();
         cmrmng.p2_is_dead();
