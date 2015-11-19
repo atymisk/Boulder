@@ -45,11 +45,11 @@ public class RobotRocket : MonoBehaviour {
             if (enemy != owner)
             {
                 //this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                float damage = 50;
-                float speed = 200;
+                float damage = 25;
+                float speed = 100;
                 float direction = owner.IsFacingLeft() ? -1 : 1;
-                Vector2 pushVelocity = new Vector2(direction * speed, 0);
-                enemy.HeavyHitStun(damage, pushVelocity, 2);
+                Vector2 pushVelocity = new Vector2(direction * speed, 50);
+                enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
 
                 GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
                 var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
@@ -59,10 +59,13 @@ public class RobotRocket : MonoBehaviour {
                 rotateTimeRoutine = RotateOverTime(-1500, 3);
                 StartCoroutine(rotateTimeRoutine);
 
+                //Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket"));
+
                 SpecialEffects.instance.SlowMo(0.1f, 0.1f);
                 SpecialEffects.instance.ShakeScreen(0.1f);
-                
-                //this.gameObject.SetActive(false);
+
+                //Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
             }
         }
 

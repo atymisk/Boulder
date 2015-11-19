@@ -155,7 +155,7 @@ public class Robot : MonoBehaviour {
     {
         if(robotParts[index].active)
         {
-            GameObject rocketPrefab = Instantiate(Resources.Load("ItemParts/TigerLeftHandItem")) as GameObject;
+            GameObject rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
             RobotRocket rocket = rocketPrefab.GetComponent<RobotRocket>();
             rocket.SetOwner(this);
             Physics2D.IgnoreCollision(rocket.GetComponent<Collider2D>(), this.GetComponent<Collider2D>());
