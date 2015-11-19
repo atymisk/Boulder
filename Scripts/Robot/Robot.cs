@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Robot : MonoBehaviour {
@@ -17,6 +18,10 @@ public class Robot : MonoBehaviour {
     public Rigidbody2D rigidbodyTwoD;
     public float maxHealth = 100f;
     public float currentHealth = 100f;
+	public Text healthNum;
+	public Slider healthBar;
+	public Image Fill;
+
 
     //Private members
     private GameManager gm;
@@ -49,7 +54,15 @@ public class Robot : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-	    if(currentHealth < 0)
+		healthBar.value = currentHealth / maxHealth * 100;
+		healthNum.text = healthBar.value.ToString ();
+
+		if (healthBar.value <= 40) {
+			Fill.color = Color.red;
+		} else 
+			Fill.color = Color.green;
+
+	    if(currentHealth <= 0)
         {
             gm.thisPlayerDied(mytag);
         }
