@@ -55,17 +55,17 @@ public class RobotRocket : MonoBehaviour {
                 var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
                 Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
 
-                rigidBodyTwoD.velocity = new Vector2(-10, 50);
-                rotateTimeRoutine = RotateOverTime(-1500, 3);
-                StartCoroutine(rotateTimeRoutine);
+                GameObject pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
+                pickObj.transform.position = this.transform.position;
 
-                //Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket"));
+                PartPickup pickup = pickObj.GetComponent<PartPickup>();
+                pickup.SpinBounce(1);
 
                 SpecialEffects.instance.SlowMo(0.1f, 0.1f);
                 SpecialEffects.instance.ShakeScreen(0.1f);
 
-                //Destroy(this.gameObject);
-                this.gameObject.SetActive(false);
+                Destroy(this.gameObject);
+               // this.gameObject.SetActive(false);
             }
         }
 

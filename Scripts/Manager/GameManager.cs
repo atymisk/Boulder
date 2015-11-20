@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     Managing the death and respawns of the players
     Managing the stocks and checking win condition
     */
+    public static GameManager instance = null;
 
     public Robot P1;//possible issue, make a prefab of the player object maybe
     public Robot P2;
@@ -136,6 +137,8 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Awake ()
     {
+        instance = this;
+
         inptmng = GameObject.Find("InputManager");
         keyinpt = inptmng.GetComponent<KeyInputManager>();
         continpt = inptmng.GetComponent<ControllerInputManager>();
