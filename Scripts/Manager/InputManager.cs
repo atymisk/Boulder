@@ -11,8 +11,10 @@ public abstract class InputManager : MonoBehaviour
 	public bool p1lock = false;
 	public bool p2lock = false;
 
-	public string previousP1Input = "";
-	public string previousP2Input = "";
+	public float previousP1X = 0;
+	public float previousP1Y = 0;
+	public float previousP2X = 0;
+	public float previousP2Y = 0;
 
 	//p1 controls need to be disabled temporarily until p1 respawns
 	public void lockp1control()

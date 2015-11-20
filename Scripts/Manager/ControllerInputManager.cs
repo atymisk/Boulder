@@ -22,43 +22,47 @@ public class ControllerInputManager : InputManager {
 			{
 				playerOne.FaceLeft();
 				playerOne.MoveLeft();
-				previousP1Input = "LeftJoystickX_Left";
 			}
 			else if(Input.GetAxis("LeftJoystickX_P1") > 0)
 			{
 				playerOne.FaceRight();
 				playerOne.MoveRight();
-				previousP1Input = "LeftJoystickX_Right";
 			}
 			else
 			{
 				playerOne.StayStill();
-				previousP1Input = "";
 			}
 			
-			if(Input.GetAxis("LeftJoystickY_P1") < 0)
+			if(Input.GetAxis("LeftJoystickY_P1") < 0 && previousP1Y == 0)
 			{
 				playerOne.Jump();
-				previousP1Input = "LeftJoystickY_Up";
 			}
 			
 			
 			if (Input.GetButtonDown("A_P1"))
 			{
                 playerOne.LeftPunch();
-				previousP1Input = "A";
             }
 			else if(Input.GetButtonDown("B_P1"))
 			{
                 playerOne.RightKick();
-				previousP1Input = "B";
             }
+			else if(Input.GetButtonDown ("X_P1")){
+				playerOne.LeftKick();
+			}
 			else if(Input.GetButtonDown("Y_P1"))
 			{
                 playerOne.RocketLeftArm();
-				previousP1Input = "Y";
             }
-			
+
+			if(Input.GetButton("LeftBumper_P1")){
+				playerOne.Block();
+			}
+			else if(Input.GetButtonUp("LeftBumper_P1")){
+				playerOne.UnBlock();
+			}
+			previousP1X = Input.GetAxis("LeftJoystickX_P1");
+			previousP1Y = Input.GetAxis("LeftJoystickY_P1");
 			
 		}
 		
@@ -70,42 +74,46 @@ public class ControllerInputManager : InputManager {
 			{
 				playerTwo.FaceLeft();
 				playerTwo.MoveLeft();
-				previousP2Input = "LeftJoystickX_Left";
 			}
 			else if(Input.GetAxis("LeftJoystickX_P2") > 0)
 			{
 				playerTwo.FaceRight();
 				playerTwo.MoveRight();
-				previousP2Input = "LeftJoystickX_Right";
 			}
 			else
 			{
 				playerTwo.StayStill();
-				previousP2Input = "";
 			}
 			
-			if(Input.GetAxis("LeftJoystickY_P2") < 0)
+			if(Input.GetAxis("LeftJoystickY_P2") < 0 && previousP2Y == 0)
 			{
 				playerTwo.Jump();
-				previousP2Input = "LeftJoystickX_Up";
 			}
 			
 			if (Input.GetButtonDown("A_P2"))
 			{
                 playerTwo.LeftPunch();
-				previousP2Input = "A";
             }
             else if(Input.GetButtonDown("B_P2"))
 			{
                 playerTwo.RightKick();
-				previousP2Input = "B";
             }
+			else if(Input.GetButtonDown("X_P2")){
+				playerTwo.LeftKick();
+			}
 			else if(Input.GetButtonDown("Y_P2"))
 			{
 				playerTwo.RocketLeftArm();
-				previousP2Input = "Y";
 			}
-			
+
+			if(Input.GetButton("LeftBumper_P2")){
+				playerTwo.Block();
+			}
+			else if(Input.GetButtonUp("LeftBumper_P2")){
+				playerTwo.UnBlock();
+			}
+			previousP2X = Input.GetAxis("LeftJoystickX_P2");
+			previousP2Y = Input.GetAxis("LeftJoystickY_P2");
 		}
 	}
 }
