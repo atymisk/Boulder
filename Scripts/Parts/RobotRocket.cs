@@ -21,6 +21,11 @@ public class RobotRocket : MonoBehaviour {
     public void SetOwner(Robot owner)
     {
         this.owner = owner;
+
+		Robot p1 = GameManager.instance.P1;
+		Robot p2 = GameManager.instance.P2;
+		Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p1.GetComponent<Collider2D>());
+		Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p2.GetComponent<Collider2D>());
     }
 
     //Collisions
@@ -42,18 +47,18 @@ public class RobotRocket : MonoBehaviour {
         if (hurtBox)
         {
             Robot enemy = hurtBox.GetRobot();
-            if (enemy != owner)
+			if (enemy != owner && enemy.GetCurrentState() != Robot.CharacterState.RightKick)
             {
                 //this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                float damage = 25;
-                float speed = 100;
-                float direction = owner.IsFacingLeft() ? -1 : 1;
-                Vector2 pushVelocity = new Vector2(direction * speed, 50);
-                enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
-
-                GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
-                var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
-                Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
+				float damage = 25;
+				float speed = 100;
+				float direction = owner.IsFacingLeft() ? -1 : 1;
+				Vector2 pushVelocity = new Vector2(direction * speed, 50);
+				enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
+				
+				GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
+				var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
+				Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
 
                 GameObject pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
                 pickObj.transform.position = this.transform.position;

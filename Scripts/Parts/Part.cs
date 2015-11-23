@@ -21,7 +21,7 @@ public abstract class Part : MonoBehaviour
     public virtual void OnHitConnected(Robot enemy)
     {
         float damage = 10;
-        float speed = 50;
+        float speed = 30;
         float direction = owner.IsFacingLeft() ? -1 : 1;
         Vector2 pushVelocity = new Vector2(direction * speed, 0);
         enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
@@ -51,6 +51,7 @@ public abstract class Part : MonoBehaviour
                 {
                     Debug.Log("hitconnected");
                     OnHitConnected(enemy);
+					owner.OnHitConnected();
                     GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
                     var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
                     Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
@@ -67,12 +68,12 @@ public abstract class Part : MonoBehaviour
 
     }
 
-    public void EnableHitBox()
+    public virtual void EnableHitBox()
     {
         collider.enabled = true;
     }
 
-    public void DisableHitBox()
+    public virtual void DisableHitBox()
     {
         collider.enabled = false;
     }

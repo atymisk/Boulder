@@ -12,12 +12,17 @@ public class TigerLeftKick : Part {
 
     public override void Attack()
     {
-        if (!owner.IsBusy())
-        {
-            flashKickRoutine = FlashKickRoutine();
-            StartCoroutine(flashKickRoutine);
-        }
+        flashKickRoutine = FlashKickRoutine();
+        StartCoroutine(flashKickRoutine);
+
+		owner.DisableHurtBox();
     }
+
+	public override void EnableHitBox()
+	{
+		base.EnableHitBox();
+		owner.EnableHurtBox();
+	}
 
     public override void CancelAttack()
     {
@@ -98,8 +103,8 @@ public class TigerLeftKick : Part {
         elapseTime = 0;
         while (elapseTime < 0.02)
         {
-            float xDisplacement = velocity.x * Time.deltaTime;
-            float yDisplacement = velocity.y * Time.deltaTime;
+            float xDisplacement = velocity.x * Time.fixedDeltaTime;
+			float yDisplacement = velocity.y * Time.fixedDeltaTime;
             float zPosition = this.transform.position.z;
 
             Vector3 displacement = new Vector3(xDisplacement, yDisplacement, zPosition);
@@ -110,7 +115,7 @@ public class TigerLeftKick : Part {
             */
             owner.rigidbodyTwoD.MovePosition(owner.transform.position + displacement);
 
-            elapseTime = elapseTime + Time.deltaTime;
+			elapseTime = elapseTime + Time.fixedDeltaTime;
 
             yield return new WaitForFixedUpdate();
         }

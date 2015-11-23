@@ -4,10 +4,12 @@ using System.Collections;
 public class RobotHurtBox : MonoBehaviour {
 
     private Robot owner;
+	private BoxCollider2D collider;
     // Use this for initialization
     void Start()
     {
         owner = this.transform.GetComponentInParent<Robot>();
+		collider = this.transform.GetComponent<BoxCollider2D>();
         Debug.Log(owner);
     }
 
@@ -21,4 +23,14 @@ public class RobotHurtBox : MonoBehaviour {
     {
         return owner;
     }
+
+	public void EnableHurtBox()
+	{
+		collider.enabled = true;
+	}
+
+	public void DisableHurtBox()
+	{
+		collider.enabled = false;
+	}
 }

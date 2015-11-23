@@ -14,13 +14,10 @@ public class TigerRightKick : Part {
     {
         float speed = -50;
         float duration = 0.30f;
-        if (!owner.IsBusy())
-        {
-            float direction = owner.IsFacingLeft() ? 1 : -1;
-            Vector2 velocity = new Vector2(speed, 0);
-            moveTimeRoutine = MoveOverTime(direction * velocity, duration);
-            StartCoroutine(moveTimeRoutine);
-        }
+        float direction = owner.IsFacingLeft() ? 1 : -1;
+        Vector2 velocity = new Vector2(speed, 0);
+        moveTimeRoutine = MoveOverTime(direction * velocity, duration);
+        StartCoroutine(moveTimeRoutine);
     }
 
     public override void CancelAttack()
@@ -57,9 +54,9 @@ public class TigerRightKick : Part {
         while (currentTime < duration)
         {
             Debug.Log("looping");
-            currentTime = currentTime + Time.deltaTime;
-            float xDisplacement = speed.x * Time.deltaTime;
-            float yDisplacement = speed.y * Time.deltaTime;
+            currentTime = currentTime + Time.fixedDeltaTime;
+			float xDisplacement = speed.x * Time.fixedDeltaTime;
+			float yDisplacement = speed.y * Time.fixedDeltaTime;
             float zPosition = this.transform.position.z;
 
             Vector3 displacement = new Vector3(xDisplacement, yDisplacement, zPosition);

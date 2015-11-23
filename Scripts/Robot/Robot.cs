@@ -30,6 +30,8 @@ public class Robot : MonoBehaviour {
     private bool isFacingLeft = false;
     private bool isGrounded = true;
     private bool triggered = false;
+	private bool comboState = false;
+	private RobotHurtBox hurtBox;
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 
@@ -38,12 +40,15 @@ public class Robot : MonoBehaviour {
         currentState = CharacterState.Idle;
         anim = gameObject.GetComponent<Animator>();
         rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
+		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
         gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
         InitializeParts();
 
         if (this.transform.right.x < 0)
         {
             isFacingLeft = true;
+
+
         }
         else
         {
@@ -81,42 +86,51 @@ public class Robot : MonoBehaviour {
     //Attack Moves
     public void LeftPunch()
     {
-        if (!IsBusy())
+		CharacterState thisMove = CharacterState.LeftPunch;
+
+		if (!IsBusy() || CanComboMove(thisMove))
         {
             robotParts[LeftArm].Attack();
-            anim.SetTrigger(robotParts[LeftArm].GetTrigger());
-             
+			comboState = false;
+			anim.SetTrigger(robotParts[LeftArm].GetTrigger());
+
             if(isGrounded)
             {
-                rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+                //rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
             }
            
 
-            currentState = CharacterState.LeftPunch;
+			currentState = thisMove;
         }
     }
 
     public void LeftKick()
     {
-        if(!IsBusy())
+		CharacterState thisMove = CharacterState.LeftKick;
+
+		if(!IsBusy() || CanComboMove(thisMove))
         {
             robotParts[LeftLeg].Attack();
-            anim.SetTrigger(robotParts[LeftLeg].GetTrigger());
+			comboState = false;
+			anim.SetTrigger(robotParts[LeftLeg].GetTrigger());
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 
-            currentState = CharacterState.LeftKick;
+			currentState = thisMove;
         }
     }
 
     public void RightKick()
     {
-        if (!IsBusy())
+		CharacterState thisMove = CharacterState.RightKick;
+
+		if (!IsBusy() || CanComboMove(thisMove))
         {
             robotParts[RightLeg].Attack();
-            anim.SetTrigger(robotParts[RightLeg].GetTrigger());
+			comboState = false;
+			anim.SetTrigger(robotParts[RightLeg].GetTrigger());
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 
-            currentState = CharacterState.RightKick;
+			currentState = thisMove;
         }
     }
 
@@ -171,18 +185,6 @@ public class Robot : MonoBehaviour {
 
             rocketBody.velocity = new Vector2(direction * 200, 0);
         }
-        /*
-        if (rightArm.gameObject.activeSelf)
-        {
-            //Cheesy implementation to be refactored for different parts
-            rocketPunch.GetComponent<RocketPart>().owner = this;
-            rocketPunch.transform.position = this.transform.position;
-            Rigidbody2D rocketBody = rocketPunch.GetComponent<Rigidbody2D>();
-            float direction = IsFacingLeft() ? -1 : 1;
-            rocketBody.velocity = new Vector2(direction * 200, 0);
-            this.rightArm.gameObject.SetActive(false);
-        }
-        */
     }
 
     public void ShootLeftArm()
@@ -190,6 +192,11 @@ public class Robot : MonoBehaviour {
         Debug.Log("ShootLeftArm");
         ShootPart(0);
     }
+
+	public void OnHitConnected()
+	{
+		comboState = true;
+	}
 
     //Movement
     public void Jump()
@@ -276,6 +283,7 @@ public class Robot : MonoBehaviour {
 
     public void HeavyHitStun(float damage, Vector2 pushVelocity, float duration)
     {
+		comboState = false;
         currentHealth = currentHealth - damage;
         //healthBar.value = currentHealth / maxHealth * 100;
         anim.SetTrigger("HeavyHit");
@@ -318,10 +326,21 @@ public class Robot : MonoBehaviour {
         robotParts[limbIndex].DisableHitBox();
     }
 
+	public void EnableHurtBox()
+	{
+		hurtBox.EnableHurtBox();
+	}
+
+	public void DisableHurtBox()
+	{
+		hurtBox.DisableHurtBox();
+	}
+
     public void OnMoveOrFlinchEnd()
     {
+		comboState = false;
         currentState = CharacterState.Idle;
-        CancelAttacks();
+        //CancelAttacks();
 
         Debug.Log("finished " + this + " "+ currentState);
 
@@ -341,6 +360,20 @@ public class Robot : MonoBehaviour {
     {
         return currentState != CharacterState.Idle;
     }
+
+	public bool CanComboMove(CharacterState nextMove)
+	{
+		bool canComboMove = false;
+
+		if(   (currentState == CharacterState.LeftPunch)
+		   || (currentState == CharacterState.LeftKick  && nextMove != CharacterState.LeftKick)
+		   || (currentState == CharacterState.RightKick && nextMove == CharacterState.LeftKick))
+		{
+			canComboMove = true;
+		}
+
+		return canComboMove && comboState;
+	}
 
     public void CancelAttacks()
     {
@@ -422,14 +455,14 @@ public class Robot : MonoBehaviour {
         float currentTime = 0;
         while (currentTime < duration)
         {
-            float xDisplacement = velocity.x * Time.deltaTime;
-            float yDisplacement = velocity.y * Time.deltaTime;
+            float xDisplacement = velocity.x * Time.fixedDeltaTime;
+			float yDisplacement = velocity.y * Time.fixedDeltaTime;
             float zPosition = this.transform.position.z;
 
             Vector3 displacement = new Vector3(xDisplacement, yDisplacement, zPosition);
             rigidbodyTwoD.MovePosition(this.transform.position + displacement);
 
-            currentTime = currentTime + Time.deltaTime;
+			currentTime = currentTime + Time.fixedDeltaTime;
 
             yield return new WaitForFixedUpdate();
         }

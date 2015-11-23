@@ -24,7 +24,7 @@ public class TigerLeftPunch : Part
     override public void OnHitConnected(Robot enemy)
     {
         float damage = 10;
-        float speed = 75;
+        float speed = 50;
         float duration = 0.2f;
         float direction = owner.IsFacingLeft()? -1 : 1;
         Vector2 pushVelocity = new Vector2(direction * speed, 0);
