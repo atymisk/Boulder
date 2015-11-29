@@ -16,8 +16,8 @@ public class Robot : MonoBehaviour {
     public string mytag = "null";
     public Part[] robotParts;
     public Rigidbody2D rigidbodyTwoD;
-    public float maxHealth = 100f;
-    public float currentHealth = 100f;
+    public float maxHealth = 200f;
+    public float currentHealth = 200f;
 	public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
@@ -88,7 +88,7 @@ public class Robot : MonoBehaviour {
     {
 		CharacterState thisMove = CharacterState.LeftPunch;
 
-		if (!IsBusy() || CanComboMove(thisMove))
+		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftArm].Attack();
 			comboState = false;
@@ -96,7 +96,7 @@ public class Robot : MonoBehaviour {
 
             if(isGrounded)
             {
-                //rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+                rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
             }
            
 
@@ -108,7 +108,7 @@ public class Robot : MonoBehaviour {
     {
 		CharacterState thisMove = CharacterState.LeftKick;
 
-		if(!IsBusy() || CanComboMove(thisMove))
+		if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftLeg].Attack();
 			comboState = false;
@@ -123,7 +123,7 @@ public class Robot : MonoBehaviour {
     {
 		CharacterState thisMove = CharacterState.RightKick;
 
-		if (!IsBusy() || CanComboMove(thisMove))
+		if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[RightLeg].Attack();
 			comboState = false;
@@ -201,7 +201,7 @@ public class Robot : MonoBehaviour {
     //Movement
     public void Jump()
     {
-        if (!IsBusy() && isGrounded)
+		if (currentState == CharacterState.Idle && isGrounded)
         {
             //rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
 
@@ -218,7 +218,7 @@ public class Robot : MonoBehaviour {
 
     public void FaceLeft()
     {
-        if (!isFacingLeft && !IsBusy())
+		if (currentState == CharacterState.Idle && !isFacingLeft)
         {
             this.transform.Rotate(new Vector3(0, 180, 0));
             isFacingLeft = true;
@@ -227,7 +227,7 @@ public class Robot : MonoBehaviour {
 
     public void FaceRight()
     {
-        if (isFacingLeft && !IsBusy())
+		if (currentState == CharacterState.Idle && isFacingLeft)
         {
             this.transform.Rotate(new Vector3(0, -180, 0));
             isFacingLeft = false;
@@ -236,7 +236,7 @@ public class Robot : MonoBehaviour {
 
     public void MoveLeft()
     {
-        if (!IsBusy())
+		if (currentState == CharacterState.Idle)
         {
             FaceLeft();
             rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
@@ -246,7 +246,7 @@ public class Robot : MonoBehaviour {
 
     public void MoveRight()
     {
-        if (!IsBusy())
+		if (currentState == CharacterState.Idle)
         {
             FaceRight();
             rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
@@ -256,7 +256,7 @@ public class Robot : MonoBehaviour {
 
     public void StayStill()
     {
-        if (!IsBusy())
+        if (currentState == CharacterState.Idle)
         {
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
         }
@@ -358,7 +358,7 @@ public class Robot : MonoBehaviour {
 
     public bool IsBusy()
     {
-        return currentState != CharacterState.Idle;
+        return currentState != CharacterState.Idle && currentState != CharacterState.Blocking;
     }
 
 	public bool CanComboMove(CharacterState nextMove)

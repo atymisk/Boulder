@@ -22,10 +22,11 @@ public class RobotRocket : MonoBehaviour {
     {
         this.owner = owner;
 
-		Robot p1 = GameManager.instance.P1;
-		Robot p2 = GameManager.instance.P2;
-		Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p1.GetComponent<Collider2D>());
-		Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p2.GetComponent<Collider2D>());
+		//Robot p1 = GameManager.instance.P1;
+		//Robot p2 = GameManager.instance.P2;
+
+		//Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p1.GetComponent<Collider2D>());
+		//Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p2.GetComponent<Collider2D>());
     }
 
     //Collisions
