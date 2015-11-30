@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
     public enum CharacterState { Idle, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
@@ -13,6 +15,7 @@ public class Robot : MonoBehaviour {
     const int RightLeg = 3;
 
     //Public members
+	public int playerNum = 1;
     public string mytag = "null";
     public Part[] robotParts;
     public Rigidbody2D rigidbodyTwoD;
@@ -169,7 +172,16 @@ public class Robot : MonoBehaviour {
     {
         if(robotParts[index].active)
         {
-            GameObject rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
+			GameObject rocketPrefab = null;
+			if(playerNum == 1)
+			{
+				rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
+			}
+			else
+			{
+				rocketPrefab = Instantiate(Resources.Load("RocketParts/BunnyLeftHandRocket")) as GameObject;
+			}
+
             RobotRocket rocket = rocketPrefab.GetComponent<RobotRocket>();
             rocket.SetOwner(this);
             Physics2D.IgnoreCollision(rocket.GetComponent<Collider2D>(), this.GetComponent<Collider2D>());
@@ -184,13 +196,20 @@ public class Robot : MonoBehaviour {
             }
 
             rocketBody.velocity = new Vector2(direction * 200, 0);
+
+			Transform partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(2);
+			partToBreak.gameObject.SetActive(false);
+			robotParts[index].active = false;
         }
     }
 
     public void ShootLeftArm()
     {
-        Debug.Log("ShootLeftArm");
-        ShootPart(0);
+		if ( robotParts[LeftArm].active && !IsBusy() )
+		{
+			ShootPart(0);
+		}
+
     }
 
 	public void OnHitConnected()
@@ -296,6 +315,17 @@ public class Robot : MonoBehaviour {
             StopCoroutine(moveTimeRoutine);
         }
 
+		if(currentHealth / maxHealth < 0.5)
+		{
+			System.Random rnd = new System.Random();
+			int randNum = rnd.Next();
+			Debug.Log("randNum " + randNum);
+			if(randNum % 3 == 0)
+			{
+				BreakRandomPart();
+			}
+		}
+
         moveTimeRoutine = MoveOverTime(pushVelocity, duration);
         StartCoroutine(moveTimeRoutine);
     }
@@ -386,6 +416,84 @@ public class Robot : MonoBehaviour {
     {
         return currentState;
     }
+
+	public void BreakRandomPart()
+	{
+		List<int> breakIndexList = new List<int>();
+
+		for(int i = 0; i < 4; i++)
+		{
+			if(robotParts[i] != null && robotParts[i].active)
+			{
+				breakIndexList.Add(i);
+			}
+		}
+
+		if(breakIndexList.Count > 0)
+		{
+			System.Random rnd = new System.Random();
+			int j = rnd.Next() % breakIndexList.Count;
+
+			if(robotParts[breakIndexList[j]] != null)
+			{
+				robotParts[breakIndexList[j]].active = false;
+			}
+
+			GameObject pickObj = null;
+			Transform pelvis = this.transform.GetChild(0);
+			Transform partToBreak = null;
+			
+			if(breakIndexList[j] == LeftArm)
+			{
+				if(playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyLeftHandPickup")) as GameObject;
+				}
+				partToBreak = pelvis.GetChild(2).GetChild(2);
+			}
+			else if(breakIndexList[j] == LeftLeg)
+			{
+				if(playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftLegPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyLeftLegPickup")) as GameObject;
+				}
+
+				partToBreak = pelvis.GetChild(1);
+			}
+			else if(breakIndexList[j] == RightLeg)
+			{
+				if(playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerRightLegPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyRightLegPickup")) as GameObject;
+				}
+
+				partToBreak = pelvis.GetChild(0);
+			}
+		
+			if(pickObj != null)
+			{
+				pickObj.transform.position = this.transform.position;
+				PartPickup pickup = pickObj.GetComponent<PartPickup>();
+				pickup.SpinBounce(1);
+				partToBreak.gameObject.SetActive(false);
+			}
+		}
+
+
+
+	}
 
     //Collisions
     void OnCollisionEnter2D(Collision2D col)

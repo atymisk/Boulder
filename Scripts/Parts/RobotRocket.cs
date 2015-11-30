@@ -56,18 +56,29 @@ public class RobotRocket : MonoBehaviour {
 				float direction = owner.IsFacingLeft() ? -1 : 1;
 				Vector2 pushVelocity = new Vector2(direction * speed, 50);
 				enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
+				enemy.BreakRandomPart();
 				
 				GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
 				var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
 				Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
 
-                GameObject pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
+
+				GameObject pickObj = null;
+				if(owner.playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyLeftHandPickup")) as GameObject;
+				}
+
                 pickObj.transform.position = this.transform.position;
 
                 PartPickup pickup = pickObj.GetComponent<PartPickup>();
                 pickup.SpinBounce(1);
 
-                SpecialEffects.instance.SlowMo(0.1f, 0.1f);
+                SpecialEffects.instance.SlowMo(0.1f, 0.2f);
                 SpecialEffects.instance.ShakeScreen(0.1f);
 
                 Destroy(this.gameObject);

@@ -49,15 +49,15 @@ public class SpecialEffects : MonoBehaviour
 
             double randNum = rnd.NextDouble();
             
-            double xMin = originalPos.x - Camera.main.pixelWidth * 0.001;
-            double xMax = originalPos.x + Camera.main.pixelWidth * 0.001;
+            double xMin = originalPos.x - Camera.main.pixelWidth * 0.005;
+            double xMax = originalPos.x + Camera.main.pixelWidth * 0.005;
             double xDiff = xMax - xMin;
             float xRand = (float)(xMin + xDiff * randNum);
 
             randNum = rnd.NextDouble();
 
-            double yMin = originalPos.y - Camera.main.pixelWidth * 0.001;
-            double yMax = originalPos.y + Camera.main.pixelWidth * 0.001;
+            double yMin = originalPos.y - Camera.main.pixelWidth * 0.005;
+            double yMax = originalPos.y + Camera.main.pixelWidth * 0.005;
             double yDiff = yMax - yMin;
             float yRand = (float)(yMin + yDiff * randNum);
 
@@ -69,7 +69,7 @@ public class SpecialEffects : MonoBehaviour
 
             while(currentPos != endPos && currentTime < duration)
             {
-                currentPos = Vector2.MoveTowards(currentPos, endPos, 2.0f);
+                currentPos = Vector2.MoveTowards(currentPos, endPos, 3.0f);
                 Camera.main.transform.position = new Vector3(currentPos.x, currentPos.y, originalPos.z);
                 currentTime = currentTime + Time.deltaTime;
 
