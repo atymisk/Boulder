@@ -24,6 +24,10 @@ public class Robot : MonoBehaviour {
 	public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
+	public Image LeftArmUI;
+	public Image RightArmUI;
+	public Image LeftLegUI;
+	public Image RightLegUI;
 
 
     //Private members
@@ -69,6 +73,28 @@ public class Robot : MonoBehaviour {
 			Fill.color = Color.red;
 		} else 
 			Fill.color = Color.green;
+
+		if (!robotParts [LeftArm].active)
+		{
+			LeftArmUI.gameObject.SetActive (false);
+		}
+		else
+			LeftArmUI.gameObject.SetActive(true);
+
+//		if (!robotParts [RightArm].active)
+//			RightArmUI.gameObject.SetActive(false);
+//		else
+//			RightArmUI.gameObject.SetActive(true);
+
+		if (!robotParts [LeftLeg].active)
+			LeftLegUI.gameObject.SetActive(false);
+		else
+			LeftLegUI.gameObject.SetActive(true);
+
+		if (!robotParts [RightLeg].active)
+			RightLegUI.gameObject.SetActive(false);
+		else
+			RightLegUI.gameObject.SetActive(true);
 
 	    if(currentHealth <= 0)
         {
