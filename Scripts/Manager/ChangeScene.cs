@@ -20,6 +20,16 @@ public class ChangeScene : MonoBehaviour {
         StartCoroutine(DelayRoutine(sceneName, delay));
     }
 
+	public void Exit(){
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+		#elif UNITY_WEBPLAYER
+		Application.OpenURL(webplayerQuitURL);
+		#else
+		Application.Quit();
+		#endif
+	}
+
     IEnumerator DelayRoutine(string sceneName, float delay)
     {
         yield return new WaitForSeconds(delay);
