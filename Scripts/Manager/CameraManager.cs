@@ -61,11 +61,13 @@ public class CameraManager : MonoBehaviour {
         {
             //aim camera at p2
             middle = playerTwo.transform.position;
+            //middle = originpos;
         }
         else if (!p1dead && p2dead)
         {
             //aim camera at p1
             middle = playerOne.transform.position;
+            //middle = originpos;
         }
 
         return middle;
@@ -87,13 +89,13 @@ public class CameraManager : MonoBehaviour {
         }
         else if (!p1dead && p2dead)//p2 alive
         {
-            width = Mathf.Abs(playerOne.transform.position.x) * 0.5f + 30;
-            height = Mathf.Abs(playerOne.transform.position.y) * 0.5f;
+            width = Mathf.Abs(playerOne.transform.position.x) * 1.5f + 30;
+            height = Mathf.Abs(playerOne.transform.position.y) * 1.5f;
         }
         else if (p1dead && !p2dead)//p1 alive
         {
-            width = Mathf.Abs(playerTwo.transform.position.x) * 0.5f + 30;
-            height = Mathf.Abs(playerTwo.transform.position.y) * 0.5f;
+            width = Mathf.Abs(playerTwo.transform.position.x) * 1.5f + 30;
+            height = Mathf.Abs(playerTwo.transform.position.y) * 1.5f;
         }
 
 		//computing the size: get the bigger of the two values for more zoom

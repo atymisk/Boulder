@@ -82,4 +82,9 @@ public class SpecialEffects : MonoBehaviour
 
         Camera.main.transform.position = originalPos;
     }
+
+    void OnDestroy()
+    {
+        Time.timeScale = 1;
+    }
 }

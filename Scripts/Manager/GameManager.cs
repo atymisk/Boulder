@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         {
             gameover = true;
             print("gameover");
+            ChangeScene.instance.ChangetoScene("MainUI");
         }
         else
         {
@@ -102,6 +103,7 @@ public class GameManager : MonoBehaviour
         {
             gameover = true;
             print("gameover");
+            ChangeScene.instance.ChangetoScene("MainUI");
         }
         else
         {
