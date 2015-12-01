@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
+    public enum CharacterState { Idle, Run, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
 
     //Constants
     const int PartCount = 4;
@@ -98,6 +98,9 @@ public class Robot : MonoBehaviour {
 
 	    if(currentHealth <= 0)
         {
+			BreakRandomPart();
+			BreakRandomPart();
+			BreakRandomPart();
             gm.thisPlayerDied(mytag);
         }
 	}
@@ -246,7 +249,7 @@ public class Robot : MonoBehaviour {
     //Movement
     public void Jump()
     {
-		if (currentState == CharacterState.Idle && isGrounded)
+		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && isGrounded)
         {
             //rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
 
@@ -263,46 +266,68 @@ public class Robot : MonoBehaviour {
 
     public void FaceLeft()
     {
-		if (currentState == CharacterState.Idle && !isFacingLeft)
+		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && !isFacingLeft)
         {
             this.transform.Rotate(new Vector3(0, 180, 0));
             isFacingLeft = true;
+			DustEffect();
         }
     }
 
     public void FaceRight()
     {
-		if (currentState == CharacterState.Idle && isFacingLeft)
+		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && isFacingLeft)
         {
             this.transform.Rotate(new Vector3(0, -180, 0));
             isFacingLeft = false;
+			DustEffect();
         }
     }
 
     public void MoveLeft()
     {
-		if (currentState == CharacterState.Idle)
+		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
         {
             FaceLeft();
+			if (isGrounded)
+			{
+				anim.SetTrigger("Run");
+				currentState = CharacterState.Run;
+			}
+			else
+			{
+				anim.SetTrigger("UnRun");
+				currentState = CharacterState.Idle;
+			}
             rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
-            DustEffect();
         }
     }
 
     public void MoveRight()
     {
-		if (currentState == CharacterState.Idle)
+		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
         {
             FaceRight();
+			if (isGrounded)
+			{
+				anim.SetTrigger("Run");
+				currentState = CharacterState.Run;
+			}
+			else
+			{
+				anim.SetTrigger("UnRun");
+				currentState = CharacterState.Idle;
+			}
             rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
-            DustEffect();
         }
     }
 
     public void StayStill()
     {
-        if (currentState == CharacterState.Idle)
+		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
         {
+			anim.SetTrigger("UnRun");
+			currentState = CharacterState.Idle;
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
         }
     }
@@ -315,14 +340,13 @@ public class Robot : MonoBehaviour {
     {
         if (isGrounded)
         {
-            /*
             GameObject dust = (GameObject)Resources.Load("Particles/Dust");
-            var dustCloneLeft = Instantiate(dust, this.transform.Find("torso").Find("upperLeftLeg").Find("lowerLeftLeg").Find("leftFoot").position, Quaternion.identity);
-            var dustCloneRight = Instantiate(dust, this.transform.Find("torso").Find("upperRightLeg").Find("lowerRightLeg").Find("rightFoot").position, Quaternion.identity);
+            var dustCloneLeft = Instantiate(dust, this.transform.Find("Pelvis").Find("LeftUpperLeg").Find("LeftLowerLeg").Find("LeftFoot").position, Quaternion.identity);
+            var dustCloneRight = Instantiate(dust, this.transform.Find("Pelvis").Find("RightUpperLeg").Find("RightLowerLeg").Find("RightFoot").position, Quaternion.identity);
 
             Destroy(dustCloneLeft, dust.GetComponent<ParticleSystem>().startLifetime);
             Destroy(dustCloneRight, dust.GetComponent<ParticleSystem>().startLifetime); 
-            */
+            
         }
     }
 
@@ -414,7 +438,7 @@ public class Robot : MonoBehaviour {
 
     public bool IsBusy()
     {
-        return currentState != CharacterState.Idle && currentState != CharacterState.Blocking;
+		return currentState != CharacterState.Idle && currentState != CharacterState.Run && currentState != CharacterState.Blocking;
     }
 
 	public bool CanComboMove(CharacterState nextMove)
@@ -526,6 +550,7 @@ public class Robot : MonoBehaviour {
     {
         if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
+
             Collider2D collider = col.collider;
 
             Vector2 normal = col.contacts[0].normal;
