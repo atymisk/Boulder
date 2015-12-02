@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Run, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
 
     //Constants
     const int PartCount = 4;
@@ -262,6 +262,18 @@ public class Robot : MonoBehaviour {
             delayedJump = DelayedJump(0.05f);
             StartCoroutine(delayedJump);
         }
+		
+		if ((currentState == CharacterState.Hang))
+		{
+			
+			if(delayedJump != null)
+			{
+				StopCoroutine(delayedJump);
+			}
+
+			delayedJump = DelayedJump(0.0f);
+			StartCoroutine(delayedJump);
+		}
     }
 
     public void FaceLeft()
@@ -550,7 +562,6 @@ public class Robot : MonoBehaviour {
     {
         if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
-
             Collider2D collider = col.collider;
 
             Vector2 normal = col.contacts[0].normal;
@@ -562,11 +573,11 @@ public class Robot : MonoBehaviour {
             }
         }
 
-    }
-
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
+	}
+	
+	void OnCollisionExit2D(Collision2D col)
+	{
+		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
             Collider2D collider = col.collider;
 
@@ -595,10 +606,26 @@ public class Robot : MonoBehaviour {
             triggered = true;
             gm.thisPlayerDied(mytag);
         }
+		if ((other.gameObject.name == "HangAreaLeft" && isFacingLeft == false) || (other.gameObject.name == "HangAreaRight" && isFacingLeft == true)) 
+		{
+			anim.SetTrigger ("Hang");
+			currentState = CharacterState.Hang;
+			this.transform.position = other.transform.position;
+			rigidbodyTwoD.gravityScale = 0;
+			rigidbodyTwoD.velocity = Vector2.zero;
+		}
+
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
+		if (other.gameObject.name == "HangAreaLeft" || other.gameObject.name == "HangAreaRight") 
+		{
+			rigidbodyTwoD.gravityScale = 20;
+			anim.SetTrigger ("UnHang");
+			currentState = CharacterState.Idle;
+		}
+
         if (!triggered)
         {
             return;
