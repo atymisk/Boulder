@@ -11,6 +11,8 @@ public abstract class InputManager : MonoBehaviour
 	public bool p1lock = false;
 	public bool p2lock = false;
 
+	public GameManager gameManager;
+
 	public float previousP1X = 0;
 	public float previousP1Y = 0;
 	public float previousP2X = 0;
@@ -40,8 +42,9 @@ public abstract class InputManager : MonoBehaviour
 		playerTwo = newp2;
 		p2lock = false;
 	}
-	
-	
+
+
+
 	// Update is called once per frame
 	void Update()
     {
