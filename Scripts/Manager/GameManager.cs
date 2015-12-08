@@ -197,11 +197,11 @@ public class GameManager : MonoBehaviour
         }
 		if (isPaused) {
 			Time.timeScale = 0;
-			Cursor.visible = true;
+//			Cursor.visible = true;
 			pauseMenu.SetActive(true);
 		} else {
 			Time.timeScale = 1;
-			Cursor.visible = false;
+//			Cursor.visible = false;
 			pauseMenu.SetActive(false);
 		}
 	}
