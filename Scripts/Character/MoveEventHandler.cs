@@ -6,6 +6,8 @@ public class MoveEventHandler : MonoBehaviour
     //Public members
     public enum CharacterState { Idle, LightFlinch, HeavyFlinch, MoveA, MoveB, MoveC, MoveD};
 
+	public int playerNum;
+
     //Private members
     private CharacterState currentState;
 	private bool onNormalAlpha = false;

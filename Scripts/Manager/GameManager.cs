@@ -22,12 +22,15 @@ public class GameManager : MonoBehaviour
     public Transform P1spawnPoint;
     public Transform P2spawnPoint;
 
+	public bool isPaused = false;
+
     //needs to tell the input and camera manager that the player has died and respawned
     GameObject inptmng;
     KeyInputManager keyinpt;
     ControllerInputManager continpt;
     InputManager primaryINPT;
     public CameraManager cmrmng;
+	public GameObject pauseMenu;
 
     private int p1_stocks = 4;
     private int p2_stocks = 4;
@@ -73,6 +76,7 @@ public class GameManager : MonoBehaviour
         {
             gameover = true;
             print("gameover");
+            ChangeScene.instance.ChangetoScene("MainUI");
         }
         else
         {
@@ -102,6 +106,7 @@ public class GameManager : MonoBehaviour
         {
             gameover = true;
             print("gameover");
+            ChangeScene.instance.ChangetoScene("MainUI");
         }
         else
         {
@@ -190,5 +195,14 @@ public class GameManager : MonoBehaviour
             print("Toggled");
             toggleInputs();
         }
+		if (isPaused) {
+			Time.timeScale = 0;
+			Cursor.visible = true;
+			pauseMenu.SetActive(true);
+		} else {
+			Time.timeScale = 1;
+			Cursor.visible = false;
+			pauseMenu.SetActive(false);
+		}
 	}
 }

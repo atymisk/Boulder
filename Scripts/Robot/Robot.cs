@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
 
     //Constants
     const int PartCount = 4;
@@ -13,14 +15,19 @@ public class Robot : MonoBehaviour {
     const int RightLeg = 3;
 
     //Public members
+	public int playerNum = 1;
     public string mytag = "null";
     public Part[] robotParts;
     public Rigidbody2D rigidbodyTwoD;
-    public float maxHealth = 100f;
-    public float currentHealth = 100f;
+    public float maxHealth = 200f;
+    public float currentHealth = 200f;
 	public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
+	public Image LeftArmUI;
+	public Image RightArmUI;
+	public Image LeftLegUI;
+	public Image RightLegUI;
 
 
     //Private members
@@ -67,8 +74,33 @@ public class Robot : MonoBehaviour {
 		} else 
 			Fill.color = Color.green;
 
+		if (!robotParts [LeftArm].active)
+		{
+			LeftArmUI.gameObject.SetActive (false);
+		}
+		else
+			LeftArmUI.gameObject.SetActive(true);
+
+//		if (!robotParts [RightArm].active)
+//			RightArmUI.gameObject.SetActive(false);
+//		else
+//			RightArmUI.gameObject.SetActive(true);
+
+		if (!robotParts [LeftLeg].active)
+			LeftLegUI.gameObject.SetActive(false);
+		else
+			LeftLegUI.gameObject.SetActive(true);
+
+		if (!robotParts [RightLeg].active)
+			RightLegUI.gameObject.SetActive(false);
+		else
+			RightLegUI.gameObject.SetActive(true);
+
 	    if(currentHealth <= 0)
         {
+			BreakRandomPart();
+			BreakRandomPart();
+			BreakRandomPart();
             gm.thisPlayerDied(mytag);
         }
 	}
@@ -88,7 +120,7 @@ public class Robot : MonoBehaviour {
     {
 		CharacterState thisMove = CharacterState.LeftPunch;
 
-		if (!IsBusy() || CanComboMove(thisMove))
+		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftArm].Attack();
 			comboState = false;
@@ -96,7 +128,7 @@ public class Robot : MonoBehaviour {
 
             if(isGrounded)
             {
-                //rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+                rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
             }
            
 
@@ -108,7 +140,7 @@ public class Robot : MonoBehaviour {
     {
 		CharacterState thisMove = CharacterState.LeftKick;
 
-		if(!IsBusy() || CanComboMove(thisMove))
+		if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftLeg].Attack();
 			comboState = false;
@@ -123,7 +155,7 @@ public class Robot : MonoBehaviour {
     {
 		CharacterState thisMove = CharacterState.RightKick;
 
-		if (!IsBusy() || CanComboMove(thisMove))
+		if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[RightLeg].Attack();
 			comboState = false;
@@ -169,7 +201,16 @@ public class Robot : MonoBehaviour {
     {
         if(robotParts[index].active)
         {
-            GameObject rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
+			GameObject rocketPrefab = null;
+			if(playerNum == 1)
+			{
+				rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
+			}
+			else
+			{
+				rocketPrefab = Instantiate(Resources.Load("RocketParts/BunnyLeftHandRocket")) as GameObject;
+			}
+
             RobotRocket rocket = rocketPrefab.GetComponent<RobotRocket>();
             rocket.SetOwner(this);
             Physics2D.IgnoreCollision(rocket.GetComponent<Collider2D>(), this.GetComponent<Collider2D>());
@@ -184,13 +225,20 @@ public class Robot : MonoBehaviour {
             }
 
             rocketBody.velocity = new Vector2(direction * 200, 0);
+
+			Transform partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(2);
+			partToBreak.gameObject.SetActive(false);
+			robotParts[index].active = false;
         }
     }
 
     public void ShootLeftArm()
     {
-        Debug.Log("ShootLeftArm");
-        ShootPart(0);
+		if ( robotParts[LeftArm].active && !IsBusy() )
+		{
+			ShootPart(0);
+		}
+
     }
 
 	public void OnHitConnected()
@@ -201,7 +249,7 @@ public class Robot : MonoBehaviour {
     //Movement
     public void Jump()
     {
-        if (!IsBusy() && isGrounded)
+		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && isGrounded)
         {
             //rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 100);
 
@@ -214,50 +262,84 @@ public class Robot : MonoBehaviour {
             delayedJump = DelayedJump(0.05f);
             StartCoroutine(delayedJump);
         }
+		
+		if ((currentState == CharacterState.Hang))
+		{
+			
+			if(delayedJump != null)
+			{
+				StopCoroutine(delayedJump);
+			}
+
+			delayedJump = DelayedJump(0.0f);
+			StartCoroutine(delayedJump);
+		}
     }
 
     public void FaceLeft()
     {
-        if (!isFacingLeft && !IsBusy())
+		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && !isFacingLeft)
         {
             this.transform.Rotate(new Vector3(0, 180, 0));
             isFacingLeft = true;
+			DustEffect();
         }
     }
 
     public void FaceRight()
     {
-        if (isFacingLeft && !IsBusy())
+		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && isFacingLeft)
         {
             this.transform.Rotate(new Vector3(0, -180, 0));
             isFacingLeft = false;
+			DustEffect();
         }
     }
 
     public void MoveLeft()
     {
-        if (!IsBusy())
+		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
         {
             FaceLeft();
+			if (isGrounded)
+			{
+				anim.SetTrigger("Run");
+				currentState = CharacterState.Run;
+			}
+			else
+			{
+				anim.SetTrigger("UnRun");
+				currentState = CharacterState.Idle;
+			}
             rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
-            DustEffect();
         }
     }
 
     public void MoveRight()
     {
-        if (!IsBusy())
+		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
         {
             FaceRight();
+			if (isGrounded)
+			{
+				anim.SetTrigger("Run");
+				currentState = CharacterState.Run;
+			}
+			else
+			{
+				anim.SetTrigger("UnRun");
+				currentState = CharacterState.Idle;
+			}
             rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
-            DustEffect();
         }
     }
 
     public void StayStill()
     {
-        if (!IsBusy())
+		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
         {
+			anim.SetTrigger("UnRun");
+			currentState = CharacterState.Idle;
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
         }
     }
@@ -270,14 +352,13 @@ public class Robot : MonoBehaviour {
     {
         if (isGrounded)
         {
-            /*
             GameObject dust = (GameObject)Resources.Load("Particles/Dust");
-            var dustCloneLeft = Instantiate(dust, this.transform.Find("torso").Find("upperLeftLeg").Find("lowerLeftLeg").Find("leftFoot").position, Quaternion.identity);
-            var dustCloneRight = Instantiate(dust, this.transform.Find("torso").Find("upperRightLeg").Find("lowerRightLeg").Find("rightFoot").position, Quaternion.identity);
+            var dustCloneLeft = Instantiate(dust, this.transform.Find("Pelvis").Find("LeftUpperLeg").Find("LeftLowerLeg").Find("LeftFoot").position, Quaternion.identity);
+            var dustCloneRight = Instantiate(dust, this.transform.Find("Pelvis").Find("RightUpperLeg").Find("RightLowerLeg").Find("RightFoot").position, Quaternion.identity);
 
             Destroy(dustCloneLeft, dust.GetComponent<ParticleSystem>().startLifetime);
             Destroy(dustCloneRight, dust.GetComponent<ParticleSystem>().startLifetime); 
-            */
+            
         }
     }
 
@@ -295,6 +376,17 @@ public class Robot : MonoBehaviour {
         {
             StopCoroutine(moveTimeRoutine);
         }
+
+		if(currentHealth / maxHealth < 0.5)
+		{
+			System.Random rnd = new System.Random();
+			int randNum = rnd.Next();
+			Debug.Log("randNum " + randNum);
+			if(randNum % 3 == 0)
+			{
+				BreakRandomPart();
+			}
+		}
 
         moveTimeRoutine = MoveOverTime(pushVelocity, duration);
         StartCoroutine(moveTimeRoutine);
@@ -358,7 +450,7 @@ public class Robot : MonoBehaviour {
 
     public bool IsBusy()
     {
-        return currentState != CharacterState.Idle;
+		return currentState != CharacterState.Idle && currentState != CharacterState.Run && currentState != CharacterState.Blocking;
     }
 
 	public bool CanComboMove(CharacterState nextMove)
@@ -387,6 +479,84 @@ public class Robot : MonoBehaviour {
         return currentState;
     }
 
+	public void BreakRandomPart()
+	{
+		List<int> breakIndexList = new List<int>();
+
+		for(int i = 0; i < 4; i++)
+		{
+			if(robotParts[i] != null && robotParts[i].active)
+			{
+				breakIndexList.Add(i);
+			}
+		}
+
+		if(breakIndexList.Count > 0)
+		{
+			System.Random rnd = new System.Random();
+			int j = rnd.Next() % breakIndexList.Count;
+
+			if(robotParts[breakIndexList[j]] != null)
+			{
+				robotParts[breakIndexList[j]].active = false;
+			}
+
+			GameObject pickObj = null;
+			Transform pelvis = this.transform.GetChild(0);
+			Transform partToBreak = null;
+			
+			if(breakIndexList[j] == LeftArm)
+			{
+				if(playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyLeftHandPickup")) as GameObject;
+				}
+				partToBreak = pelvis.GetChild(2).GetChild(2);
+			}
+			else if(breakIndexList[j] == LeftLeg)
+			{
+				if(playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftLegPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyLeftLegPickup")) as GameObject;
+				}
+
+				partToBreak = pelvis.GetChild(1);
+			}
+			else if(breakIndexList[j] == RightLeg)
+			{
+				if(playerNum == 1)
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/TigerRightLegPickup")) as GameObject;
+				}
+				else
+				{
+					pickObj = Instantiate(Resources.Load("ItemParts/BunnyRightLegPickup")) as GameObject;
+				}
+
+				partToBreak = pelvis.GetChild(0);
+			}
+		
+			if(pickObj != null)
+			{
+				pickObj.transform.position = this.transform.position;
+				PartPickup pickup = pickObj.GetComponent<PartPickup>();
+				pickup.SpinBounce(1);
+				partToBreak.gameObject.SetActive(false);
+			}
+		}
+
+
+
+	}
+
     //Collisions
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -403,11 +573,11 @@ public class Robot : MonoBehaviour {
             }
         }
 
-    }
-
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
+	}
+	
+	void OnCollisionExit2D(Collision2D col)
+	{
+		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
             Collider2D collider = col.collider;
 
@@ -436,10 +606,26 @@ public class Robot : MonoBehaviour {
             triggered = true;
             gm.thisPlayerDied(mytag);
         }
+		if ((other.gameObject.name == "HangAreaLeft" && isFacingLeft == false) || (other.gameObject.name == "HangAreaRight" && isFacingLeft == true)) 
+		{
+			anim.SetTrigger ("Hang");
+			currentState = CharacterState.Hang;
+			this.transform.position = other.transform.position;
+			rigidbodyTwoD.gravityScale = 0;
+			rigidbodyTwoD.velocity = Vector2.zero;
+		}
+
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
+		if (other.gameObject.name == "HangAreaLeft" || other.gameObject.name == "HangAreaRight") 
+		{
+			rigidbodyTwoD.gravityScale = 20;
+			anim.SetTrigger ("UnHang");
+			currentState = CharacterState.Idle;
+		}
+
         if (!triggered)
         {
             return;
