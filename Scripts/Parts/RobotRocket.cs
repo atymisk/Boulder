@@ -58,9 +58,9 @@ public class RobotRocket : MonoBehaviour {
 				enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
 				enemy.BreakRandomPart();
 				
-				GameObject sparks = (GameObject)Resources.Load("Particles/HitEffect");
-				var clone = Instantiate(sparks, enemy.transform.position, Quaternion.identity);
-				Destroy(clone, sparks.GetComponent<ParticleSystem>().startLifetime);
+				GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
+				var clone = Instantiate(explosion, enemy.transform.position, Quaternion.identity);
+				Destroy(clone, 5);
 
 
 				GameObject pickObj = null;
