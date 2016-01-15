@@ -1,12 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PartPickup : MonoBehaviour {
+public abstract class PartPickup : MonoBehaviour {
+    protected const int LeftArm = 0;
+    protected const int RightArm = 1;
+    protected const int LeftLeg = 2;
+    protected const int RightLeg = 3;
 
     public Rigidbody2D rigidBodyTwoD;
-    private IEnumerator rotateTimeRoutine;
-    // Use this for initialization
     
+    private IEnumerator rotateTimeRoutine;
+
+    public abstract int GetIndex();
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
     //Collisions
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -27,7 +38,7 @@ public class PartPickup : MonoBehaviour {
         rotateTimeRoutine = RotateOverTime(-1500, 3);
         StartCoroutine(rotateTimeRoutine);
     }
-
+    
     //Coroutines
     IEnumerator RotateOverTime(float angleDelta, float duration)
     {

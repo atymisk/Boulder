@@ -21,6 +21,11 @@ public class TigerLeftPunch : Part
         DisableHitBox();
     }
 
+    public override int GetPartIndex()
+    {
+        return LeftArm;
+    }
+
     override public void OnHitConnected(Robot enemy)
     {
         float damage = 10;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class TigerLeftKick : Part {
 
@@ -32,6 +33,11 @@ public class TigerLeftKick : Part {
         {
             StopCoroutine(flashKickRoutine);
         }
+    }
+
+    public override int GetPartIndex()
+    {
+        return LeftLeg;
     }
 
     override public void OnHitConnected(Robot enemy)

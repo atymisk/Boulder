@@ -3,6 +3,11 @@ using System.Collections;
 
 public abstract class Part : MonoBehaviour
 {
+    protected const int LeftArm = 0;
+    protected const int RightArm = 1;
+    protected const int LeftLeg = 2;
+    protected const int RightLeg = 3;
+
     public bool active = true;
 
     protected Robot owner;
@@ -11,11 +16,46 @@ public abstract class Part : MonoBehaviour
     public abstract void Attack();
     public abstract void CancelAttack();
     public abstract string GetTrigger();
+    public abstract int GetPartIndex();
 
     protected void Initialize()
     {
         owner = this.transform.parent.parent.gameObject.GetComponent<Robot>();
         collider = gameObject.GetComponent<Collider2D>();
+    }
+
+    public void Attach()
+    {
+        if(!active)
+        {
+            Transform pelvis = owner.transform.GetChild(0);
+            int partIndex = GetPartIndex();
+            Transform partToActivate = null;
+            Debug.Log("partIndex " + partIndex);
+            if (partIndex == LeftArm)
+            {
+                partToActivate = pelvis.GetChild(2).GetChild(2);
+                Debug.Log("im here");
+            }
+            else if(partIndex == RightArm)
+            {
+                partToActivate = pelvis.GetChild(2).GetChild(1);
+            }
+            else if(partIndex == LeftLeg)
+            {
+                partToActivate = pelvis.GetChild(1);
+            }
+            else if(partIndex == RightLeg)
+            {
+                partToActivate = pelvis.GetChild(0);
+            }
+
+            
+
+            partToActivate.gameObject.SetActive(true);
+
+            owner.robotParts[partIndex].active = true;
+        }
     }
 
     public virtual void OnHitConnected(Robot enemy)

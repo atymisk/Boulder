@@ -38,7 +38,9 @@ public class Robot : MonoBehaviour {
     private bool isGrounded = true;
     private bool triggered = false;
 	private bool comboState = false;
+    
 	private RobotHurtBox hurtBox;
+    private PickupBox pickupBox;
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 
@@ -48,6 +50,7 @@ public class Robot : MonoBehaviour {
         anim = gameObject.GetComponent<Animator>();
         rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
 		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
+        pickupBox = this.transform.FindChild("PickupBox").GetComponent<PickupBox>();
         gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
         InitializeParts();
 
@@ -102,6 +105,11 @@ public class Robot : MonoBehaviour {
 			BreakRandomPart();
 			BreakRandomPart();
             gm.thisPlayerDied(mytag);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Pickup();
         }
 	}
 
@@ -190,6 +198,21 @@ public class Robot : MonoBehaviour {
             currentState = CharacterState.Idle;
         }
     }
+
+    public void Pickup()
+    {
+        PartPickup partToPickup = pickupBox.TakeClosestPart();
+
+        Debug.Log(partToPickup);
+
+        if(partToPickup != null)
+        {
+            int partIndex = partToPickup.GetIndex();
+            robotParts[partIndex].Attach();
+            Destroy(partToPickup.gameObject);
+        }
+    }
+    
 
     //Rocket Moves
     public void RocketLeftArm()
@@ -606,6 +629,7 @@ public class Robot : MonoBehaviour {
             triggered = true;
             gm.thisPlayerDied(mytag);
         }
+
 		if ((other.gameObject.name == "HangAreaLeft" && isFacingLeft == false) || (other.gameObject.name == "HangAreaRight" && isFacingLeft == true)) 
 		{
 			anim.SetTrigger ("Hang");
@@ -614,6 +638,8 @@ public class Robot : MonoBehaviour {
 			rigidbodyTwoD.gravityScale = 0;
 			rigidbodyTwoD.velocity = Vector2.zero;
 		}
+
+        
 
     }
 

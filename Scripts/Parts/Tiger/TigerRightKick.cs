@@ -30,6 +30,11 @@ public class TigerRightKick : Part {
         }
     }
 
+    public override int GetPartIndex()
+    {
+        return RightLeg;
+    }
+
     override public void OnHitConnected(Robot enemy)
     {
         float damage = 10;
