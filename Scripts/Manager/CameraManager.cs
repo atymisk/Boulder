@@ -73,10 +73,9 @@ public class CameraManager : MonoBehaviour {
         return middle;
 	}
 	
-	void SetCameraSize()//affects the zoom
+	float GetCameraSize()//affects the zoom
     {
-		float minSizeY = 20;
-		float minSizeX = minSizeY * Screen.width / Screen.height;//horizontal size is based on actual screen ratio
+		float minSizeY = 28;
 
         float width = 1;//default width
         float height = 1;//default height
@@ -86,6 +85,10 @@ public class CameraManager : MonoBehaviour {
             //multiplying by 0.5, because the ortographicSize is actually half the height
             width = Mathf.Abs(playerOne.transform.position.x - playerTwo.transform.position.x) * 0.75f + 30;
             height = Mathf.Abs(playerOne.transform.position.y - playerTwo.transform.position.y) * 0.5f;
+            if(width < 46 && height < 8)
+            {
+                minSizeY = 22;//lerp this
+            }
         }
         else if (!p1dead && p2dead)//p2 alive
         {
@@ -97,26 +100,22 @@ public class CameraManager : MonoBehaviour {
             width = Mathf.Abs(playerTwo.transform.position.x) * 1.5f + 30;
             height = Mathf.Abs(playerTwo.transform.position.y) * 1.5f;
         }
+		float minSizeX = minSizeY * Screen.width / Screen.height;//horizontal size is based on actual screen ratio
 
 		//computing the size: get the bigger of the two values for more zoom
 		float camSizeX = Mathf.Max(width, minSizeX);
         float orthosize = Mathf.Clamp(Mathf.Max(height, camSizeX * Screen.height / Screen.width, minSizeY),minSizeY,60);
-        GetComponent<Camera>().orthographicSize = orthosize;
+        return orthosize;
 	}
 
 	// Update is called once per frame
 	void Update ()
     {
 		Vector3 target = GetCameraPos();
-        float speed = 1.5f;
+        float speed = 2.5f;
         Vector3 newpos = Vector3.Lerp(transform.position, target, Time.deltaTime * speed);//Lerp the camera
         transform.position = new Vector3(newpos.x, newpos.y, -10);
-		SetCameraSize();
+		float targetsize = GetCameraSize();
+        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, targetsize, Time.deltaTime*speed);
     }
-
-    void LateUpdate()
-    {
-        
-    }
-
 }
