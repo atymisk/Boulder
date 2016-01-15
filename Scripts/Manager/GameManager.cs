@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
 	public Text p1Left;
 	public Text p2Left;
 
+    //private System.Timers.Timer countdown;
+    private static float countdown = 120;
+    public Text timer;
+
     private bool gameover = false;
     private float respawntimer = 1.25f;
     private bool keys = true;
@@ -144,6 +148,10 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
+        countdown = MatchSettingsData.match_time;
+        p1_stocks = MatchSettingsData.stock_total;
+        p2_stocks = MatchSettingsData.stock_total;
+
         inptmng = GameObject.Find("InputManager");
         keyinpt = inptmng.GetComponent<KeyInputManager>();
         continpt = inptmng.GetComponent<ControllerInputManager>();
@@ -186,9 +194,22 @@ public class GameManager : MonoBehaviour
         }
         keys = !keys;
     }
+
+    void DisplayCountdown()
+    {
+        countdown -= Time.deltaTime;
+        if (countdown <= 0)
+            countdown = 0;
+        int minutes = (int)(countdown/60);
+        int seconds = (int)(countdown % 60);
+        timer.text = string.Format("{0:00}:{1:00}",minutes,seconds);
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
+        DisplayCountdown();
+
 	    //for testing input purposes
         if(Input.GetKeyUp(KeyCode.Escape))
         {
