@@ -3,17 +3,18 @@ using System.Collections;
 
 struct PlayerStats{
 	public Robot player;
-	public int leftKick, rightKick, leftPunch, rightPunch, rocket = 0;
+	public int leftKick, rightKick, leftPunch, rightPunch, rocket;
 
 	public PlayerStats(Robot player){
 		this.player = player;
+		leftKick = rightKick = leftPunch = rightPunch = rocket = 0;
 	}
 }
 
 public class StatsManager : MonoBehaviour
 {
-	public PlayerStats playerOneStats;
-	public PlayerStats playerTwoStats;
+	private PlayerStats playerOneStats;
+	private PlayerStats playerTwoStats;
 
 	// Use this for initialization
 	void Start ()
@@ -81,8 +82,8 @@ public class StatsManager : MonoBehaviour
 	}
 
 	void writeStatsToFile(){
-
-		System.IO.File.WriteAllLines(string.Format (@"stats\{o}_{1}.txt", System.DateTime.Now.ToString("MM-dd-yyyy"), System.DateTime.Now.ToString ("hh:mm:ss"), "");
+		string[] placeholder = {""};
+		System.IO.File.WriteAllLines(string.Format("stats\\{o}_{1}.txt", System.DateTime.Now.ToString("MM-dd-yyyy"), System.DateTime.Now.ToString ("hh:mm:ss")), placeholder);
 	}
 }
 
