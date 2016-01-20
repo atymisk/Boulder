@@ -56,10 +56,10 @@ public class ControllerInputManager : InputManager {
 					}
 					
 					//					if(Input.GetAxis ("LeftJoystickY_P1") > 0 && previ
-					
-					if (Input.GetButtonDown ("Y_P1") && /*(Input.GetButton ("RightBumper_P1") ||*/ Input.GetAxis("RightTrigger_P1") > 0) {
+					/*(Input.GetButton ("RightBumper_P1") ||*/
+					if (Input.GetButtonDown ("X_P1") && Input.GetAxis("RightTrigger_P2") > 0) {
 						playerOne.RocketLeftArm ();
-					} else if (Input.GetButtonDown ("Y_P1")) {
+					} else if (Input.GetButtonDown ("X_P1")) {
 						playerOne.LeftPunch ();
 					} else if (Input.GetButtonDown ("B_P1")) {
 						playerOne.RightKick ();
@@ -119,6 +119,7 @@ public class ControllerInputManager : InputManager {
 			if (!p2lock) {
 				if(controller2 != "Wireless Controller"){
 					//Controller P2
+					Debug.Log(Input.GetAxis("RightTrigger_P2"));
 					if (Input.GetAxis ("LeftJoystickX_P2") < 0) {
 						playerTwo.FaceLeft ();
 						playerTwo.MoveLeft ();
@@ -132,10 +133,10 @@ public class ControllerInputManager : InputManager {
 					if (Input.GetAxis ("LeftJoystickY_P2") < 0 && previousP2Y == 0) {
 						playerTwo.Jump ();
 					}
-					
-					if (Input.GetButtonDown ("Y_P2") && /*(Input.GetButton ("RightBumper_P2") ||*/ Input.GetAxis("RightTrigger_P2") > 0) {
+					/*(Input.GetButton ("RightBumper_P2") ||*/
+					if (Input.GetButtonDown ("X_P2") && Input.GetAxis("RightTrigger_P1") > 0) {
 						playerTwo.RocketLeftArm ();
-					}else if (Input.GetButtonDown ("Y_P2")) {
+					}else if (Input.GetButtonDown ("X_P2")) {
 						playerTwo.LeftPunch ();
 					} else if (Input.GetButtonDown ("B_P2")) {
 						playerTwo.RightKick ();
