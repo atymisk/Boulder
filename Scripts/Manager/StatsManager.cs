@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 struct PlayerStats{
 	public Robot player;
 	public int leftKick, rightKick, leftPunch, rightPunch, rocket;
-
+	
 	public PlayerStats(Robot player){
 		this.player = player;
 		leftKick = rightKick = leftPunch = rightPunch = rocket = 0;
@@ -15,20 +16,27 @@ public class StatsManager : MonoBehaviour
 {
 	private PlayerStats playerOneStats;
 	private PlayerStats playerTwoStats;
-
+	private System.Diagnostics.Stopwatch stopwatch;
+	private long matchTime;
+	public Robot playerOne;
+	public Robot playerTwo;
+	
 	// Use this for initialization
 	void Start ()
 	{
-	
+		stopwatch = new System.Diagnostics.Stopwatch ();
+		matchTime = 0;
+		playerOneStats.player = playerOne;
+		playerTwoStats.player = playerTwo;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		
 	}
-
-	void incrementLeftKick(Robot player){
+	
+	public void incrementLeftKick(Robot player){
 		if(player == playerOneStats.player){
 			++playerOneStats.leftKick;
 		}
@@ -36,8 +44,8 @@ public class StatsManager : MonoBehaviour
 			++playerTwoStats.leftKick;
 		}
 	}
-
-	void incrementRightKick(Robot player){
+	
+	public void incrementRightKick(Robot player){
 		if(player == playerOneStats.player){
 			++playerOneStats.rightKick;
 		}
@@ -45,8 +53,8 @@ public class StatsManager : MonoBehaviour
 			++playerTwoStats.rightKick;
 		}
 	}
-
-	void incrementLeftPunch(Robot player){
+	
+	public void incrementLeftPunch(Robot player){
 		if(player == playerOneStats.player){
 			++playerOneStats.leftPunch;
 		}
@@ -54,8 +62,8 @@ public class StatsManager : MonoBehaviour
 			++playerTwoStats.leftPunch;
 		}
 	}
-
-	void incrementRightPunch(Robot player){
+	
+	public void incrementRightPunch(Robot player){
 		if(player == playerOneStats.player){
 			++playerOneStats.rightPunch;
 		}
@@ -63,7 +71,7 @@ public class StatsManager : MonoBehaviour
 			++playerTwoStats.rightPunch;
 		}
 	}
-	void incrementRocket(Robot player){
+	public void incrementRocket(Robot player){
 		if(player == playerOneStats.player){
 			++playerOneStats.rocket;
 		}
@@ -71,19 +79,34 @@ public class StatsManager : MonoBehaviour
 			++playerTwoStats.rocket;
 		}
 	}
-
-	void reset(Robot player){
-		if(player == playerOneStats.player){
-			playerOneStats.leftKick = playerOneStats.rightKick = playerOneStats.leftPunch = playerOneStats.rightPunch = 0;
-		}
-		else{
-			playerTwoStats.leftKick = playerTwoStats.rightKick = playerTwoStats.leftPunch = playerTwoStats.rightPunch = 0;
-		}
+	
+	public void reset(){
+		playerOneStats.leftKick = playerOneStats.rightKick = playerOneStats.leftPunch = playerOneStats.rightPunch = playerTwoStats.leftKick = playerTwoStats.rightKick = playerTwoStats.leftPunch = playerTwoStats.rightPunch = 0;
+	}
+	
+	public void matchStart(){
+		stopwatch.Start ();
+	}
+	
+	public void matchPause(){
+		stopwatch.Stop ();
+	}
+	
+	public void matchEnd(){
+		stopwatch.Stop ();
+		matchTime = stopwatch.ElapsedMilliseconds;
+		stopwatch.Reset ();
 	}
 
-	void writeStatsToFile(){
-		string[] placeholder = {""};
-		System.IO.File.WriteAllLines(string.Format("stats\\{o}_{1}.txt", System.DateTime.Now.ToString("MM-dd-yyyy"), System.DateTime.Now.ToString ("hh:mm:ss")), placeholder);
+	public long getMilliseconds(){
+		return stopwatch.ElapsedMilliseconds;
+	}
+	
+	public void writeStatsToFile(){
+		var timeSpan = TimeSpan.FromMilliseconds (matchTime);
+		string[] placeholder = {timeSpan.ToString()};
+		Debug.Log (placeholder);
+//		System.IO.File.WriteAllLines(string.Format("{o}_{1}.txt", System.DateTime.Now.ToString("MM-dd-yyyy"), System.DateTime.Now.ToString ("hh:mm:ss")), placeholder);
 	}
 }
 
