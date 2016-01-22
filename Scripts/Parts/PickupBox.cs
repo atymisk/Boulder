@@ -17,20 +17,6 @@ public class PickupBox : MonoBehaviour {
 	
 	}
 
-
-    private PartPickup GetClosestPart()
-    {
-        if(nearbyParts.Count == 0)
-        {
-            return null;
-        }
-        else
-        {
-            Debug.Log("nearbyPart[0]" + nearbyParts[0]);
-            return nearbyParts[0];
-        }
-    }
-
     public PartPickup TakeClosestPart()
     {
         PartPickup toTake = null;
@@ -41,6 +27,22 @@ public class PickupBox : MonoBehaviour {
             {
                 found = true;
                 nearbyParts[0].taken = true;
+                toTake = nearbyParts[0];
+            }
+        }
+       
+        return toTake;
+    }
+
+    public PartPickup GetClosestPart()
+    {
+        PartPickup toTake = null;
+
+        for(bool found = false; !found && nearbyParts.Count > 0; nearbyParts.Remove(nearbyParts[0]))
+        {
+            if (nearbyParts[0] != null && !nearbyParts[0].taken)
+            {
+                found = true;
                 toTake = nearbyParts[0];
             }
         }
