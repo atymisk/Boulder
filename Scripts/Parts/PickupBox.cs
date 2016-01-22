@@ -33,17 +33,19 @@ public class PickupBox : MonoBehaviour {
 
     public PartPickup TakeClosestPart()
     {
-        if (nearbyParts.Count == 0)
-        {
-            return null;
-        }
-        else
-        {
-            PartPickup taken = nearbyParts[0];
-            nearbyParts.Remove(taken);
+        PartPickup toTake = null;
 
-            return taken;
+        for(bool found = false; !found && nearbyParts.Count > 0; nearbyParts.Remove(nearbyParts[0]))
+        {
+            if (nearbyParts[0] != null && !nearbyParts[0].taken)
+            {
+                found = true;
+                nearbyParts[0].taken = true;
+                toTake = nearbyParts[0];
+            }
         }
+       
+        return toTake;
     }
 
     void OnTriggerEnter2D(Collider2D other)
