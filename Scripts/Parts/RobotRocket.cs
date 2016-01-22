@@ -6,16 +6,20 @@ public class RobotRocket : MonoBehaviour {
 
     private Rigidbody2D rigidBodyTwoD;
     private IEnumerator rotateTimeRoutine;
+	private GameObject smokeTrail;
+	private Transform smokeSpawnPoint;
     // Use this for initialization
     void Start()
     {
-        rigidBodyTwoD = this.GetComponent<Rigidbody2D>();
+		rigidBodyTwoD = this.GetComponent<Rigidbody2D>();
+		smokeTrail = Instantiate(Resources.Load("Particles/RocketTrail")) as GameObject;
+		smokeSpawnPoint = this.transform.FindChild ("SpawnPoint") as Transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+		smokeTrail.transform.position = smokeSpawnPoint.transform.position;
     }
 
     public void SetOwner(Robot owner)
@@ -61,6 +65,8 @@ public class RobotRocket : MonoBehaviour {
 				GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
 				var clone = Instantiate(explosion, enemy.transform.position, Quaternion.identity);
 				Destroy(clone, 5);
+				smokeTrail.GetComponent<ParticleSystem>().enableEmission = false;
+				Destroy(smokeTrail,  smokeTrail.GetComponent<ParticleSystem>().startLifetime);	
 
 
 				GameObject pickObj = null;
