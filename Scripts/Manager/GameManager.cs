@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -232,6 +232,6 @@ public class GameManager : MonoBehaviour
 			//			Cursor.visible = false;
 			pauseMenu.SetActive(false);
 		}
-		Debug.Log(stats.getMilliseconds ());
+//		Debug.Log(stats.getMilliseconds ());
 	}
 }
