@@ -18,20 +18,29 @@ public abstract class Part : MonoBehaviour
     public abstract string GetTrigger();
     public abstract int GetPartIndex();
 
+	protected abstract void ChangeSprite(GameObject part);
+
     protected void Initialize()
     {
+		Debug.Log("initialize");
         owner = this.transform.parent.parent.gameObject.GetComponent<Robot>();
         collider = gameObject.GetComponent<Collider2D>();
     }
 
+	public void SetOwner(Robot robot)
+	{
+		owner = robot;
+	}
+
     public void Attach()
     {
+		Debug.Log ("attach");
         if(!active)
         {
             Transform pelvis = owner.transform.GetChild(0);
             int partIndex = GetPartIndex();
             Transform partToActivate = null;
-            Debug.Log("partIndex " + partIndex);
+			Debug.Log ("attach partIndex " + partIndex);
             if (partIndex == LeftArm)
             {
                 partToActivate = pelvis.GetChild(2).GetChild(2);
@@ -50,9 +59,8 @@ public abstract class Part : MonoBehaviour
                 partToActivate = pelvis.GetChild(0);
             }
 
-            
-
             partToActivate.gameObject.SetActive(true);
+			ChangeSprite(partToActivate.gameObject);
 
             owner.robotParts[partIndex].active = true;
         }

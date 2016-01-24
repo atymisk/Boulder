@@ -18,4 +18,9 @@ public class PickupTigerRK : PartPickup {
         return RightLeg;
     }
 
+	public override GameObject GetAttachablePart()
+	{
+		return Resources.Load ("Moves/TigerRightKick") as GameObject;
+	}
+
 }

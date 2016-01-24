@@ -17,4 +17,9 @@ public class PickupBunnyLK : PartPickup {
     {
         return LeftLeg;
     }
+
+	public override GameObject GetAttachablePart()
+	{
+		return Resources.Load ("Moves/BunnyLeftKick") as GameObject;
+	}
 }

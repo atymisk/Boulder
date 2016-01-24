@@ -13,6 +13,7 @@ public abstract class PartPickup : MonoBehaviour {
     private IEnumerator rotateTimeRoutine;
 
     public abstract int GetIndex();
+	public abstract GameObject GetAttachablePart();
     // Use this for initialization
     void Start()
     {

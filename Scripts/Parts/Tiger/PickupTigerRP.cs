@@ -17,4 +17,9 @@ public class PickupTigerRP : PartPickup {
     {
         return RightArm;
     }
+
+	public override GameObject GetAttachablePart()
+	{
+		return Resources.Load ("Moves/TigerRightPunch") as GameObject;
+	}
 }

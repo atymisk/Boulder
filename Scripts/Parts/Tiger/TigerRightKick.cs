@@ -1,7 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class TigerRightKick : Part {
+	protected override void ChangeSprite(GameObject part)
+	{
+		SpriteRenderer upperLegRender = part.GetComponent<SpriteRenderer>();
+		SpriteRenderer lowerLegRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
+		SpriteRenderer footRender = part.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+		upperLegRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_4"];
+		lowerLegRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_11"];
+		footRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_14"];
+	}
 
     private IEnumerator moveTimeRoutine;
 

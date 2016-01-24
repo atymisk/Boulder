@@ -39,7 +39,7 @@ public class Robot : MonoBehaviour {
     private bool isGrounded = true;
     private bool triggered = false;
 	private bool comboState = false;
-    
+	private Transform partsHolder;
 	private RobotHurtBox hurtBox;
     private PickupBox pickupBox;
     private IEnumerator moveTimeRoutine;
@@ -131,10 +131,10 @@ public class Robot : MonoBehaviour {
     {
         Debug.Log("InitializeParts" + this);
         robotParts = new Part[PartCount];
-        Transform partsObj = this.transform.FindChild("Parts");
-        robotParts[LeftArm] = partsObj.GetChild(LeftArm).GetComponent<Part>();
-        robotParts[LeftLeg] = partsObj.GetChild(LeftLeg).GetComponent<Part>();
-        robotParts[RightLeg] = partsObj.GetChild(RightLeg).GetComponent<Part>();
+		partsHolder = this.transform.FindChild("Parts");
+		robotParts[LeftArm] = partsHolder.GetChild(LeftArm).GetComponent<Part>();
+		robotParts[LeftLeg] = partsHolder.GetChild(LeftLeg).GetComponent<Part>();
+		robotParts[RightLeg] = partsHolder.GetChild(RightLeg).GetComponent<Part>();
     }
 
     //Attack Moves
@@ -215,16 +215,37 @@ public class Robot : MonoBehaviour {
 
     public void Pickup()
     {
-        PartPickup partToPickup = pickupBox.TakeClosestPart();
+//        PartPickup partToPickup = pickupBox.TakeClosestPart();
+//
+//        Debug.Log(partToPickup);
+//
+//        if(partToPickup != null)
+//        {
+//            int partIndex = partToPickup.GetIndex();
+//            robotParts[partIndex].Attach();
+//            Destroy(partToPickup.gameObject);
+//        }
 
-        Debug.Log(partToPickup);
+		PartPickup partToPickup = pickupBox.GetClosestPart();
 
-        if(partToPickup != null)
-        {
-            int partIndex = partToPickup.GetIndex();
-            robotParts[partIndex].Attach();
-            Destroy(partToPickup.gameObject);
-        }
+		if(partToPickup != null)
+		{
+			int partIndex = partToPickup.GetIndex();
+			Debug.Log(this + " partIndex: " + partIndex);
+			if(!robotParts[partIndex].active)
+			{	
+				GameObject toAttach = Instantiate(partToPickup.GetAttachablePart()) as GameObject;
+				Destroy(robotParts[partIndex].gameObject);
+				toAttach.transform.SetParent(partsHolder);
+				toAttach.transform.rotation = robotParts[partIndex].transform.rotation;
+				toAttach.transform.position = robotParts[partIndex].transform.position;
+				robotParts[partIndex] = toAttach.GetComponent<Part>();
+				robotParts[partIndex].SetOwner(this);
+				robotParts[partIndex].active = false;
+				robotParts[partIndex].Attach();
+				pickupBox.RemovePart(partToPickup);
+			}
+		}
     }
     
 
