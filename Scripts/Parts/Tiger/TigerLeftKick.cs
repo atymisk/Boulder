@@ -3,6 +3,15 @@ using System.Collections;
 using System;
 
 public class TigerLeftKick : Part {
+	protected override void ChangeSprite(GameObject part)
+	{
+		SpriteRenderer upperLegRender = part.GetComponent<SpriteRenderer>();
+		SpriteRenderer lowerLegRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
+		SpriteRenderer footRender = part.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+		upperLegRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_9"];
+		lowerLegRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_12"];
+		footRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_15"];
+	}
 
     private IEnumerator flashKickRoutine;
 

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup };
 
     //Constants
     const int PartCount = 4;
@@ -28,6 +28,7 @@ public class Robot : MonoBehaviour {
 	public Image RightArmUI;
 	public Image LeftLegUI;
 	public Image RightLegUI;
+	public GameObject buttonRefls;
 
 
     //Private members
@@ -38,7 +39,7 @@ public class Robot : MonoBehaviour {
     private bool isGrounded = true;
     private bool triggered = false;
 	private bool comboState = false;
-    
+	private Transform partsHolder;
 	private RobotHurtBox hurtBox;
     private PickupBox pickupBox;
     private IEnumerator moveTimeRoutine;
@@ -77,27 +78,40 @@ public class Robot : MonoBehaviour {
 		} else 
 			Fill.color = Color.green;
 
-		if (!robotParts [LeftArm].active)
-		{
+		if (!robotParts [LeftArm].active) {
 			LeftArmUI.gameObject.SetActive (false);
+			buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().material.color = Color.gray;
+		} else {
+			buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().material.color = Color.green;
+			LeftArmUI.gameObject.SetActive (true);
+
 		}
-		else
-			LeftArmUI.gameObject.SetActive(true);
+//		if (!robotParts [RightArm].active) {
+//			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
+//			RightArmUI.gameObject.SetActive (false);
+//		}
+//		else {
+			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.yellow;
+//			RightArmUI.gameObject.SetActive (true);
+//		}
 
-//		if (!robotParts [RightArm].active)
-//			RightArmUI.gameObject.SetActive(false);
-//		else
-//			RightArmUI.gameObject.SetActive(true);
+		if (!robotParts [LeftLeg].active) {
+			LeftLegUI.gameObject.SetActive (false);
+			buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.gray;
+		}
+		else {
+			buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.red;
+			LeftLegUI.gameObject.SetActive (true);
+		}
 
-		if (!robotParts [LeftLeg].active)
-			LeftLegUI.gameObject.SetActive(false);
-		else
-			LeftLegUI.gameObject.SetActive(true);
-
-		if (!robotParts [RightLeg].active)
-			RightLegUI.gameObject.SetActive(false);
-		else
-			RightLegUI.gameObject.SetActive(true);
+		if (!robotParts [RightLeg].active) {
+			RightLegUI.gameObject.SetActive (false);
+			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.gray;
+		}
+		else {
+			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.blue;
+			RightLegUI.gameObject.SetActive (true);
+		}
 
 	    if(currentHealth <= 0)
         {
@@ -117,10 +131,10 @@ public class Robot : MonoBehaviour {
     {
         Debug.Log("InitializeParts" + this);
         robotParts = new Part[PartCount];
-        Transform partsObj = this.transform.FindChild("Parts");
-        robotParts[LeftArm] = partsObj.GetChild(LeftArm).GetComponent<Part>();
-        robotParts[LeftLeg] = partsObj.GetChild(LeftLeg).GetComponent<Part>();
-        robotParts[RightLeg] = partsObj.GetChild(RightLeg).GetComponent<Part>();
+		partsHolder = this.transform.FindChild("Parts");
+		robotParts[LeftArm] = partsHolder.GetChild(LeftArm).GetComponent<Part>();
+		robotParts[LeftLeg] = partsHolder.GetChild(LeftLeg).GetComponent<Part>();
+		robotParts[RightLeg] = partsHolder.GetChild(RightLeg).GetComponent<Part>();
     }
 
     //Attack Moves
@@ -199,18 +213,41 @@ public class Robot : MonoBehaviour {
         }
     }
 
-    public void Pickup()
+	public void Pickup()
+	{
+		CharacterState thisMove = CharacterState.LeftKick;
+		
+		if (!IsBusy()) {
+			anim.SetTrigger("Pickup");
+
+			currentState = thisMove;
+		}
+	}
+
+    public void OnPickup()
     {
-        PartPickup partToPickup = pickupBox.TakeClosestPart();
+		CharacterState thisMove = CharacterState.Pickup;
 
-        Debug.Log(partToPickup);
+		PartPickup partToPickup = pickupBox.GetClosestPart();
 
-        if(partToPickup != null)
-        {
-            int partIndex = partToPickup.GetIndex();
-            robotParts[partIndex].Attach();
-            Destroy(partToPickup.gameObject);
-        }
+		if(partToPickup != null)
+		{
+			int partIndex = partToPickup.GetIndex();
+			Debug.Log(this + " partIndex: " + partIndex);
+			if(!robotParts[partIndex].active)
+			{	
+				GameObject toAttach = Instantiate(partToPickup.GetAttachablePart()) as GameObject;
+				Destroy(robotParts[partIndex].gameObject);
+				toAttach.transform.SetParent(partsHolder);
+				toAttach.transform.rotation = robotParts[partIndex].transform.rotation;
+				toAttach.transform.position = robotParts[partIndex].transform.position;
+				robotParts[partIndex] = toAttach.GetComponent<Part>();
+				robotParts[partIndex].SetOwner(this);
+				robotParts[partIndex].active = false;
+				robotParts[partIndex].Attach();
+				pickupBox.RemovePart(partToPickup);
+			}
+		}
     }
     
 

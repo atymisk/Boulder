@@ -17,34 +17,45 @@ public class PickupBox : MonoBehaviour {
 	
 	}
 
+	public void RemovePart(PartPickup part)
+	{
+		Debug.Log (nearbyParts.Contains(part));
+		if(nearbyParts.Remove(part))
+		{
+			Debug.Log ("removePart 2");
+			part.taken = true;
+			Destroy(part.gameObject);
+		}
+	}
 
-    private PartPickup GetClosestPart()
+    public PartPickup GetClosestPart()
     {
-        if(nearbyParts.Count == 0)
-        {
-            return null;
-        }
-        else
-        {
-            Debug.Log("nearbyPart[0]" + nearbyParts[0]);
-            return nearbyParts[0];
-        }
+        PartPickup toTake = null;
+
+		CleanPartList();
+
+		if (nearbyParts.Count > 0) {
+			toTake = nearbyParts[0];
+		}
+
+		Debug.Log("getclosest" + nearbyParts.Contains(toTake));
+        return toTake;
     }
 
-    public PartPickup TakeClosestPart()
-    {
-        if (nearbyParts.Count == 0)
-        {
-            return null;
-        }
-        else
-        {
-            PartPickup taken = nearbyParts[0];
-            nearbyParts.Remove(taken);
+	public void CleanPartList()
+	{
+		List<PartPickup> removalList = new List<PartPickup> ();
 
-            return taken;
-        }
-    }
+		foreach (PartPickup part in nearbyParts) {
+			if(part.taken){
+				removalList.Add(part);
+			}
+		}
+
+		foreach (PartPickup part in removalList) {
+			nearbyParts.Remove(part);
+		}
+	}
 
     void OnTriggerEnter2D(Collider2D other)
     {

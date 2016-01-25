@@ -8,10 +8,12 @@ public abstract class PartPickup : MonoBehaviour {
     protected const int RightLeg = 3;
 
     public Rigidbody2D rigidBodyTwoD;
+    public bool taken = false;
     
     private IEnumerator rotateTimeRoutine;
 
     public abstract int GetIndex();
+	public abstract GameObject GetAttachablePart();
     // Use this for initialization
     void Start()
     {
