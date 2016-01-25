@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup };
 
     //Constants
     const int PartCount = 4;
@@ -213,18 +213,20 @@ public class Robot : MonoBehaviour {
         }
     }
 
-    public void Pickup()
+	public void Pickup()
+	{
+		CharacterState thisMove = CharacterState.LeftKick;
+		
+		if (!IsBusy()) {
+			anim.SetTrigger("Pickup");
+
+			currentState = thisMove;
+		}
+	}
+
+    public void OnPickup()
     {
-//        PartPickup partToPickup = pickupBox.TakeClosestPart();
-//
-//        Debug.Log(partToPickup);
-//
-//        if(partToPickup != null)
-//        {
-//            int partIndex = partToPickup.GetIndex();
-//            robotParts[partIndex].Attach();
-//            Destroy(partToPickup.gameObject);
-//        }
+		CharacterState thisMove = CharacterState.Pickup;
 
 		PartPickup partToPickup = pickupBox.GetClosestPart();
 
