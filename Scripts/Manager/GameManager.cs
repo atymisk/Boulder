@@ -151,6 +151,8 @@ public class GameManager : MonoBehaviour
         countdown = MatchSettingsData.match_time;
         p1_stocks = MatchSettingsData.stock_total;
         p2_stocks = MatchSettingsData.stock_total;
+        p1Left.text = p1_stocks.ToString();
+        p2Left.text = p2_stocks.ToString();
 
         inptmng = GameObject.Find("InputManager");
         keyinpt = inptmng.GetComponent<KeyInputManager>();
@@ -199,7 +201,10 @@ public class GameManager : MonoBehaviour
     {
         countdown -= Time.deltaTime;
         if (countdown <= 0)
+        {
             countdown = 0;
+            gameover = true;
+        }
         int minutes = (int)(countdown/60);
         int seconds = (int)(countdown % 60);
         timer.text = string.Format("{0:00}:{1:00}",minutes,seconds);
@@ -216,11 +221,14 @@ public class GameManager : MonoBehaviour
             print("Toggled");
             toggleInputs();
         }
-		if (isPaused) {
+		if (isPaused)
+        {
 			Time.timeScale = 0;
 //			Cursor.visible = true;
 			pauseMenu.SetActive(true);
-		} else {
+		}
+        else
+        {
 			Time.timeScale = 1;
 //			Cursor.visible = false;
 			pauseMenu.SetActive(false);
