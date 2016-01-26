@@ -8,8 +8,9 @@ public class RobotRocket : MonoBehaviour {
     private IEnumerator rotateTimeRoutine;
 	private GameObject smokeTrail;
 	private Transform smokeSpawnPoint;
+
     // Use this for initialization
-    void Start()
+    protected void Initialize()
     {
 		rigidBodyTwoD = this.GetComponent<Rigidbody2D>();
 		smokeTrail = Instantiate(Resources.Load("Particles/RocketTrail")) as GameObject;
@@ -20,6 +21,11 @@ public class RobotRocket : MonoBehaviour {
     void Update()
     {
 		smokeTrail.transform.position = smokeSpawnPoint.transform.position;
+    }
+
+    protected virtual string GetPickupPath()
+    {
+        return "ItemParts/TigerLeftHandPickup";
     }
 
     public void SetOwner(Robot owner)
@@ -66,18 +72,10 @@ public class RobotRocket : MonoBehaviour {
 				var clone = Instantiate(explosion, enemy.transform.position, Quaternion.identity);
 				Destroy(clone, 5);
 				smokeTrail.GetComponent<ParticleSystem>().enableEmission = false;
-				Destroy(smokeTrail,  smokeTrail.GetComponent<ParticleSystem>().startLifetime);	
+				Destroy(smokeTrail,  smokeTrail.GetComponent<ParticleSystem>().startLifetime);
 
 
-				GameObject pickObj = null;
-				if(owner.playerNum == 1)
-				{
-					pickObj = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
-				}
-				else
-				{
-					pickObj = Instantiate(Resources.Load("ItemParts/BunnyLeftHandPickup")) as GameObject;
-				}
+                GameObject pickObj = Instantiate(Resources.Load(GetPickupPath())) as GameObject;
 
                 pickObj.transform.position = this.transform.position;
 

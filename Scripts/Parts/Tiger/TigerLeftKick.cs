@@ -20,6 +20,11 @@ public class TigerLeftKick : Part {
         base.Initialize();
     }
 
+    public override string GetRocketPath()
+    {
+        return "RocketParts/TigerLeftLegRocket";
+    }
+
     public override void Attack()
     {
         flashKickRoutine = FlashKickRoutine();

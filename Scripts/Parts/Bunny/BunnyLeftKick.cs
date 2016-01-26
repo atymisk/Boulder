@@ -19,8 +19,14 @@ public class BunnyLeftKick : Part {
 	{
 		base.Initialize();
 	}
-	
-	public override void Attack()
+
+
+    public override string GetRocketPath()
+    {
+        return "RocketParts/BunnyLeftLegRocket";
+    }
+
+    public override void Attack()
 	{
 		flashKickRoutine = FlashKickRoutine();
 		StartCoroutine(flashKickRoutine);
