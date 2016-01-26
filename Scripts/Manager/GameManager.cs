@@ -79,11 +79,7 @@ public class GameManager : MonoBehaviour
 		
 		if(p1_stocks == 0)
 		{
-			stats.matchEnd ();
-			stats.writeStatsToFile();
-			gameover = true;
-			print("gameover");
-			ChangeScene.instance.ChangetoScene("MainUI");
+			gameover = true;	
 		}
 		else
 		{
@@ -111,11 +107,7 @@ public class GameManager : MonoBehaviour
 		
 		if (p2_stocks == 0)
 		{
-			stats.matchEnd ();
-			stats.writeStatsToFile();
 			gameover = true;
-			print("gameover");
-			ChangeScene.instance.ChangetoScene("MainUI");
 		}
 		else
 		{
@@ -147,6 +139,7 @@ public class GameManager : MonoBehaviour
 		primaryINPT.unlockp2control(P2);
 		cmrmng.p2_respawn(P2);
 	}
+
     void Awake ()
     {
         instance = this;
@@ -178,6 +171,7 @@ public class GameManager : MonoBehaviour
 		p2_origin.enabled = false;
 		p2_origin.transform.position = new Vector3(5, 245, 0);
 	}
+
 	private void toggleInputs()
 	{
 		if(!keys)
@@ -205,16 +199,31 @@ public class GameManager : MonoBehaviour
 	{
 		countdown -= Time.deltaTime;
 		if (countdown <= 0)
+        {
 			countdown = 0;
+            gameover = true;
+        }
 		int minutes = (int)(countdown/60);
 		int seconds = (int)(countdown % 60);
 		timer.text = string.Format("{0:00}:{1:00}",minutes,seconds);
 	}
+
+    void checkgameover()
+    {
+        if(gameover)
+        {
+            stats.matchEnd();
+            stats.writeStatsToFile();
+            ChangeScene.instance.ChangetoScene("MainUI");
+        }
+    }
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		DisplayCountdown();
+        checkgameover();
+
 		//for testing input purposes
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
