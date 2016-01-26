@@ -73,6 +73,8 @@ public class Robot : MonoBehaviour {
 		healthBar.value = currentHealth / maxHealth * 100;
 		healthNum.text = healthBar.value.ToString ();
 
+		buttonRefls.transform.position = this.transform.position;
+		
 		if (healthBar.value <= 40) {
 			Fill.color = Color.red;
 		} else 
@@ -80,9 +82,9 @@ public class Robot : MonoBehaviour {
 
 		if (!robotParts [LeftArm].active) {
 			LeftArmUI.gameObject.SetActive (false);
-			buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().material.color = Color.gray;
+			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.gray;
 		} else {
-			buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().material.color = Color.green;
+			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.blue;
 			LeftArmUI.gameObject.SetActive (true);
 
 		}
@@ -97,10 +99,10 @@ public class Robot : MonoBehaviour {
 
 		if (!robotParts [LeftLeg].active) {
 			LeftLegUI.gameObject.SetActive (false);
-			buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.gray;
+			buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.gray;
 		}
 		else {
-			buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.red;
+			buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.green;
 			LeftLegUI.gameObject.SetActive (true);
 		}
 
@@ -109,7 +111,7 @@ public class Robot : MonoBehaviour {
 			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.gray;
 		}
 		else {
-			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.blue;
+			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.red;
 			RightLegUI.gameObject.SetActive (true);
 		}
 
