@@ -121,8 +121,9 @@ public class StatsManager : MonoBehaviour
 	public void writeStatsToFile(){
 		var timeSpan = TimeSpan.FromMilliseconds (matchTime);
 		string[] placeholder = {"Elapsed Time: " + ToReadableString(timeSpan), "", "Statistics", "==========", "Player 1 Left Punch: " + playerOneStats.leftPunch, "Player 1 Right Punch: " + playerOneStats.rightPunch, "Player 1 Left Kick: " + playerOneStats.leftKick, "Player 1 Right Kick: " + playerOneStats.rightKick, "Player 1 Rocket Punches: " + playerOneStats.rocket, "==========", "Player 2 Left Punch: " + playerTwoStats.leftPunch, "Player 2 Right Punch: " + playerTwoStats.rightPunch, "Player 2 Left Kick: " + playerTwoStats.leftKick, "Player 2 Right Kick: " + playerTwoStats.rightKick, "Player 2 Rocket Punches: " + playerTwoStats.rocket};
-		Debug.Log (System.DateTime.Now.ToString("MM-dd-yyyy") + "_" + System.DateTime.Now.ToString ("hhmmss") + ".txt");
+//		Debug.Log (System.DateTime.Now.ToString("MM-dd-yyyy") + "_" + System.DateTime.Now.ToString ("hhmmss") + ".txt");
 		Directory.CreateDirectory ("stats");
+//		Debug.Log (Directory.GetCurrentDirectory ());
 		System.IO.File.WriteAllLines(@"stats\" + System.DateTime.Now.ToString("MM-dd-yyyy") + "_" + System.DateTime.Now.ToString ("hhmmss") + ".txt", placeholder);
 	}
 }
