@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class PickupBox : MonoBehaviour {
 
+	public GameObject pickableNote;
+
     List<PartPickup> nearbyParts;
 	// Use this for initialization
 	void Start ()
@@ -14,7 +16,9 @@ public class PickupBox : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-	
+		if (nearbyParts.Count > 0) {
+			pickableNote.transform.position = new Vector2 (nearbyParts [0].transform.position.x, nearbyParts [0].transform.position.y + 10);
+		}
 	}
 
 	public void RemovePart(PartPickup part)
@@ -65,6 +69,8 @@ public class PickupBox : MonoBehaviour {
         {
             nearbyParts.Add(part);
             Debug.Log("Parts: " + nearbyParts.Count);
+			pickableNote.SetActive(true);
+			//pickableNote.transform.position.y += 10.0f;
         }
     }
 
@@ -74,6 +80,7 @@ public class PickupBox : MonoBehaviour {
 
         if (part != null)
         {
+			pickableNote.SetActive(false);
             nearbyParts.Remove(part);
             Debug.Log("Parts: " + nearbyParts.Count);
         }
