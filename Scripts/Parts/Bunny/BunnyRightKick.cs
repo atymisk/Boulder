@@ -19,8 +19,14 @@ public class BunnyRightKick : Part {
 	{
 		base.Initialize();
 	}
-	
-	public override void Attack()
+
+
+    public override string GetRocketPath()
+    {
+        return "RocketParts/BunnyRightLegRocket";
+    }
+
+    public override void Attack()
 	{
 		float speed = -50;
 		float duration = 0.30f;

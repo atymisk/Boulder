@@ -263,15 +263,8 @@ public class Robot : MonoBehaviour {
     {
         if(robotParts[index].active)
         {
-			GameObject rocketPrefab = null;
-			if(playerNum == 1)
-			{
-				rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
-			}
-			else
-			{
-				rocketPrefab = Instantiate(Resources.Load("RocketParts/BunnyLeftHandRocket")) as GameObject;
-			}
+            Debug.Log(robotParts[index] + "  |  " + robotParts[index].GetRocketPath());
+			GameObject rocketPrefab = Instantiate(Resources.Load(robotParts[index].GetRocketPath())) as GameObject;
 
             RobotRocket rocket = rocketPrefab.GetComponent<RobotRocket>();
             rocket.SetOwner(this);

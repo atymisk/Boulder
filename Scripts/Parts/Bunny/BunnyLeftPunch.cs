@@ -20,8 +20,14 @@ public class BunnyLeftPunch : Part
 	{
 		base.Initialize();
 	}
-	
-	public override void Attack()
+
+
+    public override string GetRocketPath()
+    {
+        return "RocketParts/BunnyLeftHandRocket";
+    }
+
+    public override void Attack()
 	{
 		//Implement additional behaviour such as position changes or special hitbox cases here
 	}
