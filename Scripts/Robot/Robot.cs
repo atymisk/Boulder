@@ -135,6 +135,7 @@ public class Robot : MonoBehaviour {
         robotParts = new Part[PartCount];
 		partsHolder = this.transform.FindChild("Parts");
 		robotParts[LeftArm] = partsHolder.GetChild(LeftArm).GetComponent<Part>();
+		robotParts[RightArm] = partsHolder.GetChild(RightArm).GetComponent<Part>();
 		robotParts[LeftLeg] = partsHolder.GetChild(LeftLeg).GetComponent<Part>();
 		robotParts[RightLeg] = partsHolder.GetChild(RightLeg).GetComponent<Part>();
     }
@@ -159,6 +160,34 @@ public class Robot : MonoBehaviour {
 			currentState = thisMove;
         }
     }
+
+	public void RightPunch()
+	{
+		CharacterState thisMove = CharacterState.RightPunch;
+		
+		if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+		{
+			robotParts[RightArm].Attack();
+			comboState = false;
+			anim.SetTrigger(robotParts[RightArm].GetTrigger());
+			
+			if(isGrounded)
+			{
+				rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+			}
+			
+			
+			currentState = thisMove;
+		}
+	}
+
+	public void RightPunchExplosion()
+	{
+		GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
+		var punchExplosion = Instantiate(explosion, this.transform.Find("Pelvis").Find("Chest").Find("RightShoulder").Find("RightHand").position, Quaternion.identity);
+
+	}
+
 
     public void LeftKick()
     {
