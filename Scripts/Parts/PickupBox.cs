@@ -29,6 +29,7 @@ public class PickupBox : MonoBehaviour {
 			Debug.Log ("removePart 2");
 			part.taken = true;
 			Destroy(part.gameObject);
+			pickableNote.SetActive(false);
 		}
 	}
 
@@ -53,6 +54,7 @@ public class PickupBox : MonoBehaviour {
 		foreach (PartPickup part in nearbyParts) {
 			if(part.taken){
 				removalList.Add(part);
+				pickableNote.SetActive(false);
 			}
 		}
 
