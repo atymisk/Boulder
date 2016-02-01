@@ -21,14 +21,15 @@ public class Robot : MonoBehaviour {
     public Rigidbody2D rigidbodyTwoD;
     public float maxHealth = 200f;
     public float currentHealth = 200f;
-	public Text healthNum;
+	//public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
-	public Image LeftArmUI;
-	public Image RightArmUI;
-	public Image LeftLegUI;
-	public Image RightLegUI;
+	//public Image LeftArmUI;
+	//public Image RightArmUI;
+	//public Image LeftLegUI;
+	//public Image RightLegUI;
 	public GameObject buttonRefls;
+	public GameObject charUI;
 
 
     //Private members
@@ -45,6 +46,14 @@ public class Robot : MonoBehaviour {
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 
+	private Text healthNum;
+	//private Slider healthBar;
+	//private Image Fill;
+	private Image LeftArmUI;
+	private Image RightArmUI;
+	private Image LeftLegUI;
+	private Image RightLegUI;
+
     void Start ()
     {
         currentState = CharacterState.Idle;
@@ -53,6 +62,13 @@ public class Robot : MonoBehaviour {
 		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
         pickupBox = this.transform.FindChild("PickupBox").GetComponent<PickupBox>();
         gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
+
+		healthNum = charUI.transform.Find ("healthText").GetComponent<Text> ();
+		LeftArmUI = charUI.transform.Find ("leftArm").GetComponent<Image> ();
+		RightArmUI = charUI.transform.Find ("RightArm").GetComponent<Image> ();
+		LeftLegUI = charUI.transform.Find ("leftLeg").GetComponent<Image> ();
+		RightLegUI = charUI.transform.Find ("RightLeg").GetComponent<Image> ();
+
         InitializeParts();
 
         if (this.transform.right.x < 0)
