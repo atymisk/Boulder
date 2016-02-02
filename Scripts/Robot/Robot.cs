@@ -201,9 +201,24 @@ public class Robot : MonoBehaviour {
 
 	public void RightPunchExplosion()
 	{
-		GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
-		var punchExplosion = Instantiate(explosion, this.transform.Find("Pelvis").Find("Chest").Find("RightShoulder").Find("RightHand").position, Quaternion.identity);
+		GameObject explosion = (GameObject)Resources.Load("Particles/RightPunchEx");
+		GameObject punchExplosion = (GameObject)Instantiate(explosion, this.transform.Find("Pelvis").Find("Chest").Find("RightShoulder").Find("RightHand").position, Quaternion.identity);
+        RightPunchExplosion exScript = punchExplosion.GetComponent<RightPunchExplosion>();
+        exScript.SetOwner(this);
+        if (isFacingLeft)
+        {
+            punchExplosion.transform.position = new Vector3((punchExplosion.transform.position.x - 8),
+                                                        punchExplosion.transform.position.y - 3,
+                                                        punchExplosion.transform.position.z);
+        }
+        else
+        {
+            punchExplosion.transform.position = new Vector3((punchExplosion.transform.position.x + 8),
+                                                        punchExplosion.transform.position.y - 3,
+                                                        punchExplosion.transform.position.z);
+        }
 
+        Destroy(punchExplosion, 5);
 	}
 
 
