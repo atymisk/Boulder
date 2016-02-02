@@ -25,6 +25,12 @@ public class KeyInputManager : InputManager {
 					playerOne.UnBlock ();
 				}
 
+				if (Input.GetKey (KeyCode.C)) {
+					playerOne.rocketPrepare();
+				} else {
+					playerOne.rocketUnPre();
+				}
+
 				if (Input.GetKeyDown (KeyCode.D)) {
 					playerOne.FaceRight ();
 				} else if (Input.GetKeyDown (KeyCode.A)) {
@@ -51,6 +57,8 @@ public class KeyInputManager : InputManager {
 					playerOne.RightKick ();
 				} else if (Input.GetKeyDown (KeyCode.Alpha2)) {
 					playerOne.RightPunch ();
+				} else if (Input.GetKeyDown (KeyCode.Alpha5)) {
+					playerOne.RocketLeftArm ();
 				}
 			}
 			///--------------------------------------------------------------------------
@@ -62,6 +70,11 @@ public class KeyInputManager : InputManager {
 					playerTwo.UnBlock ();
 				}
 
+				if (Input.GetKey (KeyCode.M)) {
+					playerTwo.rocketPrepare();
+				} else {
+					playerTwo.rocketUnPre();
+				}
 
 				if (Input.GetKeyDown (KeyCode.L)) {
 					playerTwo.FaceRight ();
@@ -89,6 +102,8 @@ public class KeyInputManager : InputManager {
 					playerTwo.RightKick ();
 				} else if (Input.GetKeyDown (KeyCode.Alpha8)) {
 					playerTwo.RightPunch();
+				}else if (Input.GetKeyDown (KeyCode.Equals)) {
+					playerTwo.RocketLeftArm();
 				}
 			}
 		}

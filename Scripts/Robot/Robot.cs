@@ -24,10 +24,7 @@ public class Robot : MonoBehaviour {
 	//public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
-	//public Image LeftArmUI;
-	//public Image RightArmUI;
-	//public Image LeftLegUI;
-	//public Image RightLegUI;
+
 	public GameObject buttonRefls;
 	public GameObject charUI;
 
@@ -106,14 +103,14 @@ public class Robot : MonoBehaviour {
 			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.blue;
 			LeftArmUI.gameObject.SetActive (true);
 		}
-//		if (!robotParts [RightArm].active) {
-//			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
-//			RightArmUI.gameObject.SetActive (false);
-//		}
-//		else {
+		if (!robotParts [RightArm].active) {
+			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
+			RightArmUI.gameObject.SetActive (false);
+		}
+		else {
 			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.yellow;
-//			RightArmUI.gameObject.SetActive (true);
-//		}
+			RightArmUI.gameObject.SetActive (true);
+		}
 
 		if (!robotParts [LeftLeg].active) {
 			LeftLegUI.gameObject.SetActive (false);
@@ -314,6 +311,35 @@ public class Robot : MonoBehaviour {
 		}
     }
     
+	//UI rocket move reflection
+	public void rocketPrepare()
+	{
+		LeftArmUI.color = Color.blue;
+		//LeftArmUI.color = Color.Lerp (Color.blue, Color.white, Time.deltaTime*30);
+		RightArmUI.color = Color.yellow;
+		LeftLegUI.color = Color.green;
+		RightLegUI.color = Color.red;	
+
+		LeftArmUI.transform.localScale = new Vector2 (1.2f, 1.2f);
+		RightArmUI.transform.localScale = new Vector2 (1.2f, 1.2f);
+		LeftLegUI.transform.localScale = new Vector2 (1.1f, 1.3f);
+		RightLegUI.transform.localScale = new Vector2 (1.1f, 1.3f);
+
+	}
+	
+	public void rocketUnPre()
+	{
+		LeftArmUI.color = Color.white;
+		RightArmUI.color = Color.white;
+		LeftLegUI.color = Color.white;
+		RightLegUI.color = Color.white;
+
+		LeftArmUI.transform.localScale = new Vector2 (0.9f, 0.9f);
+		RightArmUI.transform.localScale = new Vector2 (0.9f, 0.9f);
+		LeftLegUI.transform.localScale = new Vector2 (0.8f, 1.0f);
+		RightLegUI.transform.localScale = new Vector2 (0.8f, 1.0f);
+
+	}
 
     //Rocket Moves
     public void RocketLeftArm()

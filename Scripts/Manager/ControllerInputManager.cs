@@ -79,6 +79,15 @@ public class ControllerInputManager : InputManager
 					} else if (Input.GetButtonUp ("LeftBumper_P1")) {
 						playerOne.UnBlock ();
 					}
+
+					//change the top corner UI for the ready of rocket moves
+					//if the right trigger is on hold
+					//if (Input.GetButton ("RightTrigger_P1")) {
+					//		playerOne.rocketPrepare ();
+					//} else if (Input.GetButtonUp ("RightTrigger_P1")) {
+					//		playerOne.rocketUnPre ();
+					//}
+
 					previousP1X = Input.GetAxis ("LeftJoystickX_P1");
 					previousP1Y = Input.GetAxis ("LeftJoystickY_P1");
 //				}
@@ -158,6 +167,15 @@ public class ControllerInputManager : InputManager
 					} else if (Input.GetButtonUp ("LeftBumper_P2")) {
 						playerTwo.UnBlock ();
 					}
+					
+					//change the top corner UI for the ready of rocket moves
+					//if the right trigger is on hold
+					//if (Input.GetButton ("RightTrigger_P2")) {
+					//		playerTwo.rocketPrepare ();
+					//} else if (Input.GetButtonUp ("RightTrigger_P2")) {
+					//		playerTwo.rocketUnPre ();
+					//}
+					
 					previousP2X = Input.GetAxis ("LeftJoystickX_P2");
 					previousP2Y = Input.GetAxis ("LeftJoystickY_P2");
 //				}
