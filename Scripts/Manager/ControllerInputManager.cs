@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ControllerInputManager : InputManager {
-	
+public class ControllerInputManager : InputManager
+{
 	// Use this for initialization
 	
 	void Start () 
@@ -16,21 +16,23 @@ public class ControllerInputManager : InputManager {
 //		string controller1 = Input.GetJoystickNames () [0];
 //		string controller2 = Input.GetJoystickNames () [1];
 		//Temporary implementation used for testing-------------------------------------
-		if (controller1 == "Wireless Controller") {
-			if (Input.GetButtonDown ("RightStickClick_P1")) {
-				gameManager.togglePause();
-            }
-        } else {
-			if (Input.GetButtonDown ("Start_P1")) {
+		//if (controller1 == "Wireless Controller") {
+		//	if (Input.GetButtonDown ("RightStickClick_P1")) {
+		//		gameManager.togglePause();
+        //    }
+        //} else {
+			if (Input.GetButtonDown ("Start_P1"))
+            {
                 gameManager.togglePause();
             }
-        }
-		if (controller2 == "Wireless Controller") {
-			if (Input.GetButtonDown ("RightStickClick_P2")) {
-                gameManager.togglePause();
-            }
-		} else {
-			if (Input.GetButtonDown ("Start_P2")) {
+    //    }
+		//if (controller2 == "Wireless Controller") {
+		//	if (Input.GetButtonDown ("RightStickClick_P2")) {
+        //        gameManager.togglePause();
+        //    }
+		//} else {
+			if (Input.GetButtonDown ("Start_P2")) 
+            {
                 gameManager.togglePause();
             }
 //		}

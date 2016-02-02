@@ -96,13 +96,15 @@ public class Robot : MonoBehaviour {
 		} else 
 			Fill.color = Color.green;
 
-		if (!robotParts [LeftArm].active) {
+		if (!robotParts [LeftArm].active)
+        {
 			LeftArmUI.gameObject.SetActive (false);
 			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.gray;
-		} else {
+		}
+        else
+        {
 			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.blue;
 			LeftArmUI.gameObject.SetActive (true);
-
 		}
 //		if (!robotParts [RightArm].active) {
 //			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
