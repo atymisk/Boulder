@@ -15,7 +15,7 @@ public class KeyInputManager : InputManager {
     {
         //Temporary implementation used for testing-------------------------------------
 		if (Input.GetKeyDown(KeyCode.P)){
-			gameManager.isPaused = !gameManager.isPaused;
+			gameManager.togglePause();
 		}
 		if (!gameManager.isPaused) {
 			if (!p1lock) {

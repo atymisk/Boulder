@@ -6,6 +6,7 @@ public class SettingsDisplay : MonoBehaviour
 {
     public Text time;
     public Text lives;
+    public Text control;
     string timeMinSec;
 
     public void displayTime()
@@ -25,5 +26,6 @@ public class SettingsDisplay : MonoBehaviour
         displayTime();
         time.text = timeMinSec;
         lives.text = MatchSettingsData.stock_total.ToString();
+        control.text = MatchSettingsData.mstrinptmng;
 	}
 }

@@ -42,7 +42,11 @@ public class GameManager : MonoBehaviour
 	//private System.Timers.Timer countdown;
 	private static float countdown = 120;
 	public Text timer;
-	
+
+    private bool gamestart = false;
+    private float startimer = 4;
+    public Text start;
+
 	private bool gameover = false;
 	private float respawntimer = 1.25f;
 	private bool keys = true;
@@ -51,13 +55,9 @@ public class GameManager : MonoBehaviour
 	public void thisPlayerDied(string tag)
 	{
 		if(tag == "P1")
-		{
 			p1death();
-		}
 		else if(tag == "P2")
-		{
 			p2death();
-		}
 	}
 	
 	void p1death()//called twice
@@ -139,38 +139,32 @@ public class GameManager : MonoBehaviour
 		primaryINPT.unlockp2control(P2);
 		cmrmng.p2_respawn(P2);
 	}
-
-    void Awake ()
+    
+    void checkgameover()
     {
-        instance = this;
+        if(gameover)
+        {
+            stats.matchEnd();
+            stats.writeStatsToFile();
+            //primaryINPT.lockcontrols();
+            StartCoroutine(endmatch());
+        }
+    }
 
-        countdown = MatchSettingsData.match_time;
-        p1_stocks = MatchSettingsData.stock_total;
-        p2_stocks = MatchSettingsData.stock_total;
-        p1Left.text = p1_stocks.ToString();
-        p2Left.text = p2_stocks.ToString();
-		
-		inptmng = GameObject.Find("InputManager");
-		keyinpt = inptmng.GetComponent<KeyInputManager>();
-		continpt = inptmng.GetComponent<ControllerInputManager>();
-		continpt.enabled = false;
-		keyinpt.enabled = true;
-		primaryINPT = keyinpt;
-		stats = GameObject.Find ("StatsManager").GetComponent<StatsManager>();
-		
-		P1.setTag("P1");
-		P1.transform.position = P1spawnPoint.position;
-		p1_origin = Instantiate(P1);//clone P1
-		p1_origin.enabled = false;
-		p1_origin.transform.position = new Vector3(-5,245,0);
-		//p1_origin.rend.enabled = false;
-		
-		P2.setTag("P2");
-		P2.transform.position = P2spawnPoint.position;
-		p2_origin = Instantiate(P2);//clone P2
-		p2_origin.enabled = false;
-		p2_origin.transform.position = new Vector3(5, 245, 0);
-	}
+    public void togglePause()
+    {
+        isPaused = !isPaused;
+        if(isPaused)
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pauseMenu.SetActive(false);
+        }
+    }
 
 	private void toggleInputs()
 	{
@@ -194,56 +188,123 @@ public class GameManager : MonoBehaviour
 		}
 		keys = !keys;
 	}
-	
-	void DisplayCountdown()
-	{
-		countdown -= Time.deltaTime;
-		if (countdown <= 0)
+
+    void DisplayCountdown()
+    {
+        countdown -= Time.deltaTime;
+		int seconds = (int)(countdown % 60);
+        if (countdown <= 0)
         {
-			countdown = 0;
+            countdown = 0;
             gameover = true;
         }
-		int minutes = (int)(countdown/60);
-		int seconds = (int)(countdown % 60);
-		timer.text = string.Format("{0:00}:{1:00}",minutes,seconds);
-	}
-
-    void checkgameover()
-    {
-        if(gameover)
+        else if (countdown > 10)
         {
-            stats.matchEnd();
-            stats.writeStatsToFile();
-            ChangeScene.instance.ChangetoScene("MainUI");
+		    int minutes = (int)(countdown/60);
+		    timer.text = string.Format("{0:00}:{1:00}",minutes,seconds);
         }
-    }
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		DisplayCountdown();
-        checkgameover();
-
-		//for testing input purposes
-		if(Input.GetKeyUp(KeyCode.Escape))
-		{
-			print("Toggled");
-			toggleInputs();
-		}
-		if (isPaused)
-        {
-			stats.matchPause();
-			Time.timeScale = 0;
-			//			Cursor.visible = true;
-			pauseMenu.SetActive(true);
-		}
         else
         {
-			stats.matchStart();
-			Time.timeScale = 1;
-			//			Cursor.visible = false;
-			pauseMenu.SetActive(false);
-		}
-//		Debug.Log(stats.getMilliseconds ());
+            timer.color = Color.red;
+            timer.text = seconds.ToString();
+            timer.fontSize = 50;
+        }
+	}
+
+    IEnumerator startmatch()
+    {
+        int mcountdown = (int)startimer;
+        start.text = mcountdown.ToString();
+        startimer -= Time.deltaTime;
+        if(startimer <= 1)
+        {
+            start.fontStyle = FontStyle.Italic;
+            start.fontSize = 50;
+            start.text = "START!";
+            gamestart = true;
+            primaryINPT.unlockcontrols();
+        }
+        if (gamestart)
+        {
+            yield return new WaitForSeconds(0.9f);
+            start.text = "";
+        }
+    }
+
+    IEnumerator endmatch()
+    {
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(0.75f);
+        Time.timeScale = 0.1f;
+        yield return new WaitForSeconds(0.3f);
+        Time.timeScale = 0;
+        ChangeScene.instance.ChangetoScene("MainUI");//change to EndOfMatch scene
+    }
+
+    void Awake()
+    {
+        instance = this;
+
+        countdown = MatchSettingsData.match_time + 1;
+        p1_stocks = MatchSettingsData.stock_total;
+        p2_stocks = MatchSettingsData.stock_total;
+        p1Left.text = p1_stocks.ToString();
+        p2Left.text = p2_stocks.ToString();
+
+        inptmng = GameObject.Find("InputManager");
+        keyinpt = inptmng.GetComponent<KeyInputManager>();
+        continpt = inptmng.GetComponent<ControllerInputManager>();
+        if(MatchSettingsData.mstrinptmng == "Keys")
+        {
+            continpt.enabled = false;
+            keyinpt.enabled = true;
+            primaryINPT = keyinpt;
+            keys = true;
+        }
+        else
+        {
+            continpt.enabled = true;
+            keyinpt.enabled = false;
+            primaryINPT = continpt;
+            keys = false;
+        }
+        stats = GameObject.Find("StatsManager").GetComponent<StatsManager>();
+
+        P1.setTag("P1");
+        P1.transform.position = P1spawnPoint.position;
+        p1_origin = Instantiate(P1);//clone P1
+        p1_origin.enabled = false;
+        p1_origin.transform.position = new Vector3(-5, 245, 0);
+        //p1_origin.rend.enabled = false;
+         
+        P2.setTag("P2");
+        P2.transform.position = P2spawnPoint.position;
+        p2_origin = Instantiate(P2);//clone P2
+        p2_origin.enabled = false;
+        p2_origin.transform.position = new Vector3(5, 245, 0);
+
+        pauseMenu.SetActive(false);
+        primaryINPT.lockcontrols();
+    }
+
+    // Update is called once per frame
+    void Update ()
+	{
+        if(gamestart)
+        {
+		    DisplayCountdown();
+            checkgameover();
+
+		    //for testing input purposes
+		    if(Input.GetKeyUp(KeyCode.Escape))
+		    {
+			    print("Toggled");
+			    toggleInputs();
+		    }
+        }
+        else
+        {
+            StartCoroutine(startmatch());
+        }
 	}
 }

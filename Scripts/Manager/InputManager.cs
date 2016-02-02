@@ -29,6 +29,18 @@ public abstract class InputManager : MonoBehaviour
 	{
 		p2lock = true;//p2 is dead
 	}
+
+    public void lockcontrols()
+    {
+        p1lock = true;
+        p2lock = true;
+    }
+
+    public void unlockcontrols()
+    {
+        p1lock = false;
+        p2lock = false;
+    }
 	
 	//respawned
 	public void unlockp1control(Robot newp1)

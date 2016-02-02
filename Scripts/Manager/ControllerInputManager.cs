@@ -18,21 +18,21 @@ public class ControllerInputManager : InputManager {
 		//Temporary implementation used for testing-------------------------------------
 		if (controller1 == "Wireless Controller") {
 			if (Input.GetButtonDown ("RightStickClick_P1")) {
-				gameManager.isPaused = !gameManager.isPaused;
-			}
-		} else {
+				gameManager.togglePause();
+            }
+        } else {
 			if (Input.GetButtonDown ("Start_P1")) {
-				gameManager.isPaused = !gameManager.isPaused;
-			}
-		}
+                gameManager.togglePause();
+            }
+        }
 		if (controller2 == "Wireless Controller") {
 			if (Input.GetButtonDown ("RightStickClick_P2")) {
-				gameManager.isPaused = !gameManager.isPaused;
-			}
+                gameManager.togglePause();
+            }
 		} else {
 			if (Input.GetButtonDown ("Start_P2")) {
-				gameManager.isPaused = !gameManager.isPaused;
-			}
+                gameManager.togglePause();
+            }
 		}
 		if (!gameManager.isPaused) {
 			if (!p1lock) {
