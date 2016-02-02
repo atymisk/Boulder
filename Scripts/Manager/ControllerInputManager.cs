@@ -63,7 +63,9 @@ public class ControllerInputManager : InputManager
 						playerOne.RocketLeftArm ();
 					} else if (Input.GetButtonDown ("X_P1")) {
 						playerOne.LeftPunch ();
-					} else if (Input.GetButtonDown ("B_P1")) {
+					} else if (Input.GetButtonDown("Y_P1")) {
+                        playerOne.RightPunch();
+                    } else if (Input.GetButtonDown ("B_P1")) {
 						playerOne.RightKick ();
 					} else if (Input.GetButtonDown ("A_P1")) {
 						playerOne.LeftKick ();
@@ -140,11 +142,13 @@ public class ControllerInputManager : InputManager
 						playerTwo.RocketLeftArm ();
 					}else if (Input.GetButtonDown ("X_P2")) {
 						playerTwo.LeftPunch ();
-					} else if (Input.GetButtonDown ("B_P2")) {
+					}else if (Input.GetButtonDown("Y_P2")) {
+                        playerTwo.RightPunch();
+                    }else if (Input.GetButtonDown ("B_P2")) {
 						playerTwo.RightKick ();
-					} else if (Input.GetButtonDown ("A_P2")) {
+					}else if (Input.GetButtonDown ("A_P2")) {
 						playerTwo.LeftKick ();
-					} else if(Input.GetButton ("RightBumper_P2")){
+					}else if(Input.GetButton ("RightBumper_P2")){
 						playerTwo.Pickup();
 					}
 					

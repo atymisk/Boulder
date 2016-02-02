@@ -13,7 +13,7 @@ public class RightPunchExplosion : MonoBehaviour {
 	void Update () {
         hitboxLifeTime = hitboxLifeTime + Time.deltaTime;
 
-        if (hitboxLifeTime >= 0.5f)
+        if (hitboxLifeTime >= 0.25f)
         {
             this.GetComponent<CircleCollider2D>().enabled = false;
         }
