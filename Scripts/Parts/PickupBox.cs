@@ -16,8 +16,8 @@ public class PickupBox : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-		if (nearbyParts.Count > 0) {
-			pickableNote.transform.position = new Vector2 (nearbyParts [0].transform.position.x, nearbyParts [0].transform.position.y + 10);
+		if (GetClosestPart()) {
+			pickableNote.transform.position = new Vector2 (GetClosestPart().transform.position.x, GetClosestPart().transform.position.y + 10);
 		}
 	}
 
@@ -29,6 +29,7 @@ public class PickupBox : MonoBehaviour {
 			Debug.Log ("removePart 2");
 			part.taken = true;
 			Destroy(part.gameObject);
+			pickableNote.SetActive(false);
 		}
 	}
 
@@ -42,7 +43,7 @@ public class PickupBox : MonoBehaviour {
 			toTake = nearbyParts[0];
 		}
 
-		Debug.Log("getclosest" + nearbyParts.Contains(toTake));
+		//Debug.Log("getclosest" + nearbyParts.Contains(toTake));
         return toTake;
     }
 
@@ -58,6 +59,7 @@ public class PickupBox : MonoBehaviour {
 
 		foreach (PartPickup part in removalList) {
 			nearbyParts.Remove(part);
+			pickableNote.SetActive(false);
 		}
 	}
 
@@ -68,7 +70,7 @@ public class PickupBox : MonoBehaviour {
         if(part != null)
         {
             nearbyParts.Add(part);
-            Debug.Log("Parts: " + nearbyParts.Count);
+            //Debug.Log("Parts: " + nearbyParts.Count);
 			pickableNote.SetActive(true);
 			//pickableNote.transform.position.y += 10.0f;
         }
@@ -82,7 +84,7 @@ public class PickupBox : MonoBehaviour {
         {
 			pickableNote.SetActive(false);
             nearbyParts.Remove(part);
-            Debug.Log("Parts: " + nearbyParts.Count);
+            //Debug.Log("Parts: " + nearbyParts.Count);
         }
     }
     

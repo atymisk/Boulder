@@ -21,14 +21,15 @@ public class Robot : MonoBehaviour {
     public Rigidbody2D rigidbodyTwoD;
     public float maxHealth = 200f;
     public float currentHealth = 200f;
-	public Text healthNum;
+	//public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
-	public Image LeftArmUI;
-	public Image RightArmUI;
-	public Image LeftLegUI;
-	public Image RightLegUI;
+	//public Image LeftArmUI;
+	//public Image RightArmUI;
+	//public Image LeftLegUI;
+	//public Image RightLegUI;
 	public GameObject buttonRefls;
+	public GameObject charUI;
 
 
     //Private members
@@ -45,6 +46,14 @@ public class Robot : MonoBehaviour {
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 
+	private Text healthNum;
+	//private Slider healthBar;
+	//private Image Fill;
+	private Image LeftArmUI;
+	private Image RightArmUI;
+	private Image LeftLegUI;
+	private Image RightLegUI;
+
     void Start ()
     {
         currentState = CharacterState.Idle;
@@ -53,6 +62,13 @@ public class Robot : MonoBehaviour {
 		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
         pickupBox = this.transform.FindChild("PickupBox").GetComponent<PickupBox>();
         gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
+
+		healthNum = charUI.transform.Find ("healthText").GetComponent<Text> ();
+		LeftArmUI = charUI.transform.Find ("leftArm").GetComponent<Image> ();
+		RightArmUI = charUI.transform.Find ("RightArm").GetComponent<Image> ();
+		LeftLegUI = charUI.transform.Find ("leftLeg").GetComponent<Image> ();
+		RightLegUI = charUI.transform.Find ("RightLeg").GetComponent<Image> ();
+
         InitializeParts();
 
         if (this.transform.right.x < 0)
@@ -135,6 +151,7 @@ public class Robot : MonoBehaviour {
         robotParts = new Part[PartCount];
 		partsHolder = this.transform.FindChild("Parts");
 		robotParts[LeftArm] = partsHolder.GetChild(LeftArm).GetComponent<Part>();
+		robotParts[RightArm] = partsHolder.GetChild(RightArm).GetComponent<Part>();
 		robotParts[LeftLeg] = partsHolder.GetChild(LeftLeg).GetComponent<Part>();
 		robotParts[RightLeg] = partsHolder.GetChild(RightLeg).GetComponent<Part>();
     }
@@ -159,6 +176,34 @@ public class Robot : MonoBehaviour {
 			currentState = thisMove;
         }
     }
+
+	public void RightPunch()
+	{
+		CharacterState thisMove = CharacterState.RightPunch;
+		
+		if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+		{
+			robotParts[RightArm].Attack();
+			comboState = false;
+			anim.SetTrigger(robotParts[RightArm].GetTrigger());
+			
+			if(isGrounded)
+			{
+				rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+			}
+			
+			
+			currentState = thisMove;
+		}
+	}
+
+	public void RightPunchExplosion()
+	{
+		GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
+		var punchExplosion = Instantiate(explosion, this.transform.Find("Pelvis").Find("Chest").Find("RightShoulder").Find("RightHand").position, Quaternion.identity);
+
+	}
+
 
     public void LeftKick()
     {
@@ -263,15 +308,8 @@ public class Robot : MonoBehaviour {
     {
         if(robotParts[index].active)
         {
-			GameObject rocketPrefab = null;
-			if(playerNum == 1)
-			{
-				rocketPrefab = Instantiate(Resources.Load("RocketParts/TigerLeftHandRocket")) as GameObject;
-			}
-			else
-			{
-				rocketPrefab = Instantiate(Resources.Load("RocketParts/BunnyLeftHandRocket")) as GameObject;
-			}
+            Debug.Log(robotParts[index] + "  |  " + robotParts[index].GetRocketPath());
+			GameObject rocketPrefab = Instantiate(Resources.Load(robotParts[index].GetRocketPath())) as GameObject;
 
             RobotRocket rocket = rocketPrefab.GetComponent<RobotRocket>();
             rocket.SetOwner(this);

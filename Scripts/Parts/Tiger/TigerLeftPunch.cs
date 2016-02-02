@@ -22,6 +22,11 @@ public class TigerLeftPunch : Part
         base.Initialize();
     }
 
+    public override string GetRocketPath()
+    {
+        return "RocketParts/TigerLeftHandRocket";
+    }
+
     public override void Attack()
     {
         //Implement additional behaviour such as position changes or special hitbox cases here

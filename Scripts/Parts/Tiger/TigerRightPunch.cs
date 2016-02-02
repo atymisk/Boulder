@@ -2,32 +2,32 @@
 using System.Collections;
 using System;
 
-public class BunnyLeftPunch : Part
+public class TigerRightPunch : Part
 {
 	protected override void ChangeSprite(GameObject part)
 	{
-		SpriteRenderer shoulderRender = part.GetComponent<SpriteRenderer>();
-		SpriteRenderer handRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
-		shoulderRender.sprite = SpriteManager.instance.spriteMap["Bunny (1)_0"];
-		handRender.sprite = SpriteManager.instance.spriteMap["Bunny (1)_6"];
-
+		//SpriteRenderer shoulderRender = part.GetComponent<SpriteRenderer>();
+		//SpriteRenderer handRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
+		
+		//shoulderRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_0"];
+		//handRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_6"];
+		
 		//shoulderRender.sprite = Resources.Load ("SpriteSheets/Bunny(1)/Bunny(1)_0", typeof(Sprite)) as Sprite;
 		//handRender.sprite = Resources.Load ("SpriteSheets/Bunny(1)/Bunny(1)_6", typeof(Sprite)) as Sprite;
-
+		//throw NotImplementedException;
 	}
 	
 	void Start()
 	{
 		base.Initialize();
 	}
-
-
-    public override string GetRocketPath()
-    {
-        return "RocketParts/BunnyLeftHandRocket";
-    }
-
-    public override void Attack()
+	
+	public override string GetRocketPath()
+	{
+		return "RocketParts/TigerRightHandRocket";
+	}
+	
+	public override void Attack()
 	{
 		//Implement additional behaviour such as position changes or special hitbox cases here
 	}
@@ -39,7 +39,7 @@ public class BunnyLeftPunch : Part
 	
 	public override int GetPartIndex()
 	{
-		return LeftArm;
+		return RightArm;
 	}
 	
 	override public void OnHitConnected(Robot enemy)
@@ -55,6 +55,6 @@ public class BunnyLeftPunch : Part
 	
 	public override string GetTrigger()
 	{
-		return "TigerLeftPunch";
+		return "TigerRightPunch";
 	}
 }

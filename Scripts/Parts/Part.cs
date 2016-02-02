@@ -27,6 +27,11 @@ public abstract class Part : MonoBehaviour
         collider = gameObject.GetComponent<Collider2D>();
     }
 
+    public virtual string GetRocketPath()
+    {
+        return "RocketParts/TigerLeftHandRocket";
+    }
+
 	public void SetOwner(Robot robot)
 	{
 		owner = robot;

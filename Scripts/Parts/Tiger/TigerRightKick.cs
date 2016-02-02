@@ -20,6 +20,11 @@ public class TigerRightKick : Part {
         base.Initialize();
     }
 
+    public override string GetRocketPath()
+    {
+        return "RocketParts/TigerRightLegRocket";
+    }
+
     public override void Attack()
     {
         float speed = -50;
