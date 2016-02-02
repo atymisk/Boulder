@@ -50,7 +50,7 @@ public class KeyInputManager : InputManager {
 				} else if (Input.GetKeyDown (KeyCode.Alpha4)) {
 					playerOne.RightKick ();
 				} else if (Input.GetKeyDown (KeyCode.Alpha2)) {
-					playerOne.RocketLeftArm ();
+					playerOne.RightPunch ();
 				}
 			}
 			///--------------------------------------------------------------------------
