@@ -88,7 +88,7 @@ public class KeyInputManager : InputManager {
 				} else if (Input.GetKeyDown (KeyCode.Alpha0)) {
 					playerTwo.RightKick ();
 				} else if (Input.GetKeyDown (KeyCode.Alpha8)) {
-					playerTwo.RocketLeftArm ();
+					playerTwo.RightPunch();
 				}
 			}
 		}

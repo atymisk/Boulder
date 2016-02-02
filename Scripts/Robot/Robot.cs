@@ -634,7 +634,20 @@ public class Robot : MonoBehaviour {
 				}
 				partToBreak = pelvis.GetChild(2).GetChild(2);
 			}
-			else if(breakIndexList[j] == LeftLeg)
+            else if (breakIndexList[j] == RightArm)
+            {
+                if (playerNum == 1)
+                {
+                    pickObj = Instantiate(Resources.Load("ItemParts/TigerRightHandPickup")) as GameObject;
+                }
+                else
+                {
+                    pickObj = Instantiate(Resources.Load("ItemParts/BunnyRightHandPickup")) as GameObject;
+                }
+
+                partToBreak = pelvis.GetChild(2).GetChild(1);
+            }
+            else if(breakIndexList[j] == LeftLeg)
 			{
 				if(playerNum == 1)
 				{
