@@ -59,7 +59,7 @@ public class ControllerInputManager : InputManager
 					
 					//					if(Input.GetAxis ("LeftJoystickY_P1") > 0 && previ
 					/*(Input.GetButton ("RightBumper_P1") ||*/
-					if (Input.GetButtonDown ("X_P1") && Input.GetAxis("RightTrigger_P1") > 0) {
+					if (Input.GetButtonDown ("X_P1") && (Input.GetAxis("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0)) {
 						playerOne.RocketLeftArm ();
 					} else if (Input.GetButtonDown ("X_P1")) {
 						playerOne.LeftPunch ();
@@ -147,7 +147,7 @@ public class ControllerInputManager : InputManager
 						playerTwo.Jump ();
 					}
 					/*(Input.GetButton ("RightBumper_P2") ||*/
-					if (Input.GetButtonDown ("X_P2") && Input.GetAxis("RightTrigger_P2") > 0) {
+					if (Input.GetButtonDown ("X_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2"))) {
 						playerTwo.RocketLeftArm ();
 					}else if (Input.GetButtonDown ("X_P2")) {
 						playerTwo.LeftPunch ();
