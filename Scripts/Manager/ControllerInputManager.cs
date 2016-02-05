@@ -52,7 +52,7 @@ public class ControllerInputManager : InputManager
 						playerOne.StayStill ();
 					}
 					
-					if ((Input.GetAxis ("LeftJoystickY_P1") < 0 || Input.GetAxis("DPadY_P1") > 0) && (previousP1Y == 0 || previousP1DPadY == 0)) {
+					if ((Input.GetAxis ("LeftJoystickY_P1") < 0 || Input.GetAxis("DPadY_P1") > 0) /*&& (previousP1Y == 0 || previousP1DPadY == 0)*/) {
 						Debug.Log (Input.GetAxis ("LeftJoystickY_P1"));
 						playerOne.Jump ();
 					}
@@ -148,7 +148,7 @@ public class ControllerInputManager : InputManager
 						playerTwo.Jump ();
 					}
 					/*(Input.GetButton ("RightBumper_P2") ||*/
-					if (Input.GetButtonDown ("X_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0)) {
+					if (Input.GetButtonDown ("X_P2") && (Input.GetAxis("RightTrigger_P2") > 0 /*|| Input.GetAxis ("LeftTrigger_P2") > 0)*/) {
 						playerTwo.RocketLeftArm ();
 					}else if (Input.GetButtonDown ("X_P2")) {
 						playerTwo.LeftPunch ();
