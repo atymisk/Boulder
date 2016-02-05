@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public abstract class InputManager : MonoBehaviour 
@@ -15,8 +15,10 @@ public abstract class InputManager : MonoBehaviour
 
 	public float previousP1X = 0;
 	public float previousP1Y = 0;
+	public float previousP1DPadY = 0;
 	public float previousP2X = 0;
 	public float previousP2Y = 0;
+	public float previousP2DPadY = 0;
 
 	//p1 controls need to be disabled temporarily until p1 respawns
 	public void lockp1control()
