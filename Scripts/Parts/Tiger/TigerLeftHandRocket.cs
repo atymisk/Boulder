@@ -8,10 +8,6 @@ public class TigerLeftHandRocket : RobotRocket {
         Initialize();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     protected override string GetPickupPath()
     {
