@@ -24,6 +24,7 @@ public class Robot : MonoBehaviour {
 	//public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
+    public string prefabName;
 
 	public GameObject buttonRefls;
 	public GameObject charUI;
