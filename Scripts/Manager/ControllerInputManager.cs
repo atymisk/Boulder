@@ -52,7 +52,7 @@ public class ControllerInputManager : InputManager
 						playerOne.StayStill ();
 					}
 					
-					if ((Input.GetAxis ("LeftJoystickY_P1") < 0 || Input.GetAxis("DPadY_P1") > 0) /*&& (previousP1Y == 0 || previousP1DPadY == 0)*/) {
+					if ((Input.GetAxis ("LeftJoystickY_P1") < 0 || Input.GetAxis("DPadY_P1") > 0) && (previousP1Y == 0 /*|| previousP1DPadY == 0*/)) {
 //						Debug.Log (Input.GetAxis ("LeftJoystickY_P1"));
 						playerOne.Jump ();
 					}
@@ -144,7 +144,7 @@ public class ControllerInputManager : InputManager
 						playerTwo.StayStill ();
 					}
 					
-					if ((Input.GetAxis ("LeftJoystickY_P2") < 0 || Input.GetAxis ("DPadY_P2") > 0) /*&& (previousP2Y == 0 || previousP2DPadY == 0)*/) {
+					if ((Input.GetAxis ("LeftJoystickY_P2") < 0 || Input.GetAxis ("DPadY_P2") > 0) && (previousP2Y == 0 /*|| previousP2DPadY == 0*/)) {
 						playerTwo.Jump ();
 					}
 					/*(Input.GetButton ("RightBumper_P2") ||*/
