@@ -7,11 +7,6 @@ public class BunnyLeftHandRocket : RobotRocket {
 	void Start () {
         Initialize();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     protected override string GetPickupPath()
     {

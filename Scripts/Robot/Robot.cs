@@ -25,6 +25,7 @@ public class Robot : MonoBehaviour {
 	//public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
+    public string prefabName;
 
 	public GameObject buttonRefls;
 	public GameObject charUI;
@@ -87,11 +88,15 @@ public class Robot : MonoBehaviour {
 		healthBar.value = currentHealth / maxHealth * 100;
 		healthNum.text = healthBar.value.ToString ();
 
+		Color darkYellow = new Color (255, 241, 0);
+
 		buttonRefls.transform.position = this.transform.position;
 		
-		if (healthBar.value <= 40) {
+		if (healthBar.value <= 20) {
 			Fill.color = Color.red;
-		} else 
+		} else if (healthBar.value <= 50)
+			Fill.color = Color.yellow;
+		else 
 			Fill.color = Color.green;
 
 		if (!robotParts [LeftArm].active)
@@ -316,31 +321,18 @@ public class Robot : MonoBehaviour {
 	//UI rocket move reflection
 	public void rocketPrepare()
 	{
-		LeftArmUI.color = Color.blue;
-		//LeftArmUI.color = Color.Lerp (Color.blue, Color.white, Time.deltaTime*30);
-		RightArmUI.color = Color.yellow;
-		LeftLegUI.color = Color.green;
-		RightLegUI.color = Color.red;	
-
-		LeftArmUI.transform.localScale = new Vector2 (1.2f, 1.2f);
-		RightArmUI.transform.localScale = new Vector2 (1.2f, 1.2f);
-		LeftLegUI.transform.localScale = new Vector2 (1.1f, 1.3f);
-		RightLegUI.transform.localScale = new Vector2 (1.1f, 1.3f);
-
+		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
+		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
+		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
+		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
 	}
 	
 	public void rocketUnPre()
 	{
-		LeftArmUI.color = Color.white;
-		RightArmUI.color = Color.white;
-		LeftLegUI.color = Color.white;
-		RightLegUI.color = Color.white;
-
-		LeftArmUI.transform.localScale = new Vector2 (0.9f, 0.9f);
-		RightArmUI.transform.localScale = new Vector2 (0.9f, 0.9f);
-		LeftLegUI.transform.localScale = new Vector2 (0.8f, 1.0f);
-		RightLegUI.transform.localScale = new Vector2 (0.8f, 1.0f);
-
+		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
+		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
+		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
+		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
 	}
 
     //Rocket Moves
