@@ -15,7 +15,6 @@ public class PickupBox : MonoBehaviour {
         nearbyParts = new List<PartPickup>();
         owner = this.GetComponentInParent<Robot>();
         
-        Debug.Log("parentName " + owner.prefabName);
 		//the prefab cannot destroy if the character dies. better dont make it prefab
         if(owner.prefabName == "Tiger") {
             pickableNote = Instantiate(Resources.Load("UI/pickableTiger")) as GameObject;
@@ -43,10 +42,8 @@ public class PickupBox : MonoBehaviour {
 
 	public void RemovePart(PartPickup part)
 	{
-		Debug.Log (nearbyParts.Contains(part));
 		if(nearbyParts.Remove(part))
 		{
-			Debug.Log ("removePart 2");
 			part.taken = true;
 			Destroy(part.gameObject);
 			pickableNote.SetActive(false);
@@ -70,8 +67,7 @@ public class PickupBox : MonoBehaviour {
             }
           
 		}
-
-		Debug.Log(owner + " getclosestpart " + toTake);
+        
         return toTake;
     }
 
