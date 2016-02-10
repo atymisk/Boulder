@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 		if (p2_stocks == 0)
 		{
 			gameover = true;
-            player2wins();
+            player1wins();
 		}
 		else
 		{
