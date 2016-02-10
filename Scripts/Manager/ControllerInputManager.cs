@@ -81,12 +81,12 @@ public class ControllerInputManager : InputManager
 					}
 
 					//change the top corner UI for the ready of rocket moves
-					//if the right trigger is on hold
-					//if (Input.GetButton ("RightTrigger_P1")) {
-					//		playerOne.rocketPrepare ();
-					//} else if (Input.GetButtonUp ("RightTrigger_P1")) {
-					//		playerOne.rocketUnPre ();
-					//}
+//					if the right or left trigger is on hold
+					if (Input.GetAxis ("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0) {
+							playerOne.rocketPrepare ();
+					} else{
+							playerOne.rocketUnPre ();
+					}
 
 					previousP1X = Input.GetAxis ("LeftJoystickX_P1");
 					previousP1Y = Input.GetAxis ("LeftJoystickY_P1");
@@ -170,12 +170,12 @@ public class ControllerInputManager : InputManager
 					}
 					
 					//change the top corner UI for the ready of rocket moves
-					//if the right trigger is on hold
-					//if (Input.GetButton ("RightTrigger_P2")) {
-					//		playerTwo.rocketPrepare ();
-					//} else if (Input.GetButtonUp ("RightTrigger_P2")) {
-					//		playerTwo.rocketUnPre ();
-					//}
+					//if the right or left trigger is on hold
+					if (Input.GetAxis ("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0) {
+						playerTwo.rocketPrepare ();
+					} else {
+						playerTwo.rocketUnPre ();
+					}
 					
 					previousP2X = Input.GetAxis ("LeftJoystickX_P2");
 					previousP2Y = Input.GetAxis ("LeftJoystickY_P2");
