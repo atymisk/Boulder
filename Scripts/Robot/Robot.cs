@@ -394,7 +394,7 @@ public class Robot : MonoBehaviour {
             {
                 StopCoroutine(delayedJump);
             }
-
+            
             anim.SetTrigger("JumpStart");
             delayedJump = DelayedJump(0.05f);
             StartCoroutine(delayedJump);
@@ -440,13 +440,16 @@ public class Robot : MonoBehaviour {
             FaceLeft();
 			if (isGrounded)
 			{
-				anim.SetTrigger("Run");
-				currentState = CharacterState.Run;
+                Debug.Log("RunningLeft");
+                //anim.SetTrigger("Run");
+                anim.SetBool("Running", true);
+                currentState = CharacterState.Run;
 			}
 			else
 			{
-				anim.SetTrigger("UnRun");
-				currentState = CharacterState.Idle;
+                //anim.SetTrigger("UnRun");
+                anim.SetBool("Running", false);
+                currentState = CharacterState.Idle;
 			}
             rigidbodyTwoD.velocity = new Vector2(-50, rigidbodyTwoD.velocity.y);
         }
@@ -459,13 +462,16 @@ public class Robot : MonoBehaviour {
             FaceRight();
 			if (isGrounded)
 			{
-				anim.SetTrigger("Run");
+                Debug.Log("Running");
+                //anim.SetTrigger("Run");
+                anim.SetBool("Running", true);
 				currentState = CharacterState.Run;
 			}
 			else
 			{
 				anim.SetTrigger("UnRun");
-				currentState = CharacterState.Idle;
+                anim.SetBool("Running", false);
+                currentState = CharacterState.Idle;
 			}
             rigidbodyTwoD.velocity = new Vector2(50, rigidbodyTwoD.velocity.y);
         }
@@ -473,10 +479,12 @@ public class Robot : MonoBehaviour {
 
     public void StayStill()
     {
-		if (currentState == CharacterState.Idle || currentState == CharacterState.Run)
+		if (currentState == CharacterState.Run)
         {
-			anim.SetTrigger("UnRun");
-			currentState = CharacterState.Idle;
+            Debug.Log("Unrunning");
+            //anim.SetTrigger("UnRun");
+            anim.SetBool("Running", false);
+            currentState = CharacterState.Idle;
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
         }
     }
@@ -569,8 +577,9 @@ public class Robot : MonoBehaviour {
     {
 		comboState = false;
         currentState = CharacterState.Idle;
-        //CancelAttacks();
 
+        //CancelAttacks();
+        anim.SetBool("Running", false);
         Debug.Log("finished " + this + " "+ currentState);
 
         if(delayedJump != null)
@@ -765,11 +774,14 @@ public class Robot : MonoBehaviour {
 
 		if ((other.gameObject.name == "HangAreaLeft" && isFacingLeft == false) || (other.gameObject.name == "HangAreaRight" && isFacingLeft == true)) 
 		{
-			anim.SetTrigger ("Hang");
-			currentState = CharacterState.Hang;
-			this.transform.position = other.transform.position;
-			rigidbodyTwoD.gravityScale = 0;
-			rigidbodyTwoD.velocity = Vector2.zero;
+            if(!IsBusy() && !isGrounded)
+            {
+                anim.SetTrigger("Hang");
+                currentState = CharacterState.Hang;
+                this.transform.position = other.transform.position;
+                rigidbodyTwoD.gravityScale = 0;
+                rigidbodyTwoD.velocity = Vector2.zero;
+            }
 		}
 
         
@@ -818,5 +830,6 @@ public class Robot : MonoBehaviour {
         yield return new WaitForSeconds(duration);
 
         rigidbodyTwoD.AddForce(new Vector2(0, 100), ForceMode2D.Impulse);
+        isGrounded = false;
     }
 }
