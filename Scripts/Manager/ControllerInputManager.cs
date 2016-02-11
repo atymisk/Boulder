@@ -39,7 +39,6 @@ public class ControllerInputManager : InputManager
 		if (!gameManager.isPaused) {
 			if (!p1lock) {
 //				if (controller1 != "Wireless Controller"){
-//					Debug.Log (Input.GetAxis ("LeftJoystickY_P1"));
 					
 					//Controller Player 1
 					if (Input.GetAxis ("LeftJoystickX_P1") < 0 || Input.GetAxis ("DPadX_P1") < 0) {
@@ -53,7 +52,6 @@ public class ControllerInputManager : InputManager
 					}
 					
 					if ((Input.GetAxis ("LeftJoystickY_P1") < 0 || Input.GetAxis("DPadY_P1") > 0) && (previousP1Y == 0 /*|| previousP1DPadY == 0*/)) {
-//						Debug.Log (Input.GetAxis ("LeftJoystickY_P1"));
 						playerOne.Jump ();
 					}
 					
