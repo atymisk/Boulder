@@ -3,15 +3,21 @@ using System.Collections;
 
 public class PickupTigerLP : PartPickup {
 
-	// Use this for initialization
-	void Start () {
+    private float lifetime = 0;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update ()
+    {
+        lifetime += Time.deltaTime;
+        if (lifetime >= 15)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     public override int GetIndex()
     {

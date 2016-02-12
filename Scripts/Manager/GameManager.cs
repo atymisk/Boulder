@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
     private float startimer = 4;
     public Text start;
 
+    public Text winner;
+
 	private bool gameover = false;
 	private float respawntimer = 1.25f;
 	private bool keys = true;
@@ -79,7 +81,8 @@ public class GameManager : MonoBehaviour
 		
 		if(p1_stocks == 0)
 		{
-			gameover = true;	
+			gameover = true;
+            player2wins();
 		}
 		else
 		{
@@ -108,6 +111,7 @@ public class GameManager : MonoBehaviour
 		if (p2_stocks == 0)
 		{
 			gameover = true;
+            player1wins();
 		}
 		else
 		{
@@ -233,12 +237,51 @@ public class GameManager : MonoBehaviour
 
     IEnumerator endmatch()
     {
+        declarewinner();
         Time.timeScale = 0.5f;
         yield return new WaitForSeconds(0.75f);
         Time.timeScale = 0.1f;
         yield return new WaitForSeconds(0.3f);
         Time.timeScale = 0;
         ChangeScene.instance.ChangetoScene("MainUI");//change to EndOfMatch scene
+    }
+
+    void player1wins()
+    {
+        winner.text = "Player 1 Wins!";
+        //winner.color = ;
+    }
+
+    void player2wins()
+    {
+        winner.text = "Player 2 Wins!";
+        //winner.color = Color.red;
+    }
+
+    void declarewinner()
+    {
+        if(winner.text.Length == 0)//if both players be alive at the end
+        {
+            //who has more lives > who has more health > who has more parts > distance away from the center
+            bool distcompare = (Mathf.Abs(P1.transform.position.x) - Mathf.Abs(P2.transform.position.x))<0;
+
+            if ((p1_stocks - p2_stocks) > 0)
+                player1wins();
+            else if ((p1_stocks - p2_stocks) < 0)
+                player2wins();
+            else if ((P1.currentHealth - P2.currentHealth) > 0)
+                player1wins();
+            else if ((P1.currentHealth - P2.currentHealth) < 0)
+                player2wins();
+            else if ((P1.currnumparts - P2.currnumparts) > 0)
+                player1wins();
+            else if ((P1.currnumparts - P2.currnumparts) > 0)
+                player2wins();
+            else if (distcompare)
+                player1wins();
+            else
+                player2wins();
+        }
     }
 
     void Awake()

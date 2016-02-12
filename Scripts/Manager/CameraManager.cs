@@ -70,7 +70,7 @@ public class CameraManager : MonoBehaviour {
             //middle = originpos;
         }
 
-        return middle;
+        return new Vector3(middle.x, middle.y+9,middle.z);
 	}
 	
 	float GetCameraSize()//affects the zoom

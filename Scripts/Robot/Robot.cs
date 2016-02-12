@@ -21,6 +21,7 @@ public class Robot : MonoBehaviour {
     public Rigidbody2D rigidbodyTwoD;
     public float maxHealth = 200f;
     public float currentHealth = 200f;
+    public int currnumparts = 4;
 	//public Text healthNum;
 	public Slider healthBar;
 	public Image Fill;
@@ -312,6 +313,7 @@ public class Robot : MonoBehaviour {
 				robotParts[partIndex].active = false;
 				robotParts[partIndex].Attach();
 				pickupBox.RemovePart(partToPickup);
+                currnumparts++;
 			}
 		}
     }
@@ -625,6 +627,11 @@ public class Robot : MonoBehaviour {
 
 	public void BreakRandomPart()
 	{
+        if(currnumparts <= 0)
+        {
+            return;
+        }
+        currnumparts--;
 		List<int> breakIndexList = new List<int>();
 
 		for(int i = 0; i < 4; i++)
@@ -708,6 +715,7 @@ public class Robot : MonoBehaviour {
 				pickup.SpinBounce(1);
 				partToBreak.gameObject.SetActive(false);
 			}
+
 		}
 
 
