@@ -21,21 +21,28 @@ public class ControllerInputManager : InputManager
 		//		gameManager.togglePause();
         //    }
         //} else {
-			if (Input.GetButtonDown ("Start_P1"))
-            {
-                gameManager.togglePause();
-            }
+		if (Input.GetButtonDown ("Start_P1"))
+        {
+            gameManager.togglePause();
+        }
     //    }
 		//if (controller2 == "Wireless Controller") {
 		//	if (Input.GetButtonDown ("RightStickClick_P2")) {
         //        gameManager.togglePause();
         //    }
 		//} else {
-			if (Input.GetButtonDown ("Start_P2")) 
-            {
-                gameManager.togglePause();
-            }
+		if (Input.GetButtonDown ("Start_P2")) 
+        {
+            gameManager.togglePause();
+        }
 //		}
+		//Player Suicide
+		if (Input.GetButtonDown ("Back_P1") && Input.GetAxis ("RightTrigger_P1") > 0 && Input.GetAxis ("LeftTrigger_P1") > 0) {
+			gameManager.thisPlayerDied("P1");
+		}
+		if (Input.GetButtonDown ("Back_P2") && Input.GetAxis ("RightTrigger_P2") > 0 && Input.GetAxis ("LeftTrigger_P2") > 0) {
+			gameManager.thisPlayerDied("P2");
+		}
 		if (!gameManager.isPaused) {
 			if (!p1lock) {
 //				if (controller1 != "Wireless Controller"){
@@ -129,7 +136,6 @@ public class ControllerInputManager : InputManager
 			if (!p2lock) {
 //				if(controller2 != "Wireless Controller"){
 					//Controller P2
-//					Debug.Log(Input.GetAxis("RightTrigger_P2"));
 					if (Input.GetAxis ("LeftJoystickX_P2") < 0 || Input.GetAxis("DPadX_P2") < 0) {
 						playerTwo.FaceLeft ();
 						playerTwo.MoveLeft ();
@@ -143,7 +149,6 @@ public class ControllerInputManager : InputManager
 					if ((Input.GetAxis ("LeftJoystickY_P2") < 0  && previousP2Y == 0)  || (Input.GetAxis("DPadY_P2") > 0 && previousP2DPadY == 0)) {
 						playerTwo.Jump ();
 					}
-					/*(Input.GetButton ("RightBumper_P2") ||*/
 					if (Input.GetButtonDown ("X_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0)) {
 						playerTwo.RocketLeftArm ();
 					}else if (Input.GetButtonDown ("X_P2")) {
