@@ -39,6 +39,8 @@ public class Robot : MonoBehaviour {
     private bool isGrounded = true;
     private bool triggered = false;
 	private bool comboState = false;
+	private bool drop = false;
+	private Collider2D previousPlatform = null;
 	private Transform partsHolder;
 	private RobotHurtBox hurtBox;
     private PickupBox pickupBox;
@@ -413,6 +415,15 @@ public class Robot : MonoBehaviour {
 		}
     }
 
+	public void Drop()
+	{
+		drop = true;
+	}
+	
+	public void UnDrop(){
+		drop = false;
+	}
+
     public void FaceLeft()
     {
 		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && !isFacingLeft)
@@ -728,7 +739,6 @@ public class Robot : MonoBehaviour {
         if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
             Collider2D collider = col.collider;
-
             Vector2 normal = col.contacts[0].normal;
 
             if (normal.y == 1)
@@ -745,14 +755,27 @@ public class Robot : MonoBehaviour {
 		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
             Collider2D collider = col.collider;
-
-            Vector2 normal = col.contacts[0].normal;
+			Vector2 normal = col.contacts[0].normal;
             if (normal.y == 1)
             {
                 isGrounded = false;
             }
         }
     }
+
+	void OnCollisionStay2D(Collision2D col){
+//		Debug.Log (drop);
+		if (previousPlatform != null) {
+			Physics2D.IgnoreCollision(previousPlatform, GetComponent<Collider2D>(), drop);
+		}
+
+		if (col.gameObject.tag == "Platform")
+		{
+			Collider2D collider = col.collider;
+			previousPlatform = collider;
+			Physics2D.IgnoreCollision(collider, GetComponent<Collider2D>(), drop);
+		}
+	}
 
     public string getTag()
     {

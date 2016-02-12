@@ -62,6 +62,13 @@ public class ControllerInputManager : InputManager
 						playerOne.Jump ();
 					}
 
+					if (Input.GetAxis ("DPadY_P1") < 0){
+						playerOne.Drop();
+					} else {
+						playerOne.UnDrop();
+					}
+
+
 					if (Input.GetButton("LeftStickClick_P1") || Input.GetButton ("RightStickClick_P1")) {
 						playerOne.Jump ();
 					}
