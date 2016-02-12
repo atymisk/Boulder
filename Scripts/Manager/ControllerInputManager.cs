@@ -51,12 +51,10 @@ public class ControllerInputManager : InputManager
 						playerOne.StayStill ();
 					}
 					
-					if ((Input.GetAxis ("LeftJoystickY_P1") < 0 || Input.GetAxis("DPadY_P1") > 0) && (previousP1Y == 0 /*|| previousP1DPadY == 0*/)) {
+				if ((Input.GetAxis ("LeftJoystickY_P1") < 0  && previousP1Y == 0)  || (Input.GetAxis("DPadY_P1") > 0 && previousP1DPadY == 0)) {
 						playerOne.Jump ();
 					}
 					
-					//					if(Input.GetAxis ("LeftJoystickY_P1") > 0 && previ
-					/*(Input.GetButton ("RightBumper_P1") ||*/
 					if (Input.GetButtonDown ("X_P1") && (Input.GetAxis("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0)) {
 						playerOne.RocketLeftArm ();
 					} else if (Input.GetButtonDown ("X_P1")) {
@@ -142,7 +140,7 @@ public class ControllerInputManager : InputManager
 						playerTwo.StayStill ();
 					}
 					
-					if ((Input.GetAxis ("LeftJoystickY_P2") < 0 || Input.GetAxis ("DPadY_P2") > 0) && (previousP2Y == 0 /*|| previousP2DPadY == 0*/)) {
+					if ((Input.GetAxis ("LeftJoystickY_P2") < 0  && previousP2Y == 0)  || (Input.GetAxis("DPadY_P2") > 0 && previousP2DPadY == 0)) {
 						playerTwo.Jump ();
 					}
 					/*(Input.GetButton ("RightBumper_P2") ||*/
