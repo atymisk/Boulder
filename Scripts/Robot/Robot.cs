@@ -467,7 +467,7 @@ public class Robot : MonoBehaviour {
 			}
 			else
 			{
-				anim.SetTrigger("UnRun");
+				//anim.SetTrigger("UnRun");
                 anim.SetBool("Running", false);
                 currentState = CharacterState.Idle;
 			}
@@ -768,7 +768,8 @@ public class Robot : MonoBehaviour {
 		{
             if(!IsBusy() && !isGrounded)
             {
-                anim.SetTrigger("Hang");
+                //anim.SetTrigger("Hang");
+                anim.SetBool("Hanging", true);
                 currentState = CharacterState.Hang;
                 this.transform.position = other.transform.position;
                 rigidbodyTwoD.gravityScale = 0;
@@ -785,7 +786,8 @@ public class Robot : MonoBehaviour {
 		if (other.gameObject.name == "HangAreaLeft" || other.gameObject.name == "HangAreaRight") 
 		{
 			rigidbodyTwoD.gravityScale = 20;
-			anim.SetTrigger ("UnHang");
+            //anim.SetTrigger ("UnHang");
+            anim.SetBool("Hanging", false);
 			currentState = CharacterState.Idle;
 		}
 
