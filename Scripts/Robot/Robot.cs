@@ -263,7 +263,10 @@ public class Robot : MonoBehaviour {
         {
             if(!IsBusy() && currentState != CharacterState.Blocking)
             {
-                anim.SetTrigger("Block");
+                anim.SetBool("Running", false);
+                anim.SetBool("Hanging", false);
+                //anim.SetTrigger("Block");
+                anim.SetBool("Blocking", true);
 
                 currentState = CharacterState.Blocking;
             }
@@ -276,8 +279,8 @@ public class Robot : MonoBehaviour {
     {
         if(currentState == CharacterState.Blocking)
         {
-            anim.SetTrigger("UnBlock");
-
+            //anim.SetTrigger("UnBlock");
+            anim.SetBool("Blocking", false);
             currentState = CharacterState.Idle;
         }
     }
@@ -590,6 +593,7 @@ public class Robot : MonoBehaviour {
         currentState = CharacterState.Idle;
 
         //CancelAttacks();
+        anim.SetBool("Blocking", false);
         anim.SetBool("Running", false);
         Debug.Log("finished " + this + " "+ currentState);
 
@@ -799,6 +803,8 @@ public class Robot : MonoBehaviour {
 		{
             if(!IsBusy() && !isGrounded)
             {
+                anim.SetBool("Running", false);
+                anim.SetBool("Blocking", false);
                 //anim.SetTrigger("Hang");
                 anim.SetBool("Hanging", true);
                 currentState = CharacterState.Hang;
