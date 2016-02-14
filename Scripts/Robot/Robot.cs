@@ -454,7 +454,6 @@ public class Robot : MonoBehaviour {
             FaceLeft();
 			if (isGrounded)
 			{
-                Debug.Log("RunningLeft");
                 //anim.SetTrigger("Run");
                 anim.SetBool("Running", true);
                 currentState = CharacterState.Run;
@@ -476,7 +475,6 @@ public class Robot : MonoBehaviour {
             FaceRight();
 			if (isGrounded)
 			{
-                Debug.Log("Running");
                 //anim.SetTrigger("Run");
                 anim.SetBool("Running", true);
 				currentState = CharacterState.Run;
@@ -495,7 +493,6 @@ public class Robot : MonoBehaviour {
     {
 		if (currentState == CharacterState.Run)
         {
-            Debug.Log("Unrunning");
             //anim.SetTrigger("UnRun");
             anim.SetBool("Running", false);
             currentState = CharacterState.Idle;
@@ -557,7 +554,6 @@ public class Robot : MonoBehaviour {
 
         currentState = CharacterState.BlockStun;
 
-        Debug.Log("BlockStun");
         if (moveTimeRoutine != null)
         {
             StopCoroutine(moveTimeRoutine);
