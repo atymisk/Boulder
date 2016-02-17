@@ -29,6 +29,7 @@ public class Robot : MonoBehaviour {
 
 	public GameObject buttonRefls;
 	public GameObject charUI;
+	public int toturial;
 
 
     //Private members
@@ -47,7 +48,7 @@ public class Robot : MonoBehaviour {
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 
-	private Text healthNum;
+	//private Text healthNum;
 	//private Slider healthBar;
 	//private Image Fill;
 	private Image LeftArmUI;
@@ -62,9 +63,10 @@ public class Robot : MonoBehaviour {
         rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
 		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
         pickupBox = this.transform.FindChild("PickupBox").GetComponent<PickupBox>();
-        gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
+		if(toturial == 0)
+			gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
 
-		healthNum = charUI.transform.Find ("healthText").GetComponent<Text> ();
+		//healthNum = charUI.transform.Find ("healthText").GetComponent<Text> ();
 		LeftArmUI = charUI.transform.Find ("leftArm").GetComponent<Image> ();
 		RightArmUI = charUI.transform.Find ("RightArm").GetComponent<Image> ();
 		LeftLegUI = charUI.transform.Find ("leftLeg").GetComponent<Image> ();
@@ -88,9 +90,7 @@ public class Robot : MonoBehaviour {
 	void Update ()
     {
 		healthBar.value = currentHealth / maxHealth * 100;
-		healthNum.text = healthBar.value.ToString ();
-
-		Color darkYellow = new Color (255, 241, 0);
+		//healthNum.text = healthBar.value.ToString ();
 
 		buttonRefls.transform.position = this.transform.position;
 		
@@ -143,7 +143,8 @@ public class Robot : MonoBehaviour {
 			BreakRandomPart();
 			BreakRandomPart();
 			BreakRandomPart();
-            gm.thisPlayerDied(mytag);
+			if(toturial == 0)
+				gm.thisPlayerDied(mytag);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -792,7 +793,8 @@ public class Robot : MonoBehaviour {
         if (!triggered && other.gameObject.name == "DeathArea")
         {
             triggered = true;
-            gm.thisPlayerDied(mytag);
+			if(toturial == 0)
+				gm.thisPlayerDied(mytag);
         }
 
 		if ((other.gameObject.name == "HangAreaLeft" && isFacingLeft == false) || (other.gameObject.name == "HangAreaRight" && isFacingLeft == true)) 
