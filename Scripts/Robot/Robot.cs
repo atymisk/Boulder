@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup, Airborne };
 
     //Constants
     const int PartCount = 4;
@@ -150,6 +150,15 @@ public class Robot : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E))
         {
             Pickup();
+        }
+
+        if(!isGrounded && rigidbodyTwoD.velocity.y < 0)
+        {
+            anim.SetBool("Falling", true);
+        }
+        else
+        {
+            anim.SetBool("Falling", false);
         }
 	}
 
@@ -608,7 +617,8 @@ public class Robot : MonoBehaviour {
 
     public bool IsBusy()
     {
-		return currentState != CharacterState.Idle && currentState != CharacterState.Run && currentState != CharacterState.Blocking;
+		return currentState != CharacterState.Idle && currentState != CharacterState.Run 
+            && currentState != CharacterState.Blocking && currentState != CharacterState.Airborne;
     }
 
 	public bool CanComboMove(CharacterState nextMove)
