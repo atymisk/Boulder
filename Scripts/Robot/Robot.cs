@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup, Airborne };
 
     //Constants
     const int PartCount = 4;
@@ -39,6 +39,8 @@ public class Robot : MonoBehaviour {
     private bool isGrounded = true;
     private bool triggered = false;
 	private bool comboState = false;
+	private bool drop = false;
+	private Collider2D previousPlatform = null;
 	private Transform partsHolder;
 	private RobotHurtBox hurtBox;
     private PickupBox pickupBox;
@@ -147,6 +149,15 @@ public class Robot : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E))
         {
             Pickup();
+        }
+
+        if(!isGrounded && rigidbodyTwoD.velocity.y < 0)
+        {
+            anim.SetBool("Falling", true);
+        }
+        else
+        {
+            anim.SetBool("Falling", false);
         }
 	}
 
@@ -261,7 +272,10 @@ public class Robot : MonoBehaviour {
         {
             if(!IsBusy() && currentState != CharacterState.Blocking)
             {
-                anim.SetTrigger("Block");
+                anim.SetBool("Running", false);
+                anim.SetBool("Hanging", false);
+                //anim.SetTrigger("Block");
+                anim.SetBool("Blocking", true);
 
                 currentState = CharacterState.Blocking;
             }
@@ -274,8 +288,8 @@ public class Robot : MonoBehaviour {
     {
         if(currentState == CharacterState.Blocking)
         {
-            anim.SetTrigger("UnBlock");
-
+            //anim.SetTrigger("UnBlock");
+            anim.SetBool("Blocking", false);
             currentState = CharacterState.Idle;
         }
     }
@@ -413,6 +427,15 @@ public class Robot : MonoBehaviour {
 		}
     }
 
+	public void Drop()
+	{
+		drop = true;
+	}
+	
+	public void UnDrop(){
+		drop = false;
+	}
+
     public void FaceLeft()
     {
 		if ((currentState == CharacterState.Idle || currentState == CharacterState.Run) && !isFacingLeft)
@@ -440,7 +463,6 @@ public class Robot : MonoBehaviour {
             FaceLeft();
 			if (isGrounded)
 			{
-                Debug.Log("RunningLeft");
                 //anim.SetTrigger("Run");
                 anim.SetBool("Running", true);
                 currentState = CharacterState.Run;
@@ -462,14 +484,13 @@ public class Robot : MonoBehaviour {
             FaceRight();
 			if (isGrounded)
 			{
-                Debug.Log("Running");
                 //anim.SetTrigger("Run");
                 anim.SetBool("Running", true);
 				currentState = CharacterState.Run;
 			}
 			else
 			{
-				anim.SetTrigger("UnRun");
+				//anim.SetTrigger("UnRun");
                 anim.SetBool("Running", false);
                 currentState = CharacterState.Idle;
 			}
@@ -481,7 +502,6 @@ public class Robot : MonoBehaviour {
     {
 		if (currentState == CharacterState.Run)
         {
-            Debug.Log("Unrunning");
             //anim.SetTrigger("UnRun");
             anim.SetBool("Running", false);
             currentState = CharacterState.Idle;
@@ -543,7 +563,6 @@ public class Robot : MonoBehaviour {
 
         currentState = CharacterState.BlockStun;
 
-        Debug.Log("BlockStun");
         if (moveTimeRoutine != null)
         {
             StopCoroutine(moveTimeRoutine);
@@ -579,6 +598,7 @@ public class Robot : MonoBehaviour {
         currentState = CharacterState.Idle;
 
         //CancelAttacks();
+        anim.SetBool("Blocking", false);
         anim.SetBool("Running", false);
         Debug.Log("finished " + this + " "+ currentState);
 
@@ -596,7 +616,8 @@ public class Robot : MonoBehaviour {
 
     public bool IsBusy()
     {
-		return currentState != CharacterState.Idle && currentState != CharacterState.Run && currentState != CharacterState.Blocking;
+		return currentState != CharacterState.Idle && currentState != CharacterState.Run 
+            && currentState != CharacterState.Blocking && currentState != CharacterState.Airborne;
     }
 
 	public bool CanComboMove(CharacterState nextMove)
@@ -728,7 +749,6 @@ public class Robot : MonoBehaviour {
         if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
             Collider2D collider = col.collider;
-
             Vector2 normal = col.contacts[0].normal;
 
             if (normal.y == 1)
@@ -745,14 +765,27 @@ public class Robot : MonoBehaviour {
 		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
         {
             Collider2D collider = col.collider;
-
-            Vector2 normal = col.contacts[0].normal;
+			Vector2 normal = col.contacts[0].normal;
             if (normal.y == 1)
             {
                 isGrounded = false;
             }
         }
     }
+
+	void OnCollisionStay2D(Collision2D col){
+//		Debug.Log (drop);
+		if (previousPlatform != null) {
+			Physics2D.IgnoreCollision(previousPlatform, GetComponent<Collider2D>(), drop);
+		}
+
+		if (col.gameObject.tag == "Platform")
+		{
+			Collider2D collider = col.collider;
+			previousPlatform = collider;
+			Physics2D.IgnoreCollision(collider, GetComponent<Collider2D>(), drop);
+		}
+	}
 
     public string getTag()
     {
@@ -776,7 +809,10 @@ public class Robot : MonoBehaviour {
 		{
             if(!IsBusy() && !isGrounded)
             {
-                anim.SetTrigger("Hang");
+                anim.SetBool("Running", false);
+                anim.SetBool("Blocking", false);
+                //anim.SetTrigger("Hang");
+                anim.SetBool("Hanging", true);
                 currentState = CharacterState.Hang;
                 this.transform.position = other.transform.position;
                 rigidbodyTwoD.gravityScale = 0;
@@ -793,7 +829,8 @@ public class Robot : MonoBehaviour {
 		if (other.gameObject.name == "HangAreaLeft" || other.gameObject.name == "HangAreaRight") 
 		{
 			rigidbodyTwoD.gravityScale = 20;
-			anim.SetTrigger ("UnHang");
+            //anim.SetTrigger ("UnHang");
+            anim.SetBool("Hanging", false);
 			currentState = CharacterState.Idle;
 		}
 

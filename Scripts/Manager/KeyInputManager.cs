@@ -49,6 +49,12 @@ public class KeyInputManager : InputManager {
 					playerOne.Jump ();
 				}
 
+				if (Input.GetKey (KeyCode.S)){
+					playerOne.Drop();
+				} else {
+					playerOne.UnDrop ();
+				}
+
 				if (Input.GetKeyDown (KeyCode.Alpha1)) {
 					playerOne.LeftPunch ();
 				} else if (Input.GetKeyDown (KeyCode.Alpha3)) {
