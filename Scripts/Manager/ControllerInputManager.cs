@@ -75,6 +75,13 @@ public class ControllerInputManager : InputManager
 					
 					if (Input.GetButtonDown ("X_P1") && (Input.GetAxis("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0)) {
 						playerOne.RocketLeftArm ();
+					}
+					else if (Input.GetButtonDown ("Y_P1") && (Input.GetAxis("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0)) {
+						playerOne.RocketRightArm ();
+					}else if (Input.GetButtonDown ("A_P1") && (Input.GetAxis("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0)) {
+						playerOne.RocketLeftLeg ();
+					}else if (Input.GetButtonDown ("B_P1") && (Input.GetAxis("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0)) {
+						playerOne.RocketRightLeg ();
 					} else if (Input.GetButtonDown ("X_P1")) {
 						playerOne.LeftPunch ();
 					} else if (Input.GetButtonDown("Y_P1")) {
@@ -167,6 +174,13 @@ public class ControllerInputManager : InputManager
 
 					if (Input.GetButtonDown ("X_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0)) {
 						playerTwo.RocketLeftArm ();
+					}
+					else if (Input.GetButtonDown ("Y_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0)) {
+						playerTwo.RocketRightArm ();
+					}else if (Input.GetButtonDown ("A_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0)) {
+						playerTwo.RocketLeftLeg ();
+					}else if (Input.GetButtonDown ("B_P2") && (Input.GetAxis("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0)) {
+						playerTwo.RocketRightLeg ();
 					}else if (Input.GetButtonDown ("X_P2")) {
 						playerTwo.LeftPunch ();
 					}else if (Input.GetButtonDown("Y_P2")) {

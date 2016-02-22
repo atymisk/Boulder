@@ -356,9 +356,24 @@ public class Robot : MonoBehaviour {
         anim.SetTrigger("RocketLeftArm");
     }
 
+	public void RocketRightArm()
+	{
+		anim.SetTrigger("RocketRightArm");
+	}
+
+	public void RocketLeftLeg()
+	{
+		anim.SetTrigger("RocketLeftLeg");
+	}
+
+	public void RocketRightLeg()
+	{
+		anim.SetTrigger("RocketRightLeg");
+	}
+
     private void ShootPart(int index)
     {
-        if(robotParts[index].active)
+        if(robotParts[index].active && !IsBusy())
         {
             Debug.Log(robotParts[index] + "  |  " + robotParts[index].GetRocketPath());
 			GameObject rocketPrefab = Instantiate(Resources.Load(robotParts[index].GetRocketPath())) as GameObject;
@@ -377,20 +392,25 @@ public class Robot : MonoBehaviour {
             }
 
             rocketBody.velocity = new Vector2(direction * 200, 0);
+			Transform partToBreak = null;
+			//change this to switch leg parts
+			switch(index)
+			{
+			case LeftArm: partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(2);
+				break;
+			case RightArm: partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(1);
+				break;
+			case LeftLeg: partToBreak = this.transform.GetChild(0).GetChild(1);
+				break;
+			case RightLeg: partToBreak = this.transform.GetChild(0).GetChild(0);
+				break;
+			}
+				
 
-			Transform partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(2);
+
 			partToBreak.gameObject.SetActive(false);
 			robotParts[index].active = false;
         }
-    }
-
-    public void ShootLeftArm()
-    {
-		if ( robotParts[LeftArm].active && !IsBusy() )
-		{
-			ShootPart(0);
-		}
-
     }
 
 	public void OnHitConnected()

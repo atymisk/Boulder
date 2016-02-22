@@ -65,6 +65,12 @@ public class KeyInputManager : InputManager {
 					playerOne.RightPunch ();
 				} else if (Input.GetKeyDown (KeyCode.Alpha5)) {
 					playerOne.RocketLeftArm ();
+				} else if (Input.GetKeyDown (KeyCode.R)) {
+					playerOne.RocketRightArm ();
+				} else if (Input.GetKeyDown (KeyCode.T)) {
+					playerOne.RocketLeftLeg ();
+				} else if (Input.GetKeyDown (KeyCode.Y)) {
+					playerOne.RocketRightLeg ();
 				}
 			}
 			///--------------------------------------------------------------------------
@@ -110,6 +116,12 @@ public class KeyInputManager : InputManager {
 					playerTwo.RightPunch();
 				}else if (Input.GetKeyDown (KeyCode.Equals)) {
 					playerTwo.RocketLeftArm();
+				} else if (Input.GetKeyDown (KeyCode.O)) {
+					playerTwo.RocketRightArm ();
+				} else if (Input.GetKeyDown (KeyCode.P)) {
+					playerTwo.RocketLeftLeg ();
+				} else if (Input.GetKeyDown (KeyCode.Semicolon)) {
+					playerTwo.RocketRightLeg ();
 				}
 			}
 		}
