@@ -4,20 +4,52 @@ using System.Collections;
 public class PickupTigerRP : PartPickup {
 
     private float lifetime = 0;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    private bool flip = false;
+    Color[] mine;
+    Renderer[] rend;
+    // Use this for initialization
+    void Start()
+    {
+        rend = gameObject.GetComponentsInChildren<Renderer>();
+        mine = new Color[rend.Length];
+        for (int i = 0; i < rend.Length; i++)
+        {
+            mine[i] = rend[i].material.color;
+        }
+    }
+
+    void toggletrans()
+    {
+        flip = !flip;
+        if (flip)
+        {
+            for (int i = 0; i < rend.Length; i++)
+            {
+                rend[i].material.color = new Color(mine[i].r, mine[i].b, mine[i].g, 0);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < rend.Length; i++)
+            {
+                rend[i].material.color = mine[i];
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         lifetime += Time.deltaTime;
-        if(lifetime >= 15)
+        if (lifetime >= 10)
+        {
+            InvokeRepeating("toggletrans", 1.4f, 1);
+        }
+        if (lifetime >= 15)
         {
             Destroy(this.gameObject);
         }
-	}
+    }
 
     public override int GetIndex()
     {
