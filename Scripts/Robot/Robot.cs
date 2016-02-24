@@ -41,7 +41,7 @@ public class Robot : MonoBehaviour {
     private bool triggered = false;
 	private bool comboState = false;
 	private bool drop = false;
-	private Collider2D previousPlatform = null;
+	private List<Collider2D> previousPlatform = new List<Collider2D>();
 	private Transform partsHolder;
 	private RobotHurtBox hurtBox;
     private PickupBox pickupBox;
@@ -796,14 +796,17 @@ public class Robot : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D col){
 //		Debug.Log (drop);
-		if (previousPlatform != null) {
-			Physics2D.IgnoreCollision(previousPlatform, GetComponent<Collider2D>(), drop);
+		if (previousPlatform.Count != 0 && !drop) {
+			foreach(Collider2D platform in previousPlatform){
+				Physics2D.IgnoreCollision(platform, GetComponent<Collider2D>(), drop);
+			}
+			previousPlatform.Clear();
 		}
 
 		if (col.gameObject.tag == "Platform")
 		{
 			Collider2D collider = col.collider;
-			previousPlatform = collider;
+			previousPlatform.Add(collider);
 			Physics2D.IgnoreCollision(collider, GetComponent<Collider2D>(), drop);
 		}
 	}

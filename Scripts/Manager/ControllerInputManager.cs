@@ -62,7 +62,7 @@ public class ControllerInputManager : InputManager
 						playerOne.Jump ();
 					}
 
-					if (Input.GetAxis ("DPadY_P1") < 0){
+					if (Input.GetAxis ("DPadY_P1") < 0 || Input.GetAxis("LeftJoystickY_P1") > 0){
 						playerOne.Drop();
 					} else {
 						playerOne.UnDrop();
@@ -166,6 +166,12 @@ public class ControllerInputManager : InputManager
 					
 					if ((Input.GetAxis ("LeftJoystickY_P2") < 0  && previousP2Y == 0)  || (Input.GetAxis("DPadY_P2") > 0 && previousP2DPadY == 0)) {
 						playerTwo.Jump ();
+					}
+
+					if (Input.GetAxis ("DPadY_P2") < 0 || Input.GetAxis("LeftJoystickY_P2") > 0){
+						playerTwo.Drop();
+					} else {
+						playerTwo.UnDrop();
 					}
 
 					if (Input.GetButton("LeftStickClick_P2") || Input.GetButton ("RightStickClick_P2")) {
