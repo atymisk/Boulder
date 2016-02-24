@@ -70,12 +70,12 @@ public class CameraManager : MonoBehaviour {
             //middle = originpos;
         }
 
-        return new Vector3(middle.x, middle.y+9,middle.z);
+        return new Vector3(middle.x, middle.y+10,middle.z);
 	}
 	
 	float GetCameraSize()//affects the zoom
     {
-		float minSizeY = 28;
+		float minSizeY = 30;
 
         float width = 1;//default width
         float height = 1;//default height
@@ -84,7 +84,7 @@ public class CameraManager : MonoBehaviour {
         {
             //multiplying by 0.5, because the ortographicSize is actually half the height
             width = Mathf.Abs(playerOne.transform.position.x - playerTwo.transform.position.x) * 0.75f + 30;
-            height = Mathf.Abs(playerOne.transform.position.y - playerTwo.transform.position.y) * 0.5f;
+            height = Mathf.Abs(playerOne.transform.position.y - playerTwo.transform.position.y) * 0.99f;
             if(width < 46 && height < 8)
             {
                 minSizeY = 22;//lerp this

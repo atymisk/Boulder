@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 	//private System.Timers.Timer countdown;
 	private static float countdown = 120;
 	public Text timer;
+    private static bool ot = false;
 
     private bool gamestart = false;
     private float startimer = 4;
@@ -224,7 +225,7 @@ public class GameManager : MonoBehaviour
         {
             start.fontStyle = FontStyle.Italic;
             start.fontSize = 50;
-            start.text = "START!";
+            start.text = (ot ? "SUDDEN DEATH!!" : "START!");
             gamestart = true;
             primaryINPT.unlockcontrols();
         }
@@ -243,54 +244,58 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.1f;
         yield return new WaitForSeconds(0.3f);
         Time.timeScale = 0;
-        ChangeScene.instance.ChangetoScene("MainUI");//change to EndOfMatch scene
+        yield return new WaitForSeconds(1.5f);
+        if(!ot)
+        {
+            ChangeScene.instance.ChangetoScene("MainUI");//change to EndOfMatch scene
+        }
+        else
+        {
+            ChangeScene.instance.ChangetoScene("BoxedIn");
+        }
     }
 
     void player1wins()
     {
         winner.text = "Player 1 Wins!";
-        //winner.color = ;
+        winner.color = Color.yellow;
     }
 
     void player2wins()
     {
         winner.text = "Player 2 Wins!";
-        //winner.color = Color.red;
+        winner.color = Color.yellow;
     }
 
     void declarewinner()
     {
         if(winner.text.Length == 0)//if both players be alive at the end
         {
-            //who has more lives > who has more health > who has more parts > distance away from the center
-            bool distcompare = (Mathf.Abs(P1.transform.position.x) - Mathf.Abs(P2.transform.position.x))<0;
-
+            //who has more lives
+            ot = false;
             if ((p1_stocks - p2_stocks) > 0)
                 player1wins();
             else if ((p1_stocks - p2_stocks) < 0)
                 player2wins();
-            else if ((P1.currentHealth - P2.currentHealth) > 0)
-                player1wins();
-            else if ((P1.currentHealth - P2.currentHealth) < 0)
-                player2wins();
-            else if ((P1.currnumparts - P2.currnumparts) > 0)
-                player1wins();
-            else if ((P1.currnumparts - P2.currnumparts) > 0)
-                player2wins();
-            else if (distcompare)
-                player1wins();
             else
-                player2wins();
+                ot = true;//stocks are same then overtime/sudden death
         }
     }
 
     void Awake()
     {
         instance = this;
-
+        if(ot)
+        {
+            p1_stocks = 1;
+            p2_stocks = 1;
+        }
+        else
+        {
+            p1_stocks = MatchSettingsData.stock_total;
+            p2_stocks = MatchSettingsData.stock_total;
+        }
         countdown = MatchSettingsData.match_time + 1;
-        p1_stocks = MatchSettingsData.stock_total;
-        p2_stocks = MatchSettingsData.stock_total;
         p1Left.text = p1_stocks.ToString();
         p2Left.text = p2_stocks.ToString();
 
@@ -335,7 +340,8 @@ public class GameManager : MonoBehaviour
 	{
         if(gamestart)
         {
-		    DisplayCountdown();
+            if(!ot)
+		        DisplayCountdown();
             checkgameover();
 
 		    //for testing input purposes
