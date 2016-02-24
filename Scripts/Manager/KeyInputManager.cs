@@ -105,6 +105,11 @@ public class KeyInputManager : InputManager {
 				if (Input.GetKeyDown (KeyCode.I)) {
 					playerTwo.Jump ();
 				}
+				if (Input.GetKey (KeyCode.K)){
+					playerTwo.Drop();
+				} else {
+					playerTwo.UnDrop ();
+				}
 
 				if (Input.GetKeyDown (KeyCode.Alpha7)) {
 					playerTwo.LeftPunch ();
