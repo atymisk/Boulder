@@ -238,6 +238,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator endmatch()
     {
+        ot = false;
         declarewinner();
         Time.timeScale = 0.5f;
         yield return new WaitForSeconds(0.75f);
