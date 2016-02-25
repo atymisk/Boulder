@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
-    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, Pickup, Airborne };
+    public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, 
+								 Pickup, Airborne, Jumping, Rocketing };
 
     //Constants
     const int PartCount = 4;
@@ -353,27 +354,54 @@ public class Robot : MonoBehaviour {
     //Rocket Moves
     public void RocketLeftArm()
     {
-        anim.SetTrigger("RocketLeftArm");
+		CharacterState thisMove = CharacterState.Rocketing;
+		
+		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+		{
+
+			
+			anim.SetTrigger("RocketLeftArm");
+			currentState = thisMove;
+		}
+
     }
 
 	public void RocketRightArm()
 	{
-		anim.SetTrigger("RocketRightArm");
+		CharacterState thisMove = CharacterState.Rocketing;
+		
+		if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+		{
+			anim.SetTrigger("RocketRightArm");
+			currentState = thisMove;
+		}
 	}
 
 	public void RocketLeftLeg()
 	{
-		anim.SetTrigger("RocketLeftLeg");
+		CharacterState thisMove = CharacterState.Rocketing;
+		
+		if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+		{
+			anim.SetTrigger("RocketLeftLeg");
+			currentState = thisMove;
+		}
 	}
 
 	public void RocketRightLeg()
 	{
-		anim.SetTrigger("RocketRightLeg");
+		CharacterState thisMove = CharacterState.Rocketing;
+		
+		if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+		{
+			anim.SetTrigger("RocketRightLeg");
+			currentState = thisMove;
+		}
 	}
 
     private void ShootPart(int index)
     {
-        if(robotParts[index].active && !IsBusy())
+        if(robotParts[index].active)
         {
             Debug.Log(robotParts[index] + "  |  " + robotParts[index].GetRocketPath());
 			GameObject rocketPrefab = Instantiate(Resources.Load(robotParts[index].GetRocketPath())) as GameObject;
@@ -391,18 +419,30 @@ public class Robot : MonoBehaviour {
                 rocket.transform.Rotate(new Vector3(0, 180, 0));
             }
 
-            rocketBody.velocity = new Vector2(direction * 200, 0);
+           
 			Transform partToBreak = null;
 			//change this to switch leg parts
 			switch(index)
 			{
 			case LeftArm: partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(2);
+				rocketBody.velocity = new Vector2(direction * 200, 0);
+				rigidbodyTwoD.AddForce(new Vector2(-direction*50, 0), ForceMode2D.Impulse);
+
 				break;
 			case RightArm: partToBreak = this.transform.GetChild(0).GetChild(2).GetChild(1);
+				rocketBody.velocity = new Vector2(0, -200);
+				rocket.transform.Rotate(new Vector3(0, 0, -90));
+				rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 0);
+				rigidbodyTwoD.AddForce(new Vector2(0, 75), ForceMode2D.Impulse);
 				break;
 			case LeftLeg: partToBreak = this.transform.GetChild(0).GetChild(1);
+				rocketBody.velocity = new Vector2(0, 200);
+				rocket.transform.Rotate(new Vector3(0, 0, 90));
+				rigidbodyTwoD.AddForce(new Vector2(0, -75), ForceMode2D.Impulse);
 				break;
 			case RightLeg: partToBreak = this.transform.GetChild(0).GetChild(0);
+				rocketBody.velocity = new Vector2(direction * 200, 0);
+				rigidbodyTwoD.AddForce(new Vector2(-direction*50, 0), ForceMode2D.Impulse);
 				break;
 			}
 				
@@ -430,21 +470,27 @@ public class Robot : MonoBehaviour {
                 StopCoroutine(delayedJump);
             }
             
+			currentState = CharacterState.Jumping;
             anim.SetTrigger("JumpStart");
             delayedJump = DelayedJump(0.05f);
             StartCoroutine(delayedJump);
+
+
         }
 		
 		if ((currentState == CharacterState.Hang))
 		{
-			
+
 			if(delayedJump != null)
 			{
 				StopCoroutine(delayedJump);
 			}
 
+			currentState = CharacterState.Jumping;
+			anim.SetTrigger("JumpStart");
 			delayedJump = DelayedJump(0.0f);
 			StartCoroutine(delayedJump);
+
 		}
     }
 
@@ -893,5 +939,6 @@ public class Robot : MonoBehaviour {
 
         rigidbodyTwoD.AddForce(new Vector2(0, 100), ForceMode2D.Impulse);
         isGrounded = false;
+		currentState = CharacterState.Idle;
     }
 }
