@@ -161,6 +161,14 @@ public class Robot : MonoBehaviour {
         {
             anim.SetBool("Falling", false);
         }
+
+		if (!robotParts [LeftLeg].active && !robotParts [RightLeg].active) {
+			this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(true);
+		} 
+		else 
+		{
+			this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
+		}
 	}
 
     private void InitializeParts()
