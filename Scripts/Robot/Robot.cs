@@ -105,38 +105,46 @@ public class Robot : MonoBehaviour {
 		if (!robotParts [LeftArm].active)
         {
 			LeftArmUI.gameObject.SetActive (false);
+			charUI.transform.Find ("leftArmBack").GetComponent<Image> ().gameObject.SetActive (false);
 			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.gray;
 		}
         else
         {
 			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.blue;
 			LeftArmUI.gameObject.SetActive (true);
+			charUI.transform.Find ("leftArmBack").GetComponent<Image> ().gameObject.SetActive (true);
 		}
 		if (!robotParts [RightArm].active) {
 			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
 			RightArmUI.gameObject.SetActive (false);
+			charUI.transform.Find ("rightArmBack").GetComponent<Image> ().gameObject.SetActive (false);
 		}
 		else {
 			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.yellow;
 			RightArmUI.gameObject.SetActive (true);
+			charUI.transform.Find ("rightArmBack").GetComponent<Image> ().gameObject.SetActive (true);
 		}
 
 		if (!robotParts [LeftLeg].active) {
 			LeftLegUI.gameObject.SetActive (false);
+			charUI.transform.Find ("leftLegBack").GetComponent<Image> ().gameObject.SetActive (false);
 			buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.gray;
 		}
 		else {
 			buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.green;
 			LeftLegUI.gameObject.SetActive (true);
+			charUI.transform.Find ("leftLegBack").GetComponent<Image> ().gameObject.SetActive (true);
 		}
 
 		if (!robotParts [RightLeg].active) {
 			RightLegUI.gameObject.SetActive (false);
+			charUI.transform.Find ("rightLegBack").GetComponent<Image> ().gameObject.SetActive (false);
 			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.gray;
 		}
 		else {
 			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.red;
 			RightLegUI.gameObject.SetActive (true);
+			charUI.transform.Find ("rightLegBack").GetComponent<Image> ().gameObject.SetActive (true);
 		}
 
 	    if(currentHealth <= 0)
