@@ -168,7 +168,7 @@ public class ControllerInputManager : InputManager
 					}
 					
 //					if ((Input.GetAxis ("LeftJoystickY_P2") < 0  && previousP2Y == 0)  || (Input.GetAxis("DPadY_P2") > 0 && previousP2DPadY == 0)) {
-					if(Input.GetAxis ("LeftJoystickX_P1") < 0.3  || Input.GetAxis ("LeftJoystickX_P1") > -0.3){
+					if(Input.GetAxis ("LeftJoystickX_P2") < 0.3  || Input.GetAxis ("LeftJoystickX_P2") > -0.3){
 						if ((Input.GetAxis ("LeftJoystickY_P2") < 0  && previousP2Y == 0)  || (Input.GetAxis("DPadY_P2") > 0 && previousP2DPadY == 0)) {
 							playerTwo.Jump ();
 						}
