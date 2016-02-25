@@ -74,6 +74,7 @@ public class Robot : MonoBehaviour {
 		RightLegUI = charUI.transform.Find ("RightLeg").GetComponent<Image> ();
 
         InitializeParts();
+		this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
 
         if (this.transform.right.x < 0)
         {
