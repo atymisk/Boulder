@@ -13,6 +13,10 @@ public class StageSelect : MonoBehaviour {
 	
 	void Start()
 	{
+		controller.transform.FindChild ("X").GetComponent<Renderer> ().gameObject.SetActive (false);
+		controller.transform.FindChild ("Y").GetComponent<Renderer> ().gameObject.SetActive (false);
+		controller.transform.FindChild ("A").GetComponent<Renderer> ().gameObject.SetActive (false);
+		controller.transform.FindChild ("B").GetComponent<Renderer> ().gameObject.SetActive (false);
 		instance = this;
 	}
 	
@@ -98,6 +102,44 @@ public class StageSelect : MonoBehaviour {
 		player.Pickup ();
 		yield return new WaitForSeconds(0.5f);
 		controller.transform.FindChild ("RB").GetComponent<Renderer> ().material.color = Color.white;
+		yield return new WaitForSeconds(1.0f);
+
+		//left punch
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.red;
+		controller.transform.FindChild ("X").GetComponent<Renderer> ().gameObject.SetActive (true);
+		yield return new WaitForSeconds(0.5f);
+		player.LeftPunch ();
+		player.LeftPunch ();
+		yield return new WaitForSeconds(0.5f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.white;
+		controller.transform.FindChild ("X").GetComponent<Renderer> ().gameObject.SetActive (false);
+		//right punch
+		yield return new WaitForSeconds(1.0f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.red;
+		controller.transform.FindChild ("Y").GetComponent<Renderer> ().gameObject.SetActive (true);
+		yield return new WaitForSeconds(0.5f);
+		player.RightPunch ();
+		yield return new WaitForSeconds(0.5f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.white;
+		controller.transform.FindChild ("Y").GetComponent<Renderer> ().gameObject.SetActive (false);
+		//left kick
+		yield return new WaitForSeconds(1.0f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.red;
+		controller.transform.FindChild ("A").GetComponent<Renderer> ().gameObject.SetActive (true);
+		yield return new WaitForSeconds(0.5f);
+		player.LeftKick ();
+		yield return new WaitForSeconds(0.5f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.white;
+		controller.transform.FindChild ("A").GetComponent<Renderer> ().gameObject.SetActive (false);
+		//right kick
+		yield return new WaitForSeconds(1.0f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.red;
+		controller.transform.FindChild ("B").GetComponent<Renderer> ().gameObject.SetActive (true);
+		yield return new WaitForSeconds(0.5f);
+		player.RightKick ();
+		yield return new WaitForSeconds(0.5f);
+		controller.transform.FindChild("FB").GetComponent<Renderer>().material.color = Color.white;
+		controller.transform.FindChild ("B").GetComponent<Renderer> ().gameObject.SetActive (false);
 		yield return new WaitForSeconds(1.0f);
 		Application.LoadLevel (sceneN);
 	}
