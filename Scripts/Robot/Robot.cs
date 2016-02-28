@@ -30,6 +30,7 @@ public class Robot : MonoBehaviour {
 
 	public GameObject buttonRefls;
 	public GameObject charUI;
+	public GameObject hangSpot;
 	public int toturial;
 
 
@@ -48,6 +49,7 @@ public class Robot : MonoBehaviour {
     private PickupBox pickupBox;
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
+	private IEnumerator hangBlock;
 
 	//private Text healthNum;
 	//private Slider healthBar;
@@ -262,6 +264,9 @@ public class Robot : MonoBehaviour {
 
 		if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
+			hangBlock = HangBlock(0.5f);
+			StartCoroutine(hangBlock);
+
             robotParts[LeftLeg].Attack();
 			comboState = false;
 			anim.SetTrigger(robotParts[LeftLeg].GetTrigger());
@@ -470,6 +475,28 @@ public class Robot : MonoBehaviour {
 			robotParts[index].active = false;
         }
     }
+
+	public void OnHang()
+	{
+		if (currentState != CharacterState.Hang) 
+		{
+			robotParts[LeftArm].CancelAttack();
+			robotParts[LeftLeg].CancelAttack();
+			robotParts[RightLeg].CancelAttack();
+			robotParts[LeftLeg].CancelAttack();
+			
+			this.transform.position = hangSpot.transform.position;
+			rigidbodyTwoD.gravityScale = 0;
+			rigidbodyTwoD.velocity = Vector2.zero;
+			
+			if (delayedJump != null)
+			{
+				StopCoroutine(delayedJump);
+			}
+			
+			currentState = CharacterState.Hang;
+		}
+	}
 
 	public void OnHitConnected()
 	{
@@ -896,13 +923,23 @@ public class Robot : MonoBehaviour {
 
 		if ((other.gameObject.name == "HangAreaLeft" && isFacingLeft == false) || (other.gameObject.name == "HangAreaRight" && isFacingLeft == true)) 
 		{
-            if(!IsBusy() && !isGrounded)
+			hangSpot = other.gameObject;
+
+			if( currentState != CharacterState.Hang &&
+			   !anim.GetBool("HangBlock") && (!IsBusy() || currentState == CharacterState.LeftKick)
+			   && !isGrounded)
             {
                 anim.SetBool("Running", false);
                 anim.SetBool("Blocking", false);
                 //anim.SetTrigger("Hang");
                 anim.SetBool("Hanging", true);
                 currentState = CharacterState.Hang;
+				
+				robotParts[LeftArm].CancelAttack();
+				robotParts[LeftLeg].CancelAttack();
+				robotParts[RightLeg].CancelAttack();
+				robotParts[LeftLeg].CancelAttack();
+
                 this.transform.position = other.transform.position;
                 rigidbodyTwoD.gravityScale = 0;
                 rigidbodyTwoD.velocity = Vector2.zero;
@@ -959,4 +996,12 @@ public class Robot : MonoBehaviour {
         isGrounded = false;
 		currentState = CharacterState.Idle;
     }
+
+	IEnumerator HangBlock(float duration)
+	{
+		anim.SetBool("HangBlock", true);
+		yield return new WaitForSeconds(duration);
+		anim.SetBool("HangBlock", false);
+
+	}
 }
