@@ -20,8 +20,8 @@ public class Robot : MonoBehaviour {
     public string mytag = "null";
     public Part[] robotParts;
     public Rigidbody2D rigidbodyTwoD;
-    public float maxHealth = 200f;
-    public float currentHealth = 200f;
+    public float maxHealth = 120f;
+    public float currentHealth = 120f;
     public int currnumparts = 4;
 	//public Text healthNum;
 	public Slider healthBar;
@@ -59,6 +59,16 @@ public class Robot : MonoBehaviour {
 	private Image LeftLegUI;
 	private Image RightLegUI;
 
+    public void setCharUI()
+    {
+        if(charUI == null)
+            return;
+        LeftArmUI = charUI.transform.Find("leftArm").GetComponent<Image>();
+        RightArmUI = charUI.transform.Find("RightArm").GetComponent<Image>();
+        LeftLegUI = charUI.transform.Find("leftLeg").GetComponent<Image>();
+        RightLegUI = charUI.transform.Find("RightLeg").GetComponent<Image>();
+    }
+
     void Start ()
     {
         currentState = CharacterState.Idle;
@@ -69,11 +79,8 @@ public class Robot : MonoBehaviour {
 		if(toturial == 0)
 			gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
 
-		//healthNum = charUI.transform.Find ("healthText").GetComponent<Text> ();
-		LeftArmUI = charUI.transform.Find ("leftArm").GetComponent<Image> ();
-		RightArmUI = charUI.transform.Find ("RightArm").GetComponent<Image> ();
-		LeftLegUI = charUI.transform.Find ("leftLeg").GetComponent<Image> ();
-		RightLegUI = charUI.transform.Find ("RightLeg").GetComponent<Image> ();
+        //healthNum = charUI.transform.Find ("healthText").GetComponent<Text> ();
+        setCharUI();
 
         InitializeParts();
 		this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
@@ -82,74 +89,87 @@ public class Robot : MonoBehaviour {
         if (this.transform.right.x < 0)
         {
             isFacingLeft = true;
-
-
         }
         else
         {
             isFacingLeft = false;
         }
     }
+
+    public void updateHP()
+    {
+        healthBar.value = currentHealth / maxHealth * 100;
+        buttonRefls.transform.position = this.transform.position;
+
+        if (healthBar.value <= 20)
+            Fill.color = Color.red;
+        else if (healthBar.value <= 50)
+            Fill.color = Color.yellow;
+        else
+            Fill.color = Color.green;
+    }
+
+    public void updatePartsUI()
+    {
+        if (!robotParts[LeftArm].active)
+        {
+            LeftArmUI.gameObject.SetActive(false);
+            charUI.transform.Find("leftArmBack").GetComponent<Image>().gameObject.SetActive(false);
+            buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.gray;
+        }
+        else
+        {
+            buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.blue;
+            LeftArmUI.gameObject.SetActive(true);
+            charUI.transform.Find("leftArmBack").GetComponent<Image>().gameObject.SetActive(true);
+        }
+
+        if (!robotParts[RightArm].active)
+        {
+            buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
+            RightArmUI.gameObject.SetActive(false);
+            charUI.transform.Find("rightArmBack").GetComponent<Image>().gameObject.SetActive(false);
+        }
+        else
+        {
+            buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.yellow;
+            RightArmUI.gameObject.SetActive(true);
+            charUI.transform.Find("rightArmBack").GetComponent<Image>().gameObject.SetActive(true);
+        }
+
+        if (!robotParts[LeftLeg].active)
+        {
+            LeftLegUI.gameObject.SetActive(false);
+            charUI.transform.Find("leftLegBack").GetComponent<Image>().gameObject.SetActive(false);
+            buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.gray;
+        }
+        else
+        {
+            buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.green;
+            LeftLegUI.gameObject.SetActive(true);
+            charUI.transform.Find("leftLegBack").GetComponent<Image>().gameObject.SetActive(true);
+        }
+
+        if (!robotParts[RightLeg].active)
+        {
+            RightLegUI.gameObject.SetActive(false);
+            charUI.transform.Find("rightLegBack").GetComponent<Image>().gameObject.SetActive(false);
+            buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.gray;
+        }
+        else
+        {
+            buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.red;
+            RightLegUI.gameObject.SetActive(true);
+            charUI.transform.Find("rightLegBack").GetComponent<Image>().gameObject.SetActive(true);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		healthBar.value = currentHealth / maxHealth * 100;
-		//healthNum.text = healthBar.value.ToString ();
+        updateHP();
 
-		buttonRefls.transform.position = this.transform.position;
-		
-		if (healthBar.value <= 20) {
-			Fill.color = Color.red;
-		} else if (healthBar.value <= 50)
-			Fill.color = Color.yellow;
-		else 
-			Fill.color = Color.green;
-
-		if (!robotParts [LeftArm].active)
-        {
-			LeftArmUI.gameObject.SetActive (false);
-			charUI.transform.Find ("leftArmBack").GetComponent<Image> ().gameObject.SetActive (false);
-			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.gray;
-		}
-        else
-        {
-			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().material.color = Color.blue;
-			LeftArmUI.gameObject.SetActive (true);
-			charUI.transform.Find ("leftArmBack").GetComponent<Image> ().gameObject.SetActive (true);
-		}
-		if (!robotParts [RightArm].active) {
-			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
-			RightArmUI.gameObject.SetActive (false);
-			charUI.transform.Find ("rightArmBack").GetComponent<Image> ().gameObject.SetActive (false);
-		}
-		else {
-			buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.yellow;
-			RightArmUI.gameObject.SetActive (true);
-			charUI.transform.Find ("rightArmBack").GetComponent<Image> ().gameObject.SetActive (true);
-		}
-
-		if (!robotParts [LeftLeg].active) {
-			LeftLegUI.gameObject.SetActive (false);
-			charUI.transform.Find ("leftLegBack").GetComponent<Image> ().gameObject.SetActive (false);
-			buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.gray;
-		}
-		else {
-			buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.green;
-			LeftLegUI.gameObject.SetActive (true);
-			charUI.transform.Find ("leftLegBack").GetComponent<Image> ().gameObject.SetActive (true);
-		}
-
-		if (!robotParts [RightLeg].active) {
-			RightLegUI.gameObject.SetActive (false);
-			charUI.transform.Find ("rightLegBack").GetComponent<Image> ().gameObject.SetActive (false);
-			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.gray;
-		}
-		else {
-			buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.red;
-			RightLegUI.gameObject.SetActive (true);
-			charUI.transform.Find ("rightLegBack").GetComponent<Image> ().gameObject.SetActive (true);
-		}
+        updatePartsUI();
 
 	    if(currentHealth <= 0)
         {
@@ -211,7 +231,6 @@ public class Robot : MonoBehaviour {
                 rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
             }
            
-
 			currentState = thisMove;
         }
     }
@@ -230,7 +249,6 @@ public class Robot : MonoBehaviour {
 			{
 				rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 			}
-			
 			
 			currentState = thisMove;
 		}
@@ -384,8 +402,6 @@ public class Robot : MonoBehaviour {
 		
 		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
 		{
-
-			
 			anim.SetTrigger("RocketLeftArm");
 			currentState = thisMove;
 		}
@@ -445,7 +461,6 @@ public class Robot : MonoBehaviour {
                 rocket.transform.Rotate(new Vector3(0, 180, 0));
             }
 
-           
 			Transform partToBreak = null;
 			//change this to switch leg parts
 			switch(index)
@@ -472,8 +487,6 @@ public class Robot : MonoBehaviour {
 				break;
 			}
 				
-
-
 			partToBreak.gameObject.SetActive(false);
 			robotParts[index].active = false;
         }
@@ -527,8 +540,6 @@ public class Robot : MonoBehaviour {
             anim.SetTrigger("JumpStart");
             delayedJump = DelayedJump(0.05f);
             StartCoroutine(delayedJump);
-
-
         }
 		
 		if ((currentState == CharacterState.Hang))
@@ -856,11 +867,7 @@ public class Robot : MonoBehaviour {
 				pickup.SpinBounce(1);
 				partToBreak.gameObject.SetActive(false);
 			}
-
 		}
-
-
-
 	}
 
     //Collisions
@@ -893,8 +900,8 @@ public class Robot : MonoBehaviour {
         }
     }
 
-	void OnCollisionStay2D(Collision2D col){
-//		Debug.Log (drop);
+	void OnCollisionStay2D(Collision2D col)
+    {
 		if (previousPlatform.Count != 0 && !drop) {
 			foreach(Collider2D platform in previousPlatform){
 				Physics2D.IgnoreCollision(platform, GetComponent<Collider2D>(), drop);
@@ -953,9 +960,6 @@ public class Robot : MonoBehaviour {
                 rigidbodyTwoD.velocity = Vector2.zero;
             }
 		}
-
-        
-
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -1010,6 +1014,5 @@ public class Robot : MonoBehaviour {
 		anim.SetBool("HangBlock", true);
 		yield return new WaitForSeconds(duration);
 		anim.SetBool("HangBlock", false);
-
 	}
 }

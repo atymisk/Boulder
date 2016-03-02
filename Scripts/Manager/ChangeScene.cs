@@ -11,6 +11,7 @@ public class ChangeScene : MonoBehaviour {
     }
 
 	public void ChangetoScene (string sceneName) {
+        GameManager.ot = false;
 		Application.LoadLevel (sceneName);
 	}
 
