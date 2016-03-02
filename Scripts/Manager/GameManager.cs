@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 	//private System.Timers.Timer countdown;
 	private static float countdown = 120;
 	public Text timer;
-    private static bool ot = false;
+    public static bool ot = false;
 
     private bool gamestart = false;
     private float startimer = 4;
@@ -245,7 +245,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.1f;
         yield return new WaitForSeconds(0.3f);
         Time.timeScale = 0;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.8f);
         if(!ot)
         {
             ChangeScene.instance.ChangetoScene("MainUI");//change to EndOfMatch scene
@@ -258,12 +258,16 @@ public class GameManager : MonoBehaviour
 
     void player1wins()
     {
+        cmrmng.p1wins();
+        cmrmng.p2_is_dead();
         winner.text = "Player 1 Wins!";
         winner.color = Color.yellow;
     }
 
     void player2wins()
     {
+        cmrmng.p1_is_dead();
+        cmrmng.p2wins();
         winner.text = "Player 2 Wins!";
         winner.color = Color.yellow;
     }
