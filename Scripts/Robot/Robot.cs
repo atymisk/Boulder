@@ -456,7 +456,7 @@ public class Robot : MonoBehaviour {
 				rocketBody.velocity = new Vector2(0, -200);
 				rocket.transform.Rotate(new Vector3(0, 0, -90));
 				rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 0);
-				rigidbodyTwoD.AddForce(new Vector2(0, 75), ForceMode2D.Impulse);
+				rigidbodyTwoD.AddForce(new Vector2(0, 125), ForceMode2D.Impulse);
 				break;
 			case LeftLeg: partToBreak = this.transform.GetChild(0).GetChild(1);
 				rocketBody.velocity = new Vector2(0, 200);
