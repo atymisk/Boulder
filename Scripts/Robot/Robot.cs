@@ -77,6 +77,7 @@ public class Robot : MonoBehaviour {
 
         InitializeParts();
 		this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
+		this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(false);
 
         if (this.transform.right.x < 0)
         {
@@ -303,6 +304,7 @@ public class Robot : MonoBehaviour {
                 anim.SetBool("Blocking", true);
 
                 currentState = CharacterState.Blocking;
+				this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(true);
             }
 
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
@@ -316,6 +318,7 @@ public class Robot : MonoBehaviour {
             //anim.SetTrigger("UnBlock");
             anim.SetBool("Blocking", false);
             currentState = CharacterState.Idle;
+			this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(false);
         }
     }
 
