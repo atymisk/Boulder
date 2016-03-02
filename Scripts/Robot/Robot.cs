@@ -84,6 +84,7 @@ public class Robot : MonoBehaviour {
 
         InitializeParts();
 		this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
+		this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(false);
 
         if (this.transform.right.x < 0)
         {
@@ -321,6 +322,7 @@ public class Robot : MonoBehaviour {
                 anim.SetBool("Blocking", true);
 
                 currentState = CharacterState.Blocking;
+				this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(true);
             }
 
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
@@ -334,6 +336,7 @@ public class Robot : MonoBehaviour {
             //anim.SetTrigger("UnBlock");
             anim.SetBool("Blocking", false);
             currentState = CharacterState.Idle;
+			this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(false);
         }
     }
 
@@ -471,7 +474,7 @@ public class Robot : MonoBehaviour {
 				rocketBody.velocity = new Vector2(0, -200);
 				rocket.transform.Rotate(new Vector3(0, 0, -90));
 				rigidbodyTwoD.velocity = new Vector2(rigidbodyTwoD.velocity.x, 0);
-				rigidbodyTwoD.AddForce(new Vector2(0, 75), ForceMode2D.Impulse);
+				rigidbodyTwoD.AddForce(new Vector2(0, 125), ForceMode2D.Impulse);
 				break;
 			case LeftLeg: partToBreak = this.transform.GetChild(0).GetChild(1);
 				rocketBody.velocity = new Vector2(0, 200);

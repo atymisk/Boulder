@@ -28,8 +28,8 @@ public class StageSelect : MonoBehaviour {
 	public void skip()
 	{
 		//to skip the tutorial
-		//if (Input.GetKeyDown(KeyCode.C)|| Input.GetButton("A_P1")|| Input.GetButton ("A_P2"))
-		if (Input.GetKeyDown (KeyCode.C))
+		if (Input.GetKeyDown(KeyCode.C)|| Input.GetButton("A_P1")|| Input.GetButton ("A_P2"))
+//		if (Input.GetKeyDown (KeyCode.C))
 		{
 			Application.LoadLevel (sceneN);
 		}
