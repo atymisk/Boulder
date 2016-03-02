@@ -12,4 +12,17 @@ public class TigerRightHandRocket : RobotRocket {
     {
         return "ItemParts/TigerRightHandPickup";
     }
+
+	void OnCollisionEnter2D(Collision2D col)
+	{
+		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
+		{
+			Rigidbody2D thisBody = this.GetComponent<Rigidbody2D>();
+			if(thisBody.velocity.x == 0 && thisBody.velocity.y == 0)
+			{
+				DestroyRocket(this.transform.position);
+			}
+			
+		}
+	}
 }

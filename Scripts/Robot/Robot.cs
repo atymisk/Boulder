@@ -506,6 +506,11 @@ public class Robot : MonoBehaviour {
 		comboState = true;
 	}
 
+	public bool IsGrounded()
+	{
+		return isGrounded;
+	}
+
     //Movement
     public void Jump()
     {

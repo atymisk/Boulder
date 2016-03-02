@@ -39,6 +39,25 @@ public class RobotRocket : MonoBehaviour {
 		//Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), p2.GetComponent<Collider2D>());
     }
 
+	protected void DestroyRocket(Vector2 expPos)
+	{
+		GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
+		var clone = Instantiate(explosion, expPos, Quaternion.identity);
+		Destroy(clone, 5);
+		smokeTrail.GetComponent<ParticleSystem>().enableEmission = false;
+		Destroy(smokeTrail,  smokeTrail.GetComponent<ParticleSystem>().startLifetime);
+		
+		
+		GameObject pickObj = Instantiate(Resources.Load(GetPickupPath())) as GameObject;
+		
+		pickObj.transform.position = this.transform.position;
+		
+		PartPickup pickup = pickObj.GetComponent<PartPickup>();
+		pickup.SpinBounce(1);
+
+		Destroy(this.gameObject);
+	}
+
     //Collisions
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -67,25 +86,12 @@ public class RobotRocket : MonoBehaviour {
 				Vector2 pushVelocity = new Vector2(direction * speed, 50);
 				enemy.HeavyHitStun(damage, pushVelocity, 0.2f);
 				enemy.BreakRandomPart();
-				
-				GameObject explosion = (GameObject)Resources.Load("Particles/RocketHit");
-				var clone = Instantiate(explosion, enemy.transform.position, Quaternion.identity);
-				Destroy(clone, 5);
-				smokeTrail.GetComponent<ParticleSystem>().enableEmission = false;
-				Destroy(smokeTrail,  smokeTrail.GetComponent<ParticleSystem>().startLifetime);
 
-
-                GameObject pickObj = Instantiate(Resources.Load(GetPickupPath())) as GameObject;
-
-                pickObj.transform.position = this.transform.position;
-
-                PartPickup pickup = pickObj.GetComponent<PartPickup>();
-                pickup.SpinBounce(1);
+				DestroyRocket(enemy.transform.position);
 
                 SpecialEffects.instance.SlowMo(0.1f, 0.2f);
                 SpecialEffects.instance.ShakeScreen(0.1f);
 
-                Destroy(this.gameObject);
                // this.gameObject.SetActive(false);
             }
         }
