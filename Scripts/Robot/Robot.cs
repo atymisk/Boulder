@@ -94,6 +94,7 @@ public class Robot : MonoBehaviour {
         {
             isFacingLeft = false;
         }
+		InvokeRepeating ("updateNoParts", 0, 1f);
     }
 
     public void updateHP()
@@ -163,6 +164,18 @@ public class Robot : MonoBehaviour {
             charUI.transform.Find("rightLegBack").GetComponent<Image>().gameObject.SetActive(true);
         }
     }
+
+	void updateNoParts(){
+		if (!(robotParts [LeftLeg].active || robotParts [RightLeg].active || robotParts [LeftArm].active || robotParts [RightArm].active)) {
+			if (this.currentHealth > 5f){
+				this.currentHealth -= this.maxHealth * .05f;
+				this.currentHealth = this.currentHealth <= 5f ? 5f : this.currentHealth;
+			}
+			else{
+				this.currentHealth -= this.maxHealth * .01f;
+			}
+		}
+	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -202,6 +215,7 @@ public class Robot : MonoBehaviour {
 		{
 			this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
 		}
+	
 	}
 
     private void InitializeParts()
