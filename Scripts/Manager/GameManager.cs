@@ -327,14 +327,14 @@ public class GameManager : MonoBehaviour
         P1.transform.position = P1spawnPoint.position;
         p1_origin = Instantiate(P1);//clone P1
         p1_origin.enabled = false;
-        p1_origin.transform.position = new Vector3(-5, 245, 0);
+        p1_origin.transform.position = new Vector3(-425.5f, 245, 0);
         //p1_origin.rend.enabled = false;
          
         P2.setTag("P2");
         P2.transform.position = P2spawnPoint.position;
         p2_origin = Instantiate(P2);//clone P2
         p2_origin.enabled = false;
-        p2_origin.transform.position = new Vector3(5, 245, 0);
+        p2_origin.transform.position = new Vector3(-431.5f, 245, 0);
 
         pauseMenu.SetActive(false);
         primaryINPT.lockcontrols();
