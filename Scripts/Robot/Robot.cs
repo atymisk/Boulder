@@ -193,11 +193,11 @@ public class Robot : MonoBehaviour {
 				gm.thisPlayerDied(mytag);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+ /*       if (Input.GetKeyDown(KeyCode.E))
         {
             Pickup();
         }
-
+*/
         if(!isGrounded && rigidbodyTwoD.velocity.y < 0)
         {
             anim.SetBool("Falling", true);
