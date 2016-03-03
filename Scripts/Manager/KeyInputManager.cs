@@ -30,6 +30,10 @@ public class KeyInputManager : InputManager {
 				} else {
 					playerOne.rocketUnPre();
 				}
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					playerOne.Pickup();
+				}
 
 				if (Input.GetKeyDown (KeyCode.D)) {
 					playerOne.FaceRight ();
@@ -88,6 +92,10 @@ public class KeyInputManager : InputManager {
 					playerTwo.rocketUnPre();
 				}
 
+				if (Input.GetKeyDown(KeyCode.U))
+				{
+					playerTwo.Pickup();
+				}
 				if (Input.GetKeyDown (KeyCode.L)) {
 					playerTwo.FaceRight ();
 				} else if (Input.GetKeyDown (KeyCode.J)) {
