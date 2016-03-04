@@ -115,10 +115,10 @@ public class StageSelect : MonoBehaviour {
 	{
 		if (flag == 1) {
 			player1.transform.position = new Vector2 (-17f, -12.51906f);
-			player2.transform.position = new Vector2 (66f, -12.51906f);
+			player2.transform.position = new Vector2 (64f, -12.51906f);
 		} else if (flag == 2) {
 			player1.transform.position = new Vector2 (-30f, -12.51906f);
-			player2.transform.position = new Vector2 (77f, -12.51906f);
+			player2.transform.position = new Vector2 (78f, -12.51906f);
 		}
 		keyPressed = false;
 		keyPressed2 = false;
@@ -148,7 +148,7 @@ public class StageSelect : MonoBehaviour {
 		controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Fire Rocket";
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.Alpha5, KeyCode.Equals, "RocketLeftArm"));
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.5f);
 		controller.transform.FindChild("RT").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild("FB").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild ("FBt").GetComponent<Text> ().text = " ";
@@ -163,7 +163,7 @@ public class StageSelect : MonoBehaviour {
 		controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Fire Rocket";
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.R, KeyCode.O, "RocketRightArm"));
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.5f);
 		controller.transform.FindChild("RT").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild("FB").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild ("FBt").GetComponent<Text> ().text = " ";
@@ -178,7 +178,7 @@ public class StageSelect : MonoBehaviour {
 		controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Fire Rocket";
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.T, KeyCode.P, "RocketLeftLeg"));
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.5f);
 		controller.transform.FindChild("RT").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild("FB").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild ("FBt").GetComponent<Text> ().text = " ";
@@ -193,7 +193,7 @@ public class StageSelect : MonoBehaviour {
 		controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Fire Rocket";
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.Y, KeyCode.Semicolon, "RocketRightLeg"));
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.5f);
 		controller.transform.FindChild("RT").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild("FB").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild ("FBt").GetComponent<Text> ().text = " ";
@@ -204,20 +204,13 @@ public class StageSelect : MonoBehaviour {
 		yield return new WaitForSeconds(1.5f);
 		GameObject pickObj1 = null;
 		GameObject pickObj5 = null;
-/*
-		GameObject pickObj2 = null;
-		GameObject pickObj3 = null;
-		GameObject pickObj4 = null;
-		GameObject pickObj6 = null;
-		GameObject pickObj7 = null;
-		GameObject pickObj8 = null;
-*/
-		player1.robotParts [1].active = true;
-		player1.robotParts [2].active = true;
-		player1.robotParts [3].active = true;
-		player2.robotParts [1].active = true;
-		player2.robotParts [2].active = true;
-		player2.robotParts [3].active = true;
+
+		player1.robotParts [1].Attach ();
+		player1.robotParts [2].Attach ();
+		player1.robotParts [3].Attach ();
+		player2.robotParts [1].Attach ();
+		player2.robotParts [2].Attach ();
+		player2.robotParts [3].Attach ();
 
 		pickObj1 = Instantiate(Resources.Load("ItemParts/TigerLeftHandPickup")) as GameObject;
 		pickObj1.transform.position = new Vector2 (player1.transform.position.x + 5, player1.transform.position.y);
@@ -228,23 +221,7 @@ public class StageSelect : MonoBehaviour {
 		controller.transform.FindChild ("RBt").GetComponent<Text> ().text = "Pick Up";
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.E, KeyCode.U, "pickUp"));
-		/*
-		pickObj2 = Instantiate(Resources.Load("ItemParts/TigerRightHandPickup")) as GameObject;
-		pickObj2.transform.position = new Vector2 (player1.transform.position.x + 5, player1.transform.position.y);
-		pickObj6 = Instantiate(Resources.Load("ItemParts/BunnyRightHandPickup")) as GameObject;
-		pickObj6.transform.position = new Vector2 (player2.transform.position.x - 5, player2.transform.position.y);
-		yield return StartCoroutine (waitForKey (KeyCode.E, KeyCode.U, "pickUp"));
-		pickObj3 = Instantiate(Resources.Load("ItemParts/TigerLeftLegPickup")) as GameObject;
-		pickObj3.transform.position = new Vector2 (player1.transform.position.x + 5, player1.transform.position.y);
-		pickObj7 = Instantiate(Resources.Load("ItemParts/BunnyLeftLegPickup")) as GameObject;
-		pickObj7.transform.position = new Vector2 (player2.transform.position.x - 5, player2.transform.position.y);
-		yield return StartCoroutine (waitForKey (KeyCode.E, KeyCode.U, "pickUp"));
-		pickObj4 = Instantiate(Resources.Load("ItemParts/TigerRightLegPickup")) as GameObject;
-		pickObj4.transform.position = new Vector2 (player1.transform.position.x + 5, player1.transform.position.y);
-		pickObj8 = Instantiate(Resources.Load("ItemParts/BunnyRightLegPickup")) as GameObject;
-		pickObj8.transform.position = new Vector2 (player2.transform.position.x - 5, player2.transform.position.y);
-		yield return StartCoroutine (waitForKey (KeyCode.E, KeyCode.U, "pickUp"));
-*/
+
 		yield return new WaitForSeconds(0.5f);
 		controller.transform.FindChild ("RB").GetComponent<Image> ().color = Color.white;
 		controller.transform.FindChild ("RBt").GetComponent<Text> ().text = "Right bumper";
