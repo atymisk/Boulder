@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 	ControllerInputManager continpt;
 	InputManager primaryINPT;
 	StatsManager stats;
+    SFXManager sfxmng;
 	public CameraManager cmrmng;
 	public GameObject pauseMenu;
 	
@@ -77,6 +78,8 @@ public class GameManager : MonoBehaviour
 		Destroy(P1.gameObject);
 		p1_stocks--;
 		p1Left.text = p1_stocks.ToString ();
+        sfxmng.notrespawning1 = true;
+        SFXManager.ThrusterOff("P1");
 		primaryINPT.lockp1control();
 		cmrmng.p1_is_dead();
 		
@@ -106,7 +109,9 @@ public class GameManager : MonoBehaviour
 		Destroy(P2.gameObject);
 		p2_stocks--;
 		p2Left.text = p2_stocks.ToString ();
-		primaryINPT.lockp2control();
+        sfxmng.notrespawning2 = true;
+        SFXManager.ThrusterOff("P2");
+        primaryINPT.lockp2control();
 		cmrmng.p2_is_dead();
 		
 		if (p2_stocks == 0)
@@ -128,9 +133,11 @@ public class GameManager : MonoBehaviour
 		P1 = Instantiate(p1_origin);
 		P1.transform.position = P1spawnPoint.position;
 		P1.enabled = true;
-		//give inputmanager and camera manager the new one
-		primaryINPT.unlockp1control(P1);
+        //give inputmanager and camera manager the new one
+        primaryINPT.unlockp1control(P1);
 		cmrmng.p1_respawn(P1);
+        sfxmng.p1pos = P1.transform;
+        sfxmng.notrespawning1 = false;
 	}
 	
 	IEnumerator p2respawn()
@@ -140,9 +147,11 @@ public class GameManager : MonoBehaviour
 		P2 = Instantiate(p2_origin);
 		P2.transform.position = P2spawnPoint.position;
 		P2.enabled = true;
-		//give inputmanager and camera manager the new one
-		primaryINPT.unlockp2control(P2);
+        //give inputmanager and camera manager the new one
+        primaryINPT.unlockp2control(P2);
 		cmrmng.p2_respawn(P2);
+        sfxmng.p2pos = P2.transform;
+        sfxmng.notrespawning2 = false;
 	}
     
     void checkgameover()
@@ -307,6 +316,7 @@ public class GameManager : MonoBehaviour
         inptmng = GameObject.Find("InputManager");
         keyinpt = inptmng.GetComponent<KeyInputManager>();
         continpt = inptmng.GetComponent<ControllerInputManager>();
+        sfxmng = GameObject.Find("SoundManager").GetComponent<SFXManager>();
         if(MatchSettingsData.mstrinptmng == "Keys")
         {
             continpt.enabled = false;

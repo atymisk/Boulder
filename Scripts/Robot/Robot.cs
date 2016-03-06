@@ -210,6 +210,7 @@ public class Robot : MonoBehaviour {
 		if (!robotParts [LeftLeg].active && !robotParts [RightLeg].active)
         {
 			this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(true);
+            SFXManager.ThrusterOn(mytag);
 		} 
 		else 
 		{
@@ -233,7 +234,7 @@ public class Robot : MonoBehaviour {
     public void LeftPunch()
     {
 		CharacterState thisMove = CharacterState.LeftPunch;
-
+        //SFXManager.cueFX(mytag, "Whiff");
 		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftArm].Attack();
@@ -247,13 +248,17 @@ public class Robot : MonoBehaviour {
            
 			currentState = thisMove;
         }
+        else if(!robotParts[LeftArm].active)
+        {
+            SFXManager.cueFX(mytag, "NoLimb");
+        }
     }
 
 	public void RightPunch()
 	{
 		CharacterState thisMove = CharacterState.RightPunch;
-		
-		if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+        //SFXManager.cueFX(mytag, "Whiff");
+        if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
 		{
 			robotParts[RightArm].Attack();
 			comboState = false;
@@ -266,7 +271,11 @@ public class Robot : MonoBehaviour {
 			
 			currentState = thisMove;
 		}
-	}
+        else if (!robotParts[RightArm].active)
+        {
+            SFXManager.cueFX(mytag, "NoLimb");
+        }
+    }
 
 	public void RightPunchExplosion()
 	{
@@ -294,8 +303,8 @@ public class Robot : MonoBehaviour {
     public void LeftKick()
     {
 		CharacterState thisMove = CharacterState.LeftKick;
-
-		if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+        //SFXManager.cueFX(mytag, "Whiff");
+        if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
 			hangBlock = HangBlock(0.5f);
 			StartCoroutine(hangBlock);
@@ -307,13 +316,17 @@ public class Robot : MonoBehaviour {
 
 			currentState = thisMove;
         }
+        else if (!robotParts[LeftLeg].active)
+        {
+            SFXManager.cueFX(mytag, "NoLimb");
+        }
     }
 
     public void RightKick()
     {
 		CharacterState thisMove = CharacterState.RightKick;
-
-		if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
+        //SFXManager.cueFX(mytag, "Whiff");
+        if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[RightLeg].Attack();
 			comboState = false;
@@ -321,6 +334,10 @@ public class Robot : MonoBehaviour {
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 
 			currentState = thisMove;
+        }
+        else if (!robotParts[RightLeg].active)
+        {
+            SFXManager.cueFX(mytag, "NoLimb");
         }
     }
 
@@ -370,9 +387,9 @@ public class Robot : MonoBehaviour {
 		CharacterState thisMove = CharacterState.Pickup;
 
 		PartPickup partToPickup = pickupBox.GetClosestPart();
-
 		if(partToPickup != null)
 		{
+            SFXManager.cueFX(mytag, "LimbGained");
 			int partIndex = partToPickup.GetIndex();
 			Debug.Log(this + " partIndex: " + partIndex);
 			if(!robotParts[partIndex].active)
@@ -681,7 +698,7 @@ public class Robot : MonoBehaviour {
         CancelAttacks();
 
         currentState = CharacterState.HeavyFlinch;
-
+        SFXManager.cueFX(mytag, "Hit");
         if (moveTimeRoutine != null)
         {
             StopCoroutine(moveTimeRoutine);
@@ -799,7 +816,7 @@ public class Robot : MonoBehaviour {
         }
         currnumparts--;
 		List<int> breakIndexList = new List<int>();
-
+        SFXManager.cueFX(mytag, "LimbLost");
 		for(int i = 0; i < 4; i++)
 		{
 			if(robotParts[i] != null && robotParts[i].active)
