@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class Robot : MonoBehaviour {
     public enum CharacterState { Idle, Run, Hang, Blocking, BlockStun, LightFlinch, HeavyFlinch, LeftPunch, RightPunch, LeftKick, RightKick, 
-								 Pickup, Airborne, Jumping, Rocketing };
+								 Pickup, Airborne, Jumping, Rocketing, HeadButt };
 
     //Constants
     const int PartCount = 4;
@@ -47,6 +47,7 @@ public class Robot : MonoBehaviour {
 	private Transform partsHolder;
 	private RobotHurtBox hurtBox;
     private PickupBox pickupBox;
+	private BoxCollider2D headHitBox;
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 	private IEnumerator hangBlock;
@@ -76,6 +77,7 @@ public class Robot : MonoBehaviour {
         rigidbodyTwoD = this.gameObject.GetComponent<Rigidbody2D>();
 		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
         pickupBox = this.transform.FindChild("PickupBox").GetComponent<PickupBox>();
+		headHitBox = this.transform.FindChild("HeadHitBox").GetComponent<BoxCollider2D>();
 		if(toturial == 0)
 			gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
 
@@ -230,6 +232,24 @@ public class Robot : MonoBehaviour {
     }
 
     //Attack Moves
+	public void HeadButt()
+	{
+		CharacterState thisMove = CharacterState.HeadButt;
+
+		if(!IsBusy())
+		{
+			anim.SetTrigger("HeadButt");
+
+			if(isGrounded)
+			{
+				rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
+			}
+
+			currentState = thisMove;
+		}
+	}
+
+
     public void LeftPunch()
     {
 		CharacterState thisMove = CharacterState.LeftPunch;
@@ -247,6 +267,11 @@ public class Robot : MonoBehaviour {
            
 			currentState = thisMove;
         }
+		else if(NoActiveParts())
+		{
+			HeadButt();
+		}
+
     }
 
 	public void RightPunch()
@@ -265,6 +290,10 @@ public class Robot : MonoBehaviour {
 			}
 			
 			currentState = thisMove;
+		}
+		else if(NoActiveParts())
+		{
+			HeadButt();
 		}
 	}
 
@@ -307,6 +336,10 @@ public class Robot : MonoBehaviour {
 
 			currentState = thisMove;
         }
+		else if(NoActiveParts())
+		{
+			HeadButt();
+		}
     }
 
     public void RightKick()
@@ -322,6 +355,10 @@ public class Robot : MonoBehaviour {
 
 			currentState = thisMove;
         }
+		else if(NoActiveParts())
+		{
+			HeadButt();
+		}
     }
 
     public void Block()
@@ -362,6 +399,18 @@ public class Robot : MonoBehaviour {
 			anim.SetTrigger("Pickup");
 
 			currentState = thisMove;
+		}
+	}
+
+	public bool NoActiveParts()
+	{
+		if(!robotParts[LeftArm].active && !robotParts[RightArm].active && !robotParts[LeftLeg].active && !robotParts[RightLeg].active)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
@@ -737,6 +786,16 @@ public class Robot : MonoBehaviour {
 		hurtBox.DisableHurtBox();
 	}
 
+	public void EnableHeadHitBox()
+	{
+		headHitBox.enabled = true;
+	}
+
+	public void DisableHeadHitBox()
+	{
+		headHitBox.enabled = false;
+	}
+
     public void OnMoveOrFlinchEnd()
     {
 		comboState = false;
@@ -757,6 +816,7 @@ public class Robot : MonoBehaviour {
     {
         currentState = CharacterState.Blocking;
         CancelAttacks();
+		DisableHeadHitBox();
     }
 
     public bool IsBusy()
