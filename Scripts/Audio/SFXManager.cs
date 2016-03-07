@@ -6,10 +6,17 @@ public class SFXManager : MonoBehaviour
     public Transform p1pos;
     public Transform p2pos;
 
-    static AudioSource p1;
+    static AudioSource p1hit;
+    static AudioSource p1swing;
     static AudioSource p1extra;
-    static AudioSource p2;
+    static AudioSource p1explosion;
+    static AudioSource p1footsteps;
+
+    static AudioSource p2hit;
+    static AudioSource p2swing;
     static AudioSource p2extra;
+    static AudioSource p2explosion;
+    static AudioSource p2footsteps;
 
     public bool p1thrust_on = false;
     public bool p2thrust_on = false;
@@ -56,6 +63,35 @@ public class SFXManager : MonoBehaviour
     private static AudioClip ThrusterALL;
     private static AudioClip ThrusterALL_V;
 
+    private static AudioClip ledgegrab;
+    private static AudioClip land1;
+    private static AudioClip land2;
+
+    private static AudioClip step1;
+    private static AudioClip step2;
+    private static AudioClip step3;
+    private static AudioClip step4;
+    private static AudioClip step5;
+    private static AudioClip step6;
+    private static AudioClip step7;
+    private static AudioClip step8;
+
+    private static AudioClip swing1;
+    private static AudioClip swing2;
+    private static AudioClip swing3;
+    private static AudioClip swing4;
+    private static AudioClip swing5;
+    private static AudioClip swing6;
+    private static AudioClip swing7;
+    private static AudioClip swing8;
+
+    private static AudioClip explosion1;
+    private static AudioClip explosion2;
+    private static AudioClip explosion3;
+    private static AudioClip explosion4;
+    private static AudioClip explosion5;
+
+    private static AudioClip RocketLauncher;
     //AudioSource.timeSamples
     private static void Hit(AudioSource ac)
     {
@@ -101,34 +137,126 @@ public class SFXManager : MonoBehaviour
         ac.Play();
     }
 
+    private static void launch(AudioSource ac)
+    {
+        ac.clip = RocketLauncher;
+        ac.Play();
+    }
+
     private static void Whiff(AudioSource ac)
     {
-        //if(ac.clip != null)
-        //    ac.Stop();
-        int r = Random.Range(0, 6);
+        //cut the clip shorter
+        if(ac.isPlaying)
+            return;
+        int r = Random.Range(0, 8);
         switch(r)
         {
             case 0:
-                ac.clip = MetalScrape1;
+                ac.clip = swing1;
                 break;
             case 1:
-                ac.clip = MetalScrape2;
+                ac.clip = swing2;
                 break;
             case 2:
-                ac.clip = MetalScrape3;
+                ac.clip = swing3;
                 break;
             case 3:
-                ac.clip = MetalScrapeH1;
+                ac.clip = swing4;
                 break;
             case 4:
-                ac.clip = MetalScrapeH2;
+                ac.clip = swing5;
                 break;
             case 5:
-                ac.clip = MetalScrapePass;
+                ac.clip = swing6;
+                break;
+            case 6:
+                ac.clip = swing7;
+                break;
+            case 7:
+                ac.clip = swing8;
                 break;
             default:
                 break;
         }
+        ac.Play();
+    }
+
+    private static void Explosion(AudioSource ac)
+    {
+        int r = Random.Range(0, 5);
+        switch (r)
+        {
+            case 0:
+                ac.clip = explosion1;
+                break;
+            case 1:
+                ac.clip = explosion2;
+                break;
+            case 2:
+                ac.clip = explosion3;
+                break;
+            case 3:
+                ac.clip = explosion4;
+                break;
+            case 4:
+                ac.clip = explosion5;
+                break;
+            default:
+                break;
+        }
+        ac.Play();
+    }
+
+    private static void footsteps(AudioSource ac)
+    {
+        if (ac.isPlaying && (ac.clip != land1 || ac.clip != land2))
+            return;
+        int r = Random.Range(0, 8);
+        switch (r)
+        {
+            case 0:
+                ac.clip = step1;
+                break;
+            case 1:
+                ac.clip = step2;
+                break;
+            case 2:
+                ac.clip = step3;
+                break;
+            case 3:
+                ac.clip = step4;
+                break;
+            case 4:
+                ac.clip = step5;
+                break;
+            case 5:
+                ac.clip = step6;
+                break;
+            case 6:
+                ac.clip = step7;
+                break;
+            case 7:
+                ac.clip = step8;
+                break;
+            default:
+                break;
+        }
+        ac.Play();
+    }
+
+    private static void grabledge(AudioSource ac)
+    {
+        ac.clip = ledgegrab;
+        ac.Play();
+    }
+
+    private static void landing(AudioSource ac)
+    {
+        int r = Random.Range(0, 2);
+        if (r == 0)
+            ac.clip = land1;
+        else
+            ac.clip = land2;
         ac.Play();
     }
 
@@ -142,33 +270,57 @@ public class SFXManager : MonoBehaviour
     {
         AudioSource s;
         AudioSource extra;
+        AudioSource swing;
+        AudioSource step;
+        AudioSource explode;
         if(player == "P1")
         {
-            s = p1;
+            s = p1hit;
             extra = p1extra;
+            swing = p1swing;
+            step = p1footsteps;
+            explode = p1explosion;
         }
         else
         {
-            s = p2;
+            s = p2hit;
             extra = p2extra;
+            swing = p2swing;
+            step = p2footsteps;
+            explode = p2explosion;
         }
 
         switch(fxtype)
         {
+            case "Step":
+                footsteps(step);
+                break;
             case "Hit":
                 Hit(s);
+                break;
+            case "Land":
+                landing(step);
+                break;
+            case "Explode":
+                Explosion(explode);
+                break;
+            case "Launch":
+                launch(explode);
                 break;
             case "LimbLost":
                 LostLimb(extra);
                 break;
             case "LimbGained":
-                LimbPickup(s);
+                LimbPickup(extra);
                 break;
             case "Whiff":
-                Whiff(s);
+                Whiff(swing);
+                break;
+            case "Ledge":
+                grabledge(extra);
                 break;
             case "NoLimb":
-                NoLimb(s);
+                NoLimb(extra);
                 break;
             default:
                 break;
@@ -194,62 +346,104 @@ public class SFXManager : MonoBehaviour
     // Use this for initialization
     void Awake ()
     {
-        p1 = (AudioSource)gameObject.AddComponent<AudioSource>();
-        p1.transform.position = p1pos.position;
-
-        p2 = (AudioSource)gameObject.AddComponent<AudioSource>();
-        p2.transform.position = p2pos.position;
-
+        p1hit = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p1hit.transform.position = p1pos.position;
         p1Thruster = (AudioSource)gameObject.AddComponent<AudioSource>();
         p1Thruster.transform.position = p1pos.position;
-
-        p2Thruster = (AudioSource)gameObject.AddComponent<AudioSource>();
-        p2Thruster.transform.position = p2pos.position;
-
         p1extra = (AudioSource)gameObject.AddComponent<AudioSource>();
         p1extra.transform.position = p1pos.position;
+        p1explosion = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p1explosion.transform.position = p1pos.position;
+        p1swing = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p1swing.transform.position = p1pos.position;
+        p1footsteps = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p1footsteps.transform.position = p1pos.position;
 
+        p2hit = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p2hit.transform.position = p2pos.position;
+        p2Thruster = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p2Thruster.transform.position = p2pos.position;
         p2extra = (AudioSource)gameObject.AddComponent<AudioSource>();
         p2extra.transform.position = p2pos.position;
+        p2explosion = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p2explosion.transform.position = p2pos.position;
+        p2swing = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p2swing.transform.position = p2pos.position;
+        p2footsteps = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p2footsteps.transform.position = p2pos.position;
+        p1footsteps.volume = 0.7f;
+        p1footsteps.priority = 150;
+        p2footsteps.volume = 0.7f;
+        p2footsteps.priority = 150;
 
         p1Thruster.loop = true;
         p2Thruster.loop = true;
 
         MissingLimb = (AudioClip)Resources.Load("Audio/FX/Denial No Limb Game Worthy");
-        pickup1 = (AudioClip)Resources.Load("Audio/FX/Got Your Limb 1 Short GW");
-        pickup2 = (AudioClip)Resources.Load("Audio/FX/Got Your Limb 2 GW");
-        pickup2_long = (AudioClip)Resources.Load("Audio/FX/Got Your Limb 2 Long GW");
+        pickup1 = (AudioClip)Resources.Load("Audio/FX/grablimbs/Got Your Limb 1 Short GW");
+        pickup2 = (AudioClip)Resources.Load("Audio/FX/grablimbs/Got Your Limb 2 GW");
+        pickup2_long = (AudioClip)Resources.Load("Audio/FX/grablimbs/Got Your Limb 2 Long GW");
 
-        limbflying1 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 1 GW");
-        limbflying2 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 2 GW");
-        limbflying3 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 3 GW");
-        limbflying4 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 4 GW");
-        limbflying5 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 5 GW");
-        limbflying6 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 6 GW");
-        limbflying7 = (AudioClip)Resources.Load("Audio/FX/Limb Flying Through Air 7 GW");
+        limbflying1 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 1 GW");
+        limbflying2 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 2 GW");
+        limbflying3 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 3 GW");
+        limbflying4 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 4 GW");
+        limbflying5 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 5 GW");
+        limbflying6 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 6 GW");
+        limbflying7 = (AudioClip)Resources.Load("Audio/FX/limbsflying/Limb Flying Through Air 7 GW");
 
-        MetalHit1 = (AudioClip)Resources.Load("Audio/FX/Metal Hits and Explosion 1 Game Worthy");
-        MetalHit2 = (AudioClip)Resources.Load("Audio/FX/Metal Hits and Explosion 2 Less BOOM Game Worthy");
-        MetalHit3 = (AudioClip)Resources.Load("Audio/FX/Metal Hit and Explosion 3 Verb Out GW");
-        MetalHitGlass = (AudioClip)Resources.Load("Audio/FX/Metal Hits and Explosion 2 Less BOOM Game Worthy");
-        MetalHitGlassBig = (AudioClip)Resources.Load("Audio/FX/Metal Hit and Explosion Huge with Glass GW");
+        MetalHit1 = (AudioClip)Resources.Load("Audio/FX/hits/Metal Hits and Explosion 1 Game Worthy");
+        MetalHit2 = (AudioClip)Resources.Load("Audio/FX/hits/Metal Hits and Explosion 2 Less BOOM Game Worthy");
+        MetalHit3 = (AudioClip)Resources.Load("Audio/FX/hits/Metal Hit and Explosion 3 Verb Out GW");
+        MetalHitGlass = (AudioClip)Resources.Load("Audio/FX/hits/Metal Hits and Explosion 2 Less BOOM Game Worthy");
+        MetalHitGlassBig = (AudioClip)Resources.Load("Audio/FX/hits/Metal Hit and Explosion Huge with Glass GW");
 
-        MetalScrape1 = (AudioClip)Resources.Load("Audio/FX/Metal Scrape 1 Game Worthy");
-        MetalScrape2 = (AudioClip)Resources.Load("Audio/FX/Metal Scrape 2 Game Worthy");
-        MetalScrape3 = (AudioClip)Resources.Load("Audio/FX/Metal Scrape 3 Game Worthy");
-        MetalScrapeH1 = (AudioClip)Resources.Load("Audio/FX/Metal Scrape HIGH 1 Game Worthy");
-        MetalScrapeH2 = (AudioClip)Resources.Load("Audio/FX/Metal Scrape HIGH 2 Game Worthy");
-        MetalScrapePass = (AudioClip)Resources.Load("Audio/FX/Metal Scrape PASSING Game Worthy");
+        MetalScrape1 = (AudioClip)Resources.Load("Audio/FX/scrapes/Metal Scrape 1 Game Worthy");
+        MetalScrape2 = (AudioClip)Resources.Load("Audio/FX/scrapes/Metal Scrape 2 Game Worthy");
+        MetalScrape3 = (AudioClip)Resources.Load("Audio/FX/scrapes/Metal Scrape 3 Game Worthy");
+        MetalScrapeH1 = (AudioClip)Resources.Load("Audio/FX/scrapes/Metal Scrape HIGH 1 Game Worthy");
+        MetalScrapeH2 = (AudioClip)Resources.Load("Audio/FX/scrapes/Metal Scrape HIGH 2 Game Worthy");
+        MetalScrapePass = (AudioClip)Resources.Load("Audio/FX/scrapes/Metal Scrape PASSING Game Worthy");
 
         StartEndFanFare1 = (AudioClip)Resources.Load("Audio/FX/START OR END OF GAME MAYBE_");
         StartEndFanFare2 = (AudioClip)Resources.Load("Audio/FX/START OR END OF GAME MAYBE_2");
 
-        Thruster1 = (AudioClip)Resources.Load("Audio/FX/Thrusters 1 Verb ");
-        Thruster2 = (AudioClip)Resources.Load("Audio/FX/Thrusters 2 Verb ");
-        Thruster3 = (AudioClip)Resources.Load("Audio/FX/Thrusters 3 Verb ");
-        Thruster4 = (AudioClip)Resources.Load("Audio/FX/Thrusters 4");
-        ThrusterALL = (AudioClip)Resources.Load("Audio/FX/Thrusters all 3 GW");
-        ThrusterALL_V = (AudioClip)Resources.Load("Audio/FX/Thrusters all 3 GW Verbed out");
+        Thruster1 = (AudioClip)Resources.Load("Audio/FX/thrusters/Thrusters 1 Verb ");
+        Thruster2 = (AudioClip)Resources.Load("Audio/FX/thrusters/Thrusters 2 Verb ");
+        Thruster3 = (AudioClip)Resources.Load("Audio/FX/thrusters/Thrusters 3 Verb ");
+        Thruster4 = (AudioClip)Resources.Load("Audio/FX/thrusters/Thrusters 4");
+        ThrusterALL = (AudioClip)Resources.Load("Audio/FX/thrusters/Thrusters all 3 GW");
+        ThrusterALL_V = (AudioClip)Resources.Load("Audio/FX/thrusters/Thrusters all 3 GW Verbed out");
+
+        ledgegrab = (AudioClip)Resources.Load("Audio/FX/ledge/Metal Glove Grabs Ledge");
+        land1 = (AudioClip)Resources.Load("Audio/FX/landing/Landing on the ground 1");
+        land2 = (AudioClip)Resources.Load("Audio/FX/landing/Landing on the ground 2");
+
+        step1 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 1");
+        step2 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 2");
+        step3 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 3");
+        step4 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 4");
+        step5 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 5");
+        step6 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 6");
+        step7 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 7");
+        step8 = (AudioClip)Resources.Load("Audio/FX/steps/Gravel step 8");
+
+        swing1 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 1");
+        swing2 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 2");
+        swing3 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 3");
+        swing4 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 4");
+        swing5 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 5");
+        swing6 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 6");
+        swing7 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 7");
+        swing8 = (AudioClip)Resources.Load("Audio/FX/swings/Leg and Body Swings 8");
+
+        explosion1 = (AudioClip)Resources.Load("Audio/FX/explosions/Huge Explosion When they get knocked off");
+        explosion2 = (AudioClip)Resources.Load("Audio/FX/explosions/Medium Explosion ");
+        explosion3 = (AudioClip)Resources.Load("Audio/FX/explosions/Robot Explosion");
+        explosion4 = (AudioClip)Resources.Load("Audio/FX/explosions/Robot Explosion and Crash");
+        explosion5 = (AudioClip)Resources.Load("Audio/FX/explosions/Robot Explosion and Crash 2");
+
+        RocketLauncher = (AudioClip)Resources.Load("Audio/FX/explosions/Medium Explosion 2");
     }
 	
 	// Update is called once per frame
@@ -257,15 +451,19 @@ public class SFXManager : MonoBehaviour
     {
         if(!notrespawning1)
         {
-            p1.transform.position = p1pos.position;
+            p1hit.transform.position = p1pos.position;
             p1Thruster.transform.position = p1pos.position;
             p1extra.transform.position = p1pos.position;
+            p1footsteps.transform.position = p1pos.position;
+            p1swing.transform.position = p1pos.position;
         }
         if(!notrespawning2)
         {
-            p2.transform.position = p2pos.position;
+            p2hit.transform.position = p2pos.position;
             p2Thruster.transform.position = p2pos.position;
             p2extra.transform.position = p2pos.position;
+            p2footsteps.transform.position = p2pos.position;
+            p2swing.transform.position = p2pos.position;
         }
     }
 }

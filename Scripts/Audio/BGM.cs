@@ -6,18 +6,7 @@ public class BGM : MonoBehaviour
     private static BGM instance = null;
     public static BGM Instance { get { return instance; } }
     private static AudioSource bgm;
-
-    void OnLevelWasLoaded(int level)
-    {
-        if(level > 2)
-        {
-            bgm.Stop();
-        }
-        else
-        {
-            bgm.Play();
-        }
-    }
+    private static AudioClip ac;
 
 	// Use this for initialization
 	void Awake ()
@@ -33,9 +22,23 @@ public class BGM : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
         bgm = (AudioSource)gameObject.AddComponent<AudioSource>();
-        AudioClip ac = (AudioClip)Resources.Load("Audio/Music/VG Music Demo 1");
+        ac = (AudioClip)Resources.Load("Audio/Music/VG Music Demo 1");
         bgm.clip = ac;
         bgm.loop = true;
+        bgm.Play();
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+        print(level);
+        if(level > 3)
+        {
+            bgm.Stop();
+        }
+        else if(!bgm.isPlaying)
+        {
+            bgm.Play();
+        }
     }
 	
 	// Update is called once per frame

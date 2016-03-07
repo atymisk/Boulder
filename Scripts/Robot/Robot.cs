@@ -254,7 +254,7 @@ public class Robot : MonoBehaviour {
     public void LeftPunch()
     {
 		CharacterState thisMove = CharacterState.LeftPunch;
-        //SFXManager.cueFX(mytag, "Whiff");
+        SFXManager.cueFX(mytag, "Whiff");
 		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftArm].Attack();
@@ -282,7 +282,7 @@ public class Robot : MonoBehaviour {
 	public void RightPunch()
 	{
 		CharacterState thisMove = CharacterState.RightPunch;
-        //SFXManager.cueFX(mytag, "Whiff");
+        SFXManager.cueFX(mytag, "Whiff");
         if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
 		{
 			robotParts[RightArm].Attack();
@@ -333,7 +333,7 @@ public class Robot : MonoBehaviour {
     public void LeftKick()
     {
 		CharacterState thisMove = CharacterState.LeftKick;
-        //SFXManager.cueFX(mytag, "Whiff");
+        SFXManager.cueFX(mytag, "Whiff");
         if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
 			hangBlock = HangBlock(0.5f);
@@ -359,7 +359,7 @@ public class Robot : MonoBehaviour {
     public void RightKick()
     {
 		CharacterState thisMove = CharacterState.RightKick;
-        //SFXManager.cueFX(mytag, "Whiff");
+        SFXManager.cueFX(mytag, "Whiff");
         if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[RightLeg].Attack();
@@ -567,7 +567,7 @@ public class Robot : MonoBehaviour {
 				rigidbodyTwoD.AddForce(new Vector2(-direction*50, 0), ForceMode2D.Impulse);
 				break;
 			}
-				
+            SFXManager.cueFX(mytag,"Launch");
 			partToBreak.gameObject.SetActive(false);
 			robotParts[index].active = false;
         }
@@ -678,6 +678,7 @@ public class Robot : MonoBehaviour {
                 //anim.SetTrigger("Run");
                 anim.SetBool("Running", true);
                 currentState = CharacterState.Run;
+                SFXManager.cueFX(mytag, "Step");
 			}
 			else
 			{
@@ -699,7 +700,8 @@ public class Robot : MonoBehaviour {
                 //anim.SetTrigger("Run");
                 anim.SetBool("Running", true);
 				currentState = CharacterState.Run;
-			}
+                SFXManager.cueFX(mytag, "Step");
+            }
 			else
 			{
 				//anim.SetTrigger("UnRun");
@@ -973,6 +975,7 @@ public class Robot : MonoBehaviour {
             if (normal.y == 1)
             {
                 isGrounded = true;
+                SFXManager.cueFX(mytag, "Land");
                 DustEffect();
             }
         }
@@ -1041,7 +1044,7 @@ public class Robot : MonoBehaviour {
                 //anim.SetTrigger("Hang");
                 anim.SetBool("Hanging", true);
                 currentState = CharacterState.Hang;
-				
+                SFXManager.cueFX(mytag, "Ledge");
 				robotParts[LeftArm].CancelAttack();
 				robotParts[LeftLeg].CancelAttack();
 				robotParts[RightLeg].CancelAttack();
