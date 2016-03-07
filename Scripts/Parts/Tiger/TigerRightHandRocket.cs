@@ -13,7 +13,7 @@ public class TigerRightHandRocket : RobotRocket {
         return "ItemParts/TigerRightHandPickup";
     }
 
-	void OnCollisionEnter2D(Collision2D col)
+	void OnCollisionStay2D(Collision2D col)
 	{
 		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Platform")
 		{

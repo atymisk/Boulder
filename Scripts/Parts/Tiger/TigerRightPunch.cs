@@ -8,15 +8,11 @@ public class TigerRightPunch : Part
 
 	protected override void ChangeSprite(GameObject part)
 	{
-		//SpriteRenderer shoulderRender = part.GetComponent<SpriteRenderer>();
-		//SpriteRenderer handRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
+		SpriteRenderer shoulderRender = part.GetComponent<SpriteRenderer>();
+		SpriteRenderer handRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
 		
-		//shoulderRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_0"];
-		//handRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_6"];
-		
-		//shoulderRender.sprite = Resources.Load ("SpriteSheets/Bunny(1)/Bunny(1)_0", typeof(Sprite)) as Sprite;
-		//handRender.sprite = Resources.Load ("SpriteSheets/Bunny(1)/Bunny(1)_6", typeof(Sprite)) as Sprite;
-		//throw NotImplementedException;
+		shoulderRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_1"];
+		handRender.sprite = SpriteManager.instance.spriteMap["Tiger_01_7"];
 	}
 	
 	void Start()
