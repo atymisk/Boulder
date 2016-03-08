@@ -8,15 +8,20 @@ public class SFXManager : MonoBehaviour
 
     static AudioSource p1hit;
     static AudioSource p1swing;
+    static AudioSource p1swingalt;
     static AudioSource p1extra;
     static AudioSource p1explosion;
     static AudioSource p1footsteps;
 
     static AudioSource p2hit;
     static AudioSource p2swing;
+    static AudioSource p2swingalt;
     static AudioSource p2extra;
     static AudioSource p2explosion;
     static AudioSource p2footsteps;
+
+    private static bool p1alt = false;
+    private static bool p2alt = false;
 
     public bool p1thrust_on = false;
     public bool p2thrust_on = false;
@@ -125,6 +130,7 @@ public class SFXManager : MonoBehaviour
     {
         //if(ac.clip != null)
         //    ac.Stop();
+        ac.volume = 1;
         ac.clip = limbflying7;
         ac.Play();
     }
@@ -133,6 +139,7 @@ public class SFXManager : MonoBehaviour
     {
         //if(ac.clip != null)
         //    ac.Stop();
+        ac.volume = 1;
         ac.clip = pickup2;
         ac.Play();
     }
@@ -145,9 +152,9 @@ public class SFXManager : MonoBehaviour
 
     private static void Whiff(AudioSource ac)
     {
-        //cut the clip shorter
-        if(ac.isPlaying)
-            return;
+        //cut the clip shorter?
+       // if(ac.isPlaying)
+        //    return;
         int r = Random.Range(0, 8);
         switch(r)
         {
@@ -246,6 +253,7 @@ public class SFXManager : MonoBehaviour
 
     private static void grabledge(AudioSource ac)
     {
+        ac.volume = 1;
         ac.clip = ledgegrab;
         ac.Play();
     }
@@ -262,6 +270,7 @@ public class SFXManager : MonoBehaviour
 
     private static void NoLimb(AudioSource ac)
     {
+        ac.volume = 0.5f;
         ac.clip = MissingLimb;
         ac.Play();
     }
@@ -277,7 +286,7 @@ public class SFXManager : MonoBehaviour
         {
             s = p1hit;
             extra = p1extra;
-            swing = p1swing;
+            swing = (p1alt ? p1swingalt : p1swing);
             step = p1footsteps;
             explode = p1explosion;
         }
@@ -285,7 +294,7 @@ public class SFXManager : MonoBehaviour
         {
             s = p2hit;
             extra = p2extra;
-            swing = p2swing;
+            swing = (p2alt ? p2swingalt : p2swing);
             step = p2footsteps;
             explode = p2explosion;
         }
@@ -315,6 +324,10 @@ public class SFXManager : MonoBehaviour
                 break;
             case "Whiff":
                 Whiff(swing);
+                if (player == "P1")
+                    p1alt = !p1alt;
+                else
+                    p2alt = !p2alt;
                 break;
             case "Ledge":
                 grabledge(extra);
@@ -358,6 +371,8 @@ public class SFXManager : MonoBehaviour
         p1swing.transform.position = p1pos.position;
         p1footsteps = (AudioSource)gameObject.AddComponent<AudioSource>();
         p1footsteps.transform.position = p1pos.position;
+        p1swingalt = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p1swingalt.transform.position = p1pos.position;
 
         p2hit = (AudioSource)gameObject.AddComponent<AudioSource>();
         p2hit.transform.position = p2pos.position;
@@ -371,15 +386,18 @@ public class SFXManager : MonoBehaviour
         p2swing.transform.position = p2pos.position;
         p2footsteps = (AudioSource)gameObject.AddComponent<AudioSource>();
         p2footsteps.transform.position = p2pos.position;
-        p1footsteps.volume = 0.6f;
+        p2swingalt = (AudioSource)gameObject.AddComponent<AudioSource>();
+        p2swingalt.transform.position = p2pos.position;
+
+        p1footsteps.volume = 0.3f;
         p1footsteps.priority = 170;
-        p2footsteps.volume = 0.6f;
+        p2footsteps.volume = 0.3f;
         p2footsteps.priority = 170;
 
-        p1swing.priority = 0;
-        p1swing.volume = 1;
-        p2swing.priority = 0;
-        p2swing.volume = 1;
+        p1swing.priority = 0; p1swingalt.priority = 0;
+        p1swing.volume = 1; p1swingalt.volume = 1;
+        p2swing.priority = 0; p2swingalt.priority = 0;
+        p2swing.volume = 1; p2swingalt.volume = 1;
 
         p1Thruster.loop = true;
         p2Thruster.loop = true;
@@ -461,6 +479,7 @@ public class SFXManager : MonoBehaviour
             p1extra.transform.position = p1pos.position;
             p1footsteps.transform.position = p1pos.position;
             p1swing.transform.position = p1pos.position;
+            p1swingalt.transform.position = p1pos.position;
         }
         if(!notrespawning2)
         {
@@ -469,6 +488,7 @@ public class SFXManager : MonoBehaviour
             p2extra.transform.position = p2pos.position;
             p2footsteps.transform.position = p2pos.position;
             p2swing.transform.position = p2pos.position;
+            p2swingalt.transform.position = p2pos.position;
         }
     }
 }

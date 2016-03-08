@@ -254,14 +254,13 @@ public class Robot : MonoBehaviour {
     public void LeftPunch()
     {
 		CharacterState thisMove = CharacterState.LeftPunch;
-        SFXManager.cueFX(mytag, "Whiff");
 		if ( robotParts[LeftArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[LeftArm].Attack();
 			comboState = false;
 			anim.SetTrigger(robotParts[LeftArm].GetTrigger());
-
-            if(isGrounded)
+            SFXManager.cueFX(mytag, "Whiff");
+            if (isGrounded)
             {
                 rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
             }
@@ -282,14 +281,13 @@ public class Robot : MonoBehaviour {
 	public void RightPunch()
 	{
 		CharacterState thisMove = CharacterState.RightPunch;
-        SFXManager.cueFX(mytag, "Whiff");
         if ( robotParts[RightArm].active && ( !IsBusy() || CanComboMove(thisMove) ) )
 		{
 			robotParts[RightArm].Attack();
 			comboState = false;
 			anim.SetTrigger(robotParts[RightArm].GetTrigger());
-			
-			if(isGrounded)
+            SFXManager.cueFX(mytag, "Whiff");
+            if (isGrounded)
 			{
 				rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
 			}
@@ -333,18 +331,16 @@ public class Robot : MonoBehaviour {
     public void LeftKick()
     {
 		CharacterState thisMove = CharacterState.LeftKick;
-        SFXManager.cueFX(mytag, "Whiff");
         if ( robotParts[LeftLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
 			hangBlock = HangBlock(0.5f);
 			StartCoroutine(hangBlock);
-
+            SFXManager.cueFX(mytag, "Whiff");
             robotParts[LeftLeg].Attack();
 			comboState = false;
 			anim.SetTrigger(robotParts[LeftLeg].GetTrigger());
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
-
-			currentState = thisMove;
+            currentState = thisMove;
         }
 		else if(NoActiveParts())
 		{
@@ -359,15 +355,14 @@ public class Robot : MonoBehaviour {
     public void RightKick()
     {
 		CharacterState thisMove = CharacterState.RightKick;
-        SFXManager.cueFX(mytag, "Whiff");
         if ( robotParts[RightLeg].active && ( !IsBusy() || CanComboMove(thisMove) ) )
         {
             robotParts[RightLeg].Attack();
 			comboState = false;
 			anim.SetTrigger(robotParts[RightLeg].GetTrigger());
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
-
-			currentState = thisMove;
+            SFXManager.cueFX(mytag, "Whiff");
+            currentState = thisMove;
         }
 		else if(NoActiveParts())
 		{
