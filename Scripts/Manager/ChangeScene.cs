@@ -10,8 +10,10 @@ public class ChangeScene : MonoBehaviour {
         instance = this;
     }
 
-	public void ChangetoScene (string sceneName) {
-        GameManager.ot = false;
+	public void ChangetoScene (string sceneName)
+    {
+        if(sceneName != "BoxedIn")
+            GameManager.ot = false;
 		Application.LoadLevel (sceneName);
 	}
 

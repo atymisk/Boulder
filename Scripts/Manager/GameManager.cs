@@ -219,6 +219,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            StartCoroutine(sfxmng.CueCountdown());
             timer.color = Color.red;
             timer.text = seconds.ToString();
             timer.fontSize = 50;
@@ -255,6 +256,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         Time.timeScale = 0;
         yield return new WaitForSeconds(0.8f);
+        print(ot);
         if(!ot)
         {
             ChangeScene.instance.ChangetoScene("MainUI");//change to EndOfMatch scene
@@ -286,7 +288,6 @@ public class GameManager : MonoBehaviour
         if(winner.text.Length == 0)//if both players be alive at the end
         {
             //who has more lives
-            ot = false;
             if ((p1_stocks - p2_stocks) > 0)
                 player1wins();
             else if ((p1_stocks - p2_stocks) < 0)
@@ -299,6 +300,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        print(ot);
         if(ot)
         {
             p1_stocks = 1;

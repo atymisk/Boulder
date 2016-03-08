@@ -6,6 +6,8 @@ public class SFXManager : MonoBehaviour
     public Transform p1pos;
     public Transform p2pos;
 
+    public AudioSource mng;
+
     static AudioSource p1hit;
     static AudioSource p1swing;
     static AudioSource p1swingalt;
@@ -30,6 +32,8 @@ public class SFXManager : MonoBehaviour
 
     public bool notrespawning1 = false;
     public bool notrespawning2 = false;
+
+    private AudioClip countdown;
 
     private static AudioClip MissingLimb;
 
@@ -356,6 +360,14 @@ public class SFXManager : MonoBehaviour
             s.Stop();
     }
 
+    public IEnumerator CueCountdown()
+    {
+        if (!mng.isPlaying)
+            mng.Play();
+        yield return new WaitForSeconds(1);
+        //mng.Stop();
+    }
+
     // Use this for initialization
     void Awake ()
     {
@@ -389,6 +401,10 @@ public class SFXManager : MonoBehaviour
         p2swingalt = (AudioSource)gameObject.AddComponent<AudioSource>();
         p2swingalt.transform.position = p2pos.position;
 
+        mng = (AudioSource)gameObject.AddComponent<AudioSource>();
+        mng.volume = 1;
+        mng.priority = 0;
+
         p1footsteps.volume = 0.3f;
         p1footsteps.priority = 170;
         p2footsteps.volume = 0.3f;
@@ -402,6 +418,7 @@ public class SFXManager : MonoBehaviour
         p1Thruster.loop = true;
         p2Thruster.loop = true;
 
+        countdown = (AudioClip)Resources.Load("Audio/FX/menu/Select Button No verb");
         MissingLimb = (AudioClip)Resources.Load("Audio/FX/Denial No Limb Game Worthy");
         pickup1 = (AudioClip)Resources.Load("Audio/FX/grablimbs/Got Your Limb 1 Short GW");
         pickup2 = (AudioClip)Resources.Load("Audio/FX/grablimbs/Got Your Limb 2 GW");
@@ -467,6 +484,8 @@ public class SFXManager : MonoBehaviour
         explosion5 = (AudioClip)Resources.Load("Audio/FX/explosions/Robot Explosion and Crash 2");
 
         RocketLauncher = (AudioClip)Resources.Load("Audio/FX/explosions/Medium Explosion 2");
+
+        mng.clip = countdown;
     }
 	
 	// Update is called once per frame
