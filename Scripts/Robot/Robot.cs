@@ -51,6 +51,7 @@ public class Robot : MonoBehaviour {
     private IEnumerator moveTimeRoutine;
     private IEnumerator delayedJump;
 	private IEnumerator hangBlock;
+	private GameObject shieldParticle;
 
 	//private Text healthNum;
 	//private Slider healthBar;
@@ -78,6 +79,7 @@ public class Robot : MonoBehaviour {
 		hurtBox = this.transform.FindChild ("HurtBox").GetComponent<RobotHurtBox>();
         pickupBox = this.transform.FindChild("PickupBox").GetComponent<PickupBox>();
 		headHitBox = this.transform.FindChild("HeadHitBox").GetComponent<BoxCollider2D>();
+		shieldParticle = this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject;
 		if(toturial == 0)
 			gm = (GameManager)GameObject.Find("GameManager").GetComponent<GameManager>();
 
@@ -217,6 +219,11 @@ public class Robot : MonoBehaviour {
 		else 
 		{
 			this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
+		}
+
+		if (currentState != CharacterState.Blocking) 
+		{
+			shieldParticle.SetActive(false);
 		}
 	
 	}
@@ -386,7 +393,7 @@ public class Robot : MonoBehaviour {
                 anim.SetBool("Blocking", true);
 
                 currentState = CharacterState.Blocking;
-				this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(true);
+				shieldParticle.SetActive(true);
             }
 
             rigidbodyTwoD.velocity = new Vector2(0, rigidbodyTwoD.velocity.y);
@@ -400,7 +407,7 @@ public class Robot : MonoBehaviour {
             //anim.SetTrigger("UnBlock");
             anim.SetBool("Blocking", false);
             currentState = CharacterState.Idle;
-			this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(false);
+			//this.transform.FindChild ("Pelvis").FindChild ("Shield").gameObject.SetActive(false);
         }
     }
 
