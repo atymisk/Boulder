@@ -118,7 +118,7 @@ public class Robot : MonoBehaviour {
         {
             LeftArmUI.gameObject.SetActive(false);
             charUI.transform.Find("leftArmBack").GetComponent<Image>().gameObject.SetActive(false);
-            buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.gray;
+            buttonRefls.transform.FindChild("Left").GetComponent<Renderer>().material.color = Color.black;
         }
         else
         {
@@ -129,7 +129,7 @@ public class Robot : MonoBehaviour {
 
         if (!robotParts[RightArm].active)
         {
-            buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.gray;
+            buttonRefls.transform.FindChild("Up").GetComponent<Renderer>().material.color = Color.black;
             RightArmUI.gameObject.SetActive(false);
             charUI.transform.Find("rightArmBack").GetComponent<Image>().gameObject.SetActive(false);
         }
@@ -144,7 +144,7 @@ public class Robot : MonoBehaviour {
         {
             LeftLegUI.gameObject.SetActive(false);
             charUI.transform.Find("leftLegBack").GetComponent<Image>().gameObject.SetActive(false);
-            buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.gray;
+            buttonRefls.transform.FindChild("Down").GetComponent<Renderer>().material.color = Color.black;
         }
         else
         {
@@ -157,7 +157,7 @@ public class Robot : MonoBehaviour {
         {
             RightLegUI.gameObject.SetActive(false);
             charUI.transform.Find("rightLegBack").GetComponent<Image>().gameObject.SetActive(false);
-            buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.gray;
+            buttonRefls.transform.FindChild("Right").GetComponent<Renderer>().material.color = Color.black;
         }
         else
         {
@@ -462,18 +462,18 @@ public class Robot : MonoBehaviour {
 	//UI rocket move reflection
 	public void rocketPrepare()
 	{
-		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
-		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
-		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
-		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (1.2f, 1.2f, 1);
+		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
+		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
+		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
+		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
 	}
 	
 	public void rocketUnPre()
 	{
-		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
-		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
-		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
-		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (0.75f, 0.75f, 1);
+		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.0f, 2.0f, 1);
+		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.0f, 2.0f, 1);
+		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.0f, 2.0f, 1);
+		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.0f, 2.0f, 1);
 	}
 
     //Rocket Moves

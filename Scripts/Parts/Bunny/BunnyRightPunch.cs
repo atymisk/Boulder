@@ -7,6 +7,10 @@ public class BunnyRightPunch : Part {
 	protected override void ChangeSprite(GameObject part)
 	{
 		//throw NotImplementedException;
+		SpriteRenderer shoulderRender = part.GetComponent<SpriteRenderer>();
+		SpriteRenderer handRender = part.transform.GetChild(0).GetComponent<SpriteRenderer>();
+		shoulderRender.sprite = SpriteManager.instance.spriteMap["Bunny (1)_1"];
+		handRender.sprite = SpriteManager.instance.spriteMap["Bunny (1)_7"];
 	}
 
 	// Use this for initialization
