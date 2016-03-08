@@ -39,13 +39,13 @@ public class StageSelect : MonoBehaviour {
 			controller.transform.FindChild ("title").GetComponent<Text> ().text = "Game Loading...";
 			Application.LoadLevel (sceneN);
 		} 
-//		else if (Input.GetKeyDown (KeyCode.C) || Input.GetButton("Start_P1")) {
-//			p1skip = true;
-//			controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Waiting for Player2 to skip...";
-//		} else if (Input.GetKeyDown (KeyCode.N) || Input.GetButton ("Start_P2")) {
-//			p2skip = true;
-//			controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Waiting for Player1 to skip...";
-//		}
+		else if (Input.GetKeyDown (KeyCode.C) || Input.GetButton("Start_P1")) {
+			p1skip = true;
+			controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Waiting for Player2 to skip...";
+		} else if (Input.GetKeyDown (KeyCode.N) || Input.GetButton ("Start_P2")) {
+			p2skip = true;
+			controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Waiting for Player1 to skip...";
+		}
 	}
 	
 	public void ChangetoScene (string sceneName) {
@@ -87,8 +87,8 @@ public class StageSelect : MonoBehaviour {
 		while(!keyPressed || !keyPressed2){
 			if(theMove == "RocketLeftArm" || theMove == "RocketLeftLeg" || theMove == "RocketRightArm" || theMove == "RockeRightLeg")
 			{
-				//if(Input.GetKeyDown(key) || (Input.GetButtonDown (button) && (Input.GetAxis("RightTrigger_P1") > 0)))
-				if(Input.GetKeyDown(key))
+				if(Input.GetKeyDown(key) || (Input.GetButtonDown (button) && (Input.GetAxis("RightTrigger_P1") > 0)))
+				//if(Input.GetKeyDown(key))
 				{
 					doMove(player1, theMove);
 					keyPressed = true;
@@ -96,8 +96,8 @@ public class StageSelect : MonoBehaviour {
 					yield return new WaitForSeconds(0.5f);
 					controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
 				}
-				//else if(Input.GetKeyDown(key2) || (Input.GetButtonDown (button2) && (Input.GetAxis("RightTrigger_P2") > 0)))
-				else if(Input.GetKeyDown(key2))
+				else if(Input.GetKeyDown(key2) || (Input.GetButtonDown (button2) && (Input.GetAxis("RightTrigger_P2") > 0)))
+				//else if(Input.GetKeyDown(key2))
 				{
 					doMove(player2, theMove);
 					keyPressed2 = true;
@@ -108,8 +108,8 @@ public class StageSelect : MonoBehaviour {
 			}
 			else
 			{
-				//if(Input.GetKeyDown(key) || Input.GetButtonDown(button))
-				if(Input.GetKeyDown(key))
+				if(Input.GetKeyDown(key) || Input.GetButtonDown(button))
+				//if(Input.GetKeyDown(key))
 				{
 					doMove(player1, theMove);
 					keyPressed = true;
@@ -117,8 +117,8 @@ public class StageSelect : MonoBehaviour {
 					yield return new WaitForSeconds(0.5f);
 					controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
 				}
-				//else if(Input.GetKeyDown(key2) || Input.GetButtonDown(button2))
-				else if(Input.GetKeyDown(key2))
+				else if(Input.GetKeyDown(key2) || Input.GetButtonDown(button2))
+				//else if(Input.GetKeyDown(key2))
 				{
 					doMove(player2, theMove);
 					keyPressed2 = true;
@@ -143,14 +143,14 @@ public class StageSelect : MonoBehaviour {
 	IEnumerator waitForHoldKey(KeyCode key, KeyCode key2, string button, string button2, string theMove, string theUndo)
 	{
 		while(!keyPressed || !keyPressed2){
-			//if((Input.GetKey(key) || Input.GetButton (button)) && blocking == false)
-			if(Input.GetKey(key) && blocking == false)
+			if((Input.GetKey(key) || Input.GetButton (button)) && blocking == false)
+			//if(Input.GetKey(key) && blocking == false)
 			{
 				doMove(player1, theMove);
 				blocking = true;
 			}
-			//else if((!Input.GetKey(key) || Input.GetButtonUp (button)) && blocking == true)
-			else if(!Input.GetKey(key) && blocking == true)
+			else if((!Input.GetKey(key) || Input.GetButtonUp (button)) && blocking == true)
+			//else if(!Input.GetKey(key) && blocking == true)
 			{
 				doMove(player1, theUndo);
 				keyPressed = true;
@@ -160,14 +160,14 @@ public class StageSelect : MonoBehaviour {
 			{
 				keyPressed = true;
 			}
-			//if((Input.GetKey(key2) || Input.GetButton (button2)) && blocking2 == false)
-			if(Input.GetKey(key2) && blocking2 == false)
+			if((Input.GetKey(key2) || Input.GetButton (button2)) && blocking2 == false)
+			//if(Input.GetKey(key2) && blocking2 == false)
 			{
 				doMove(player2, theMove);
 				blocking2 = true;
 			}
-			//else if((!Input.GetKey(key2) || Input.GetButtonUp (button2)) && blocking2 == true)
-			else if(!Input.GetKey(key2) && blocking2 == true)
+			else if((!Input.GetKey(key2) || Input.GetButtonUp (button2)) && blocking2 == true)
+			//else if(!Input.GetKey(key2) && blocking2 == true)
 			{
 				doMove(player2,theUndo);
 				keyPressed2 = true;
@@ -345,6 +345,7 @@ public class StageSelect : MonoBehaviour {
 			player2.robotParts [3].Attach ();
 			pickObj5 = Instantiate (Resources.Load ("ItemParts/BunnyLeftHandPickup")) as GameObject;
 			pickObj5.transform.position = new Vector2 (player2.transform.position.x - 5, player2.transform.position.y);
+			pickObj5.transform.Rotate(new Vector3(0, 0, 180));
 		}
 		yield return new WaitForSeconds(1.0f);
 
