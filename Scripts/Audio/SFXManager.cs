@@ -371,10 +371,15 @@ public class SFXManager : MonoBehaviour
         p2swing.transform.position = p2pos.position;
         p2footsteps = (AudioSource)gameObject.AddComponent<AudioSource>();
         p2footsteps.transform.position = p2pos.position;
-        p1footsteps.volume = 0.7f;
-        p1footsteps.priority = 150;
-        p2footsteps.volume = 0.7f;
-        p2footsteps.priority = 150;
+        p1footsteps.volume = 0.6f;
+        p1footsteps.priority = 170;
+        p2footsteps.volume = 0.6f;
+        p2footsteps.priority = 170;
+
+        p1swing.priority = 0;
+        p1swing.volume = 1;
+        p2swing.priority = 0;
+        p2swing.volume = 1;
 
         p1Thruster.loop = true;
         p2Thruster.loop = true;
