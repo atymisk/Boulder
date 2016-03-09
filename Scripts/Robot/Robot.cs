@@ -464,10 +464,14 @@ public class Robot : MonoBehaviour {
 	//UI rocket move reflection
 	public void rocketPrepare()
 	{
-		buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
-		buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
-		buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
-		buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.5f, 2.5f, 1);
+		if (robotParts[LeftArm].active)
+			buttonRefls.transform.FindChild ("Left").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.7f, 2.7f, 1);
+		if (robotParts[RightLeg].active)
+			buttonRefls.transform.FindChild ("Right").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.7f, 2.7f, 1);
+		if (robotParts[RightArm].active)
+			buttonRefls.transform.FindChild ("Up").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.7f, 2.7f, 1);
+		if (robotParts[LeftLeg].active)
+			buttonRefls.transform.FindChild ("Down").GetComponent<Renderer> ().transform.localScale = new Vector3 (2.7f, 2.7f, 1);
 	}
 	
 	public void rocketUnPre()
