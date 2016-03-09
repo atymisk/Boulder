@@ -355,6 +355,8 @@ public class SFXManager : MonoBehaviour
 
     public static void ThrusterOff(string player)
     {
+        if (p1Thruster == null || p2Thruster == null)
+            return;
         AudioSource s = (player == "P1" ? p1Thruster : p2Thruster);
         if(s.isPlaying)
             s.Stop();
