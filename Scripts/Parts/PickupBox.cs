@@ -111,5 +111,9 @@ public class PickupBox : MonoBehaviour {
             //Debug.Log("Parts: " + nearbyParts.Count);
         }
     }
-    
+
+	void OnDestroy()
+	{
+		Destroy (pickableNote);
+	}
 }

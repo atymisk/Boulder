@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
         if(gameover)
         {
             stats.matchEnd();
-            stats.writeStatsToFile();
+//            stats.writeStatsToFile();
             //primaryINPT.lockcontrols();
             StartCoroutine(endmatch());
         }
