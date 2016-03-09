@@ -6,6 +6,7 @@ public class BGM : MonoBehaviour
     private static BGM instance = null;
     public static BGM Instance { get { return instance; } }
     private static AudioSource bgm;
+    private static AudioSource wind;
     private static AudioClip ac;
     private static AudioClip mainbgm;
     private static int previous = 0;
@@ -27,7 +28,12 @@ public class BGM : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
         bgm = (AudioSource)gameObject.AddComponent<AudioSource>();
-        ac = (AudioClip)Resources.Load("Audio/Music/VG Music Demo 1");
+        wind = (AudioSource)gameObject.AddComponent<AudioSource>();
+        wind.loop = true;
+        wind.volume = 1;
+        wind.priority = 1;
+        wind.clip = (AudioClip)Resources.Load("Audio/FX/BB Wind");
+        ac = (AudioClip)Resources.Load("Audio/Music/LEVEL BGM FINAL");
         mainbgm = (AudioClip)Resources.Load("Audio/Music/Breaking Bots BGM Final");
         bgm.clip = ac;
         bgm.loop = true;
@@ -41,12 +47,14 @@ public class BGM : MonoBehaviour
         {
             bgm.Stop();
             bgm.clip = mainbgm;
+            wind.Play();
             bgm.volume = mainvolume;
             bgm.Play();
         }
         else if(level < 4 && previous > 3)
         {
             bgm.Stop();
+            wind.Stop();
             bgm.clip = ac;
             bgm.volume = uivolume;
             bgm.Play();
