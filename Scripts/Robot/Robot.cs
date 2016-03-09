@@ -1112,4 +1112,9 @@ public class Robot : MonoBehaviour {
 		yield return new WaitForSeconds(duration);
 		anim.SetBool("HangBlock", false);
 	}
+
+    void OnDestroy()
+    {
+        SFXManager.ThrusterOff(mytag);
+    }
 }
