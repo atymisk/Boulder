@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class StageSelect : MonoBehaviour {
+public class StageSelect : InputManager {
 	public static StageSelect instance = null;
 	
 	public GameObject screen;
@@ -29,6 +29,17 @@ public class StageSelect : MonoBehaviour {
 	void Update()
 	{
 		skip ();
+		if (Input.GetAxis ("RightTrigger_P1") > 0 || Input.GetAxis ("LeftTrigger_P1") > 0) {
+			player1.rocketPrepare ();
+		} else{
+			player1.rocketUnPre ();
+		}
+
+		if (Input.GetAxis ("RightTrigger_P2") > 0 || Input.GetAxis ("LeftTrigger_P2") > 0) {
+			player2.rocketPrepare ();
+		} else{
+			player2.rocketUnPre ();
+		}
 	}
 	
 	public void skip()
@@ -260,17 +271,19 @@ public class StageSelect : MonoBehaviour {
 
 	}
 
-	public void controllerPrompt(string moveType, string keyText, Color theColor)
+	IEnumerator controllerPrompt(string moveType, string keyText, Color theColor)
 	{
 		 if (moveType == "rockets") {
 			controller.transform.FindChild("RT").GetComponent<Image> ().color = Color.red;
+			controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Hold Down";
+			yield return new WaitForSeconds(1.0f);
 			controller.transform.FindChild("FB").GetComponent<Image> ().color = theColor;
 			controller.transform.FindChild ("FBt").GetComponent<Text> ().text = keyText;
-			controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Hold Down";
 		} else if (moveType == "normal") {
 			controller.transform.FindChild("FB").GetComponent<Image> ().color = theColor;
 			controller.transform.FindChild ("FBt").GetComponent<Text> ().text = keyText;
 		}
+		yield return null;
 	}
 	
 	IEnumerator tutorial()
@@ -285,7 +298,7 @@ public class StageSelect : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 		thePrompt ("Blocking", "Left Shift", "Right Shift");
 		controller.transform.FindChild ("LB").GetComponent<Image> ().color = Color.red;
-		controller.transform.FindChild ("LBt").GetComponent<Text> ().text = "Hold";
+		controller.transform.FindChild ("LBt").GetComponent<Text> ().text = "Hold Down";
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForHoldKey (KeyCode.LeftShift, KeyCode.RightShift, "LeftBumper_P1", "LeftBumper_P2", "block", "unblock"));
 		
@@ -293,7 +306,7 @@ public class StageSelect : MonoBehaviour {
 		reSet (1, "block");
 		yield return new WaitForSeconds(1.0f);
 		thePrompt ("Rocket Left Arm!", "5", "=(Equals)");
-		controllerPrompt ("rockets", "X", Color.blue);
+		yield return StartCoroutine(controllerPrompt ("rockets", "X", Color.blue));
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.Alpha5, KeyCode.Equals, "X_P1", "X_P2", "RocketLeftArm"));
 		yield return new WaitForSeconds(2.5f);
@@ -302,7 +315,7 @@ public class StageSelect : MonoBehaviour {
 		reSet (2, "rockets");
 		yield return new WaitForSeconds(1.0f);
 		thePrompt ("Rocket Left Leg!", "T", "P");
-		controllerPrompt ("rockets", "A", Color.green);
+		yield return StartCoroutine(controllerPrompt ("rockets", "A", Color.green));
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.T, KeyCode.P, "A_P1", "A_P2", "RocketLeftLeg"));
 		yield return new WaitForSeconds(1.5f);
@@ -311,7 +324,7 @@ public class StageSelect : MonoBehaviour {
 		reSet (2, "rockets");
 		yield return new WaitForSeconds(1.0f);
 		thePrompt ("Rocket Right Arm!", "R", "O");
-		controllerPrompt ("rockets", "Y", Color.yellow);
+		yield return StartCoroutine(controllerPrompt ("rockets", "Y", Color.yellow));
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.R, KeyCode.O, "Y_P1", "Y_P2", "RocketRightArm"));
 		yield return new WaitForSeconds(1.5f);
@@ -322,7 +335,7 @@ public class StageSelect : MonoBehaviour {
 
 		thePrompt ("Rocket Right Leg!", "Y", ":(Semicolon)");
 
-		controllerPrompt ("rockets", "B", Color.red);
+		yield return StartCoroutine(controllerPrompt ("rockets", "B", Color.red));
 		yield return new WaitForSeconds(1.0f);
 		yield return StartCoroutine (waitForKey (KeyCode.Y, KeyCode.Semicolon, "B_P1", "B_P2", "RocketRightLeg"));
 		yield return new WaitForSeconds(1.5f);
@@ -349,7 +362,7 @@ public class StageSelect : MonoBehaviour {
 		}
 		yield return new WaitForSeconds(1.0f);
 
-		thePrompt ("Pick Up the Part", "E", "U");
+		thePrompt ("Pick Up Your losing Part", "E", "U");
 		controller.transform.FindChild("RB").GetComponent<Image> ().color = Color.red;
 		controller.transform.FindChild ("RBt").GetComponent<Text> ().text = "Press";
 		yield return new WaitForSeconds(1.0f);
@@ -361,7 +374,7 @@ public class StageSelect : MonoBehaviour {
 		//left punch
 		reSet (1,"pickUp");
 		thePrompt ("Left Punch", "1", "7");
-		controllerPrompt ("normal", "X", Color.blue);
+		yield return StartCoroutine(controllerPrompt ("normal", "X", Color.blue));
 		yield return new WaitForSeconds(0.5f);
 		yield return StartCoroutine (waitForKey (KeyCode.Alpha1, KeyCode.Alpha7, "X_P1", "X_P2","leftPunch"));
 		yield return new WaitForSeconds(0.5f);
@@ -372,7 +385,7 @@ public class StageSelect : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 
 		thePrompt ("Right Punch", "2", "8");
-		controllerPrompt ("normal", "Y", Color.yellow);
+		yield return StartCoroutine(controllerPrompt ("normal", "Y", Color.yellow));
 		yield return new WaitForSeconds(0.5f);
 		yield return StartCoroutine (waitForKey (KeyCode.Alpha2, KeyCode.Alpha8, "Y_P1", "Y_P2","rightPunch"));
 		yield return new WaitForSeconds(1.5f);
@@ -382,7 +395,7 @@ public class StageSelect : MonoBehaviour {
 		reSet (1,"normal");
 		yield return new WaitForSeconds(1.0f);
 		thePrompt ("Left Kick", "3", "9");
-		controllerPrompt ("normal", "A", Color.green);
+		yield return StartCoroutine(controllerPrompt ("normal", "A", Color.green));
 		yield return new WaitForSeconds(0.5f);
 		yield return StartCoroutine (waitForKey (KeyCode.Alpha3, KeyCode.Alpha9, "A_P1", "A_P2", "leftKick"));
 		yield return new WaitForSeconds(2.0f);
@@ -392,7 +405,7 @@ public class StageSelect : MonoBehaviour {
 		reSet (1,"normal");
 		yield return new WaitForSeconds(1.0f);
 		thePrompt ("Right Kick", "4", "0");
-		controllerPrompt ("normal", "B", Color.red);
+		yield return StartCoroutine(controllerPrompt ("normal", "B", Color.red));
 		yield return new WaitForSeconds(0.5f);
 		yield return StartCoroutine (waitForKey (KeyCode.Alpha4, KeyCode.Alpha0, "B_P1", "B_P2", "rightKick"));
 		yield return new WaitForSeconds(1.5f);

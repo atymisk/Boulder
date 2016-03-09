@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: 5c70d96eea8a708439bc499895a388e9
+timeCreated: 1457514507
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: controller_back
+    21300002: controller_start
+    21300004: controller_x
+    21300006: controller_y
+    21300008: controller_b
+    21300010: controller_a
+    21300012: controller_lt
+    21300014: controller_lb
+    21300016: controller_rt
+    21300018: controller_rb
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: controller_back
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 408
+        width: 91
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_start
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 406
+        width: 101
+        height: 84
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_x
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 406
+        width: 104
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_y
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 483
+        width: 97
+        height: 96
+      alignment: 9
+      pivot: {x: .525427103, y: .47430864}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_b
+      rect:
+        serializedVersion: 2
+        x: 1406
+        y: 421
+        width: 89
+        height: 79
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_a
+      rect:
+        serializedVersion: 2
+        x: 1299
+        y: 344
+        width: 101
+        height: 77
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_lt
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 697
+        width: 89
+        height: 124
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_lb
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 613
+        width: 252
+        height: 87
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_rt
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 696
+        width: 97
+        height: 131
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: controller_rb
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 613
+        width: 244
+        height: 84
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
