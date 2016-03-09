@@ -10,7 +10,7 @@ public class BGM : MonoBehaviour
     private static AudioClip mainbgm;
     private static int previous = 0;
 
-    private float mainvolume = 0.5f;
+    private float mainvolume = 0.6f;
     private float uivolume = 0.7f;
 
 	// Use this for initialization
@@ -28,7 +28,7 @@ public class BGM : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         bgm = (AudioSource)gameObject.AddComponent<AudioSource>();
         ac = (AudioClip)Resources.Load("Audio/Music/VG Music Demo 1");
-        mainbgm = (AudioClip)Resources.Load("Audio/Music/BGM LEVEL DEMO");
+        mainbgm = (AudioClip)Resources.Load("Audio/Music/Breaking Bots BGM Final");
         bgm.clip = ac;
         bgm.loop = true;
         bgm.volume = uivolume;
