@@ -221,10 +221,14 @@ public class Robot : MonoBehaviour {
 			this.transform.FindChild ("Pelvis").FindChild ("ThrusterEffects").gameObject.SetActive(false);
 		}
 
-		if (currentState != CharacterState.Blocking) 
-		{
-			shieldParticle.SetActive(false);
-		}
+        if (currentState != CharacterState.Blocking)
+        {
+            shieldParticle.SetActive(false);
+        }
+        else if (currentState == CharacterState.Blocking)
+        {
+            shieldParticle.SetActive(true);
+        }
 	
 	}
 
