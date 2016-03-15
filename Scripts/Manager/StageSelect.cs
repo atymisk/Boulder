@@ -96,57 +96,64 @@ public class StageSelect : InputManager {
 	IEnumerator waitForKey(KeyCode key, KeyCode key2, string button, string button2,string theMove)
 	{
 		while(!keyPressed || !keyPressed2){
-			if(theMove == "RocketLeftArm" || theMove == "RocketLeftLeg" || theMove == "RocketRightArm" || theMove == "RockeRightLeg")
-			{
-				if(Input.GetKeyDown(key) || (Input.GetButtonDown (button) && (Input.GetAxis("RightTrigger_P1") > 0)))
-				//if(Input.GetKeyDown(key))
-				{
-					doMove(player1, theMove);
-					keyPressed = true;
-					controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Excellent!";
-					yield return new WaitForSeconds(0.5f);
-					controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
-				}
-				else if(Input.GetKeyDown(key2) || (Input.GetButtonDown (button2) && (Input.GetAxis("RightTrigger_P2") > 0)))
-				//else if(Input.GetKeyDown(key2))
-				{
-					doMove(player2, theMove);
-					keyPressed2 = true;
-					controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Excellent!";
-					yield return new WaitForSeconds(0.5f);
-					controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
-				}
-			}
-			else
-			{
-				if(Input.GetKeyDown(key) || Input.GetButtonDown(button))
-				//if(Input.GetKeyDown(key))
-				{
-					doMove(player1, theMove);
-					keyPressed = true;
-					controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Excellent!";
-					yield return new WaitForSeconds(0.5f);
-					controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
-				}
-				else if(Input.GetKeyDown(key2) || Input.GetButtonDown(button2))
-				//else if(Input.GetKeyDown(key2))
-				{
-					doMove(player2, theMove);
-					keyPressed2 = true;
-					controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Excellent!";
-					yield return new WaitForSeconds(0.5f);
-					controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
-				}
-			}
-
 			if(p1skip)
 			{
 				keyPressed = true;
 			}
-			else if(p2skip)
+			else{
+				if (theMove == "RocketLeftArm" || theMove == "RocketLeftLeg" || theMove == "RocketRightArm" || theMove == "RockeRightLeg")
+				{
+					if(Input.GetKeyDown(key) || (Input.GetButtonDown (button) && (Input.GetAxis("RightTrigger_P1") > 0)))
+					{
+						doMove(player1, theMove);
+						keyPressed = true;
+						controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Excellent!";
+						yield return new WaitForSeconds(0.5f);
+						controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
+					}
+				}
+				else
+				{
+					if(Input.GetKeyDown(key) || Input.GetButtonDown(button))
+					{
+						doMove(player1, theMove);
+						keyPressed = true;
+						controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Excellent!";
+						yield return new WaitForSeconds(0.5f);
+						controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
+					}
+				}
+			}
+			
+			if(p2skip)
 			{
 				keyPressed2 = true;
 			}
+			else{
+				if (theMove == "RocketLeftArm" || theMove == "RocketLeftLeg" || theMove == "RocketRightArm" || theMove == "RockeRightLeg")
+				{
+					if(Input.GetKeyDown(key2) || (Input.GetButtonDown (button2) && (Input.GetAxis("RightTrigger_P2") > 0)))
+					{
+						doMove(player2, theMove);
+						keyPressed2 = true;
+						controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Excellent!";
+						yield return new WaitForSeconds(0.5f);
+						controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
+					}
+				}
+				else
+				{
+					if(Input.GetKeyDown(key2) || Input.GetButtonDown(button2))
+					{
+						doMove(player2, theMove);
+						keyPressed2 = true;
+						controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Excellent!";
+						yield return new WaitForSeconds(0.5f);
+						controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Please wait for the other player...";
+					}
+				}
+			}
+
 			yield return null;
 		}
 	}
@@ -154,39 +161,36 @@ public class StageSelect : InputManager {
 	IEnumerator waitForHoldKey(KeyCode key, KeyCode key2, string button, string button2, string theMove, string theUndo)
 	{
 		while(!keyPressed || !keyPressed2){
-			if((Input.GetKey(key) || Input.GetButton (button)) && blocking == false)
-			//if(Input.GetKey(key) && blocking == false)
+			if(p1skip)
+			{
+				keyPressed = true;
+			}
+			else if((Input.GetKey(key) || Input.GetButton (button)) && blocking == false)
 			{
 				doMove(player1, theMove);
 				blocking = true;
 			}
 			else if((!Input.GetKey(key) || Input.GetButtonUp (button)) && blocking == true)
-			//else if(!Input.GetKey(key) && blocking == true)
 			{
 				doMove(player1, theUndo);
 				keyPressed = true;
 				controller.transform.FindChild ("p1Prompt").GetComponent<Text> ().text = "Excellent!";
 			}
-			else if(p1skip)
+
+			if(p2skip)
 			{
-				keyPressed = true;
+				keyPressed2 = true;
 			}
-			if((Input.GetKey(key2) || Input.GetButton (button2)) && blocking2 == false)
-			//if(Input.GetKey(key2) && blocking2 == false)
+			else if((Input.GetKey(key2) || Input.GetButton (button2)) && blocking2 == false)
 			{
 				doMove(player2, theMove);
 				blocking2 = true;
 			}
 			else if((!Input.GetKey(key2) || Input.GetButtonUp (button2)) && blocking2 == true)
-			//else if(!Input.GetKey(key2) && blocking2 == true)
 			{
 				doMove(player2,theUndo);
 				keyPressed2 = true;
 				controller.transform.FindChild ("p2Prompt").GetComponent<Text> ().text = "Excellent!";
-			}
-			else if(p2skip)
-			{
-				keyPressed2 = true;
 			}
 
 			yield return null;
@@ -239,15 +243,15 @@ public class StageSelect : InputManager {
 
 		if (lastMove == "block") {
 			controller.transform.FindChild ("LB").GetComponent<Image> ().color = Color.white;
-			controller.transform.FindChild ("LBt").GetComponent<Text> ().text = "Left bumper";
+			controller.transform.FindChild ("LBt").GetComponent<Text> ().text = "";
 		} else if (lastMove == "rockets") {
 			controller.transform.FindChild ("RT").GetComponent<Image> ().color = Color.white;
 			controller.transform.FindChild ("FB").GetComponent<Image> ().color = Color.white;
 			controller.transform.FindChild ("FBt").GetComponent<Text> ().text = " ";
-			controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "Right trigger";
+			controller.transform.FindChild ("RTt").GetComponent<Text> ().text = "";
 		} else if (lastMove == "pickUp") {
 			controller.transform.FindChild ("RB").GetComponent<Image> ().color = Color.white;
-			controller.transform.FindChild ("RBt").GetComponent<Text> ().text = "Right bumper";
+			controller.transform.FindChild ("RBt").GetComponent<Text> ().text = "";
 		} else if (lastMove == "normal") {
 			controller.transform.FindChild("FB").GetComponent<Image> ().color = Color.white;
 			controller.transform.FindChild ("FBt").GetComponent<Text> ().text = " ";
